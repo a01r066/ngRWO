@@ -1,1 +1,16 @@
-<p>home works!</p>
+<section id="music">
+  <div class="trending">
+    <h2>Trending</h2>
+    <mat-grid-list cols="8" rowHeight="0.8:1" gutterSize="24px">
+      <div *ngFor="let item of items">
+        <mat-grid-tile>
+          <mat-card class="card-item">
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
+            <mat-card-title>Top Hits Vietnam</mat-card-title>
+            <mat-card-subtitle>Đông tới tây, đây là những ca khúc thịnh...</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+      </div>
+    </mat-grid-list>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+mat-grid-tile {
+  color: white;
+  background-color: #181818;
+  border-radius: 4px;
+}
+
+.trending {
+  margin: 24px;
+  color: white;
+}
+
+.card-item {
+  background-color: transparent;
+  box-shadow: none;
+  height: 100%;
+}
+
+.mat-card-image {
+  padding-top: 32px;
+  width: 100%;
+  margin: 0px 0px 24px 0px;
+}
+
+.mat-card-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: white;
+  width: 120%;
+}
+
+mat-card-subtitle {
+  color: #B3B3A2;
+}

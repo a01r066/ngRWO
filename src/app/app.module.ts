@@ -14,6 +14,8 @@ import { GenreComponent } from './search/genre/genre.component';
 import { GenreListComponent } from './search/genre/genre-list/genre-list.component';
 import { GenreDetailComponent } from './search/genre/genre-detail/genre-detail.component';
 import { PlaylistComponent } from './shared/playlist/playlist.component';
+import {AppRoutingModule} from './app-routing.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,14 +28,16 @@ import { PlaylistComponent } from './shared/playlist/playlist.component';
     GenreComponent,
     GenreListComponent,
     GenreDetailComponent,
-    PlaylistComponent
+    PlaylistComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,97 @@
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+  height: 100%;
+  background-color: #121212;
+  /*overflow: hidden;*/
+}
+
+mat-sidenav {
+  width: 234px;
+  background-color: #000000;
+}
+
+mat-toolbar {
+  background-color: #090909;
+}
+
+mat-list {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mat-list-item {
+  outline: none;
+  color: #B3B3A2;
+}
+
+mat-list-item:hover, mat-list-item:active {
+  color: white;
+  cursor: pointer;
+}
+
+.is-active {
+  color: white;
+  background-color: #282828;
+  border-radius: 4px;
+}
+
+mat-icon:hover, mat-icon:active {
+  color: white;
+}
+
+.backnext {
+  color: #B3B3A2;
+  font-size: 48px;
+}
+
+.copyright {
+  /*margin-top: -16px;*/
+  margin-left: -24px;
+}
+
+.copyright-list {
+  list-style: none;
+  color: #B3B3A2;
+}
+
+.copyright-item {
+  height: 64px;
+  margin-top: -8px;
+}
+
+li>img {
+  /*margin-top: -24px;*/
+  margin-left: 24px;
+}
+
+a {
+  text-decoration: none;
+  color: #B3B3A2;
+}
+
+a:hover, a:active {
+  color: white;
+}
+
+.nav-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  /*color: #B3B3A2;*/
+}
+
+.logo {
+  width: 85%;
+  height: 72px;
+  margin-top: 16px;
+}
+
+.appstore {
+  height: 48px;
+  margin-top: -16px;
+  margin-left: auto;
+  margin-right: auto;
+}
