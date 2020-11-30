@@ -20,10 +20,10 @@
 
 .flex-item {
   background: #181818;
-  width: 182px;
-  height: 262px;
+  width: 180px;
+  height: 264px;
   margin: 12px;
-  line-height: 262px;
+  /*line-height: 262px;*/
   border-radius: 4px;
 }
 
@@ -51,8 +51,8 @@ h1 {
 .card-title {
   color: white;
   text-align: left;
-  padding-left: 12px;
-  font-size: 1.2rem;
+  padding: 0 12px 0 12px;
+  font-size: 1rem;
   font-weight: 500;
   margin-top: 24px;
   margin-bottom: -4px;
@@ -62,5 +62,5 @@ h1 {
   color: #B3B3A2;
   text-align: left;
   padding: 0 12px 0 12px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }

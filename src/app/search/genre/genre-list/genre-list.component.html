@@ -1,1 +1,12 @@
-<p>genre-list works!</p>
+<section id="music">
+  <div class="trending">
+    <h1>Genres</h1>
+    <div>
+      <ul class="flex-container">
+        <li class="flex-item" style="cursor: pointer" *ngFor="let genre of genres" (click)="onSelectGenre(genre)">
+          <h3 class="title">{{ genre.title }}</h3>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {CommonService} from '../services/common.service';
+import {Album} from '../music/models/album.model';
+import {FirebaseService} from '../firebase.service';
+import {Genre} from '../music/models/genre.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,17 +11,28 @@ import {CommonService} from '../services/common.service';
 })
 export class HomeComponent implements OnInit {
   counter: number = 8;
-  items = [
-    "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12"
-  ];
-
   size: any;
 
-  constructor(private commonService: CommonService) {
+  trendingAlbumsList: Album[][];
+  trends: Genre[];
+
+  constructor(private firebaseService: FirebaseService,
+              private router: Router) {
+  }
+
+  onSelectItem(album: Album){
+    this.firebaseService.selectedAlbum = album;
+    this.router.navigate(['playlist', album.id]);
   }
 
   ngOnInit(): void {
     this.size = window.innerWidth;
+    this.trends = this.firebaseService.getTrends();
+    this.firebaseService.getTrendingList();
+    this.firebaseService.trendingAlbumsListSub.subscribe(trendingList => {
+      this.trendingAlbumsList = trendingList;
+      console.log("trendingList: " +trendingList.length);
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -36,7 +50,7 @@ export class HomeComponent implements OnInit {
     }
     else if(this.size > 2115) {
       this.counter = 9;
-    } else if(this.size > 1920){
+    } else if(this.size > 1910){
       this.counter = 8;
     } else if(this.size > 1700){
       this.counter = 7;
@@ -51,7 +65,7 @@ export class HomeComponent implements OnInit {
     }
     else if(this.size > 960){
       this.counter = 3;
-    } else if(this.size > 875){
+    } else if(this.size > 880){
       this.counter = 3;
     }
     else if(this.size > 667){

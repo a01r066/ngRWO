@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {CommonService} from './services/common.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +11,17 @@ export class AppComponent implements OnInit{
   opened: boolean = true;
   mode = new FormControl('side');
 
-  constructor(private commonService: CommonService) {
+  constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  back(){
+    window.history.back();
+  }
+
+  next(){
+    window.history.forward();
   }
 }

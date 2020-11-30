@@ -16,6 +16,16 @@ import { GenreDetailComponent } from './search/genre/genre-detail/genre-detail.c
 import { PlaylistComponent } from './shared/playlist/playlist.component';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireAnalyticsModule} from '@angular/fire/analytics';
+import firebase from 'firebase';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+
+firebase.initializeApp(environment.firebase);
 
 @NgModule({
   declarations: [
@@ -37,7 +47,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAnalyticsModule,
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

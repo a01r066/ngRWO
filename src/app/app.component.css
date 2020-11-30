@@ -87,6 +87,7 @@ a:hover, a:active {
   width: 85%;
   height: 72px;
   margin-top: 16px;
+  outline: none;
 }
 
 .appstore {
