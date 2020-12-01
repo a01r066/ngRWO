@@ -31,8 +31,11 @@ export class FirebaseService {
 
   selectedGenre: Genre;
   selectedAlbum: Album;
+
   trendingAlbumsListSub = new Subject<Album[][]>();
   tracksSub = new Subject<Track[]>();
+  selectedTrackSub = new Subject<Track>();
+  selectedAlbumSub = new Subject<Album>();
 
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient) {
@@ -134,7 +137,7 @@ export class FirebaseService {
   }
 
   getAlbumsByGenre(genre: Genre){
-    console.log("GenreID: " + genre.id);
+    // console.log("GenreID: " + genre.id);
     const albums: Album[] = [];
     this.httpClient.get(this.apiURL+'Albums/'+genre.id+'.json').subscribe(jsonData => {
       const keys = Object.keys(jsonData);

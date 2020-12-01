@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
     this.firebaseService.getTrendingList();
     this.firebaseService.trendingAlbumsListSub.subscribe(trendingList => {
       this.trendingAlbumsList = trendingList;
-      console.log("trendingList: " +trendingList.length);
     });
   }
 

@@ -7,7 +7,7 @@
       <div class="mat-caption">PLAYLIST</div>
       <div class="mat-title">{{ album.title.substring(0, 28) }}</div>
       <div class="mat-card-subtitle">{{ album.author.substring(0, 88) }}</div>
-      <div class="mat-card-subtitle">RelaxingWorld * 71,766 likes, {{ tracks.length }} songs, 3 hr 19 min</div>
+      <div class="mat-card-subtitle">RelaxingWorld * 71,766 likes, {{ tracks?.length }} songs, 3 hr 19 min</div>
     </div>
   </div>
 </mat-toolbar>
@@ -43,7 +43,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> TITLE </th>
-        <td mat-cell *matCellDef="let element" style="font-size: 1.15rem; color: white"> {{element.title}}<span style="font-size: 0.9rem; color: #B3B3A2"><br>{{ element.author }}</span></td>
+        <td mat-cell *matCellDef="let element" style="font-size: 1rem; color: white"> {{element.title}}<span style="font-size: 0.9rem; color: #B3B3A2"><br>{{ element.author }}</span></td>
       </ng-container>
 
       <!-- Weight Column -->
@@ -71,6 +71,6 @@
       </ng-container>
     </div>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="openFile(row, i)"></tr>
   </table>
 </div>

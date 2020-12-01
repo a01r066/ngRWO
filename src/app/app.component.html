@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-<!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
+  <!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
   <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
     <div fxLayout="column">
       <div fxFlex fxLayoutAlign="center">
@@ -45,8 +45,8 @@
         <ul class="copyright-list">
           <li class="copyright-item">
             <button mat-icon-button>
-            <mat-icon>copyright</mat-icon>2020 RelaxingWorld.Online
-          </button>
+              <mat-icon>copyright</mat-icon>2020 RelaxingWorld.Online
+            </button>
           </li>
           <li class="copyright-item"><img class="appstore" src="../assets/appstore.png"></li>
         </ul>
@@ -55,24 +55,27 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar>
-<!--      <button mat-icon-button (click)="sidenav.toggle()">-->
-<!--        <mat-icon>menu</mat-icon>-->
-<!--      </button>-->
+      <!--      <button mat-icon-button (click)="sidenav.toggle()">-->
+      <!--        <mat-icon>menu</mat-icon>-->
+      <!--      </button>-->
       <button mat-icon-button style="margin-right: 16px; margin-left: -16px">
         <mat-icon class="backnext" (click)="back()">keyboard_arrow_left</mat-icon>
       </button>
       <button mat-icon-button>
         <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
       </button>
-<!--      <div fxFlex fxLayoutAlign="end">-->
-<!--        <ul fxLayout fxLayoutGap="12px" class="nav-items">-->
-<!--          <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
-<!--          <li><a [routerLink]="['/login']">Login</a></li>-->
-<!--        </ul>-->
-<!--      </div>-->
+      <!--      <div fxFlex fxLayoutAlign="end">-->
+      <!--        <ul fxLayout fxLayoutGap="12px" class="nav-items">-->
+      <!--          <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
+      <!--          <li><a [routerLink]="['/login']">Login</a></li>-->
+      <!--        </ul>-->
+      <!--      </div>-->
     </mat-toolbar>
     <main>
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<div class="player-bar">
+  <app-player-bar></app-player-bar>
+</div>

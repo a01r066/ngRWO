@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
+import {PlayerService} from '../../services/player.service';
+import {StreamState} from '../../interfaces/stream-state';
 
 export interface PeriodicElement {
   title: string;
@@ -35,8 +37,10 @@ export class PlaylistComponent implements OnInit {
 
   album: Album;
   tracks: Track[];
+  state: StreamState;
 
-  constructor(private firebaseService: FirebaseService) { }
+  constructor(private firebaseService: FirebaseService,
+              private playerService: PlayerService) { }
 
   ngOnInit(): void {
     this.album = this.firebaseService.selectedAlbum;
@@ -44,5 +48,14 @@ export class PlaylistComponent implements OnInit {
     this.firebaseService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
     });
+  }
+
+  openFile(track: Track, index: number){
+    // console.log("Track: " + track.title);
+    // console.log("Index: " + index);
+    this.firebaseService.selectedTrackSub.next(track);
+    this.firebaseService.selectedAlbumSub.next(this.album);
+    this.playerService.files = this.tracks;
+    this.playerService.openFile(track, index);
   }
 }
