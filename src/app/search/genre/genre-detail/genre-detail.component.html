@@ -3,7 +3,7 @@
     <h1>Trending</h1>
     <div>
       <ul class="flex-container">
-        <li class="flex-item" style="cursor: pointer" *ngFor="let item of items">
+        <li class="flex-item" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
           <div class="card">
             <img class="card-img-top" [src]="[item.imagePath]">
             <div class="card-body">

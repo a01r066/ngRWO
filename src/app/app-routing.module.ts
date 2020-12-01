@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: ':id', component: GenreDetailComponent }
     ]},
   { path: 'playlist/:id', component: PlaylistComponent },
+  { path: 'album/:id', component: PlaylistComponent },
   { path: 'library', component: LibraryComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }

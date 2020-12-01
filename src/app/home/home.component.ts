@@ -25,6 +25,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['playlist', album.id]);
   }
 
+  onClickViewAll(albums: Album[], title: string){
+    console.log("Albums: " + albums.length + ". Title: " +title);
+  }
+
   ngOnInit(): void {
     this.size = window.innerWidth;
     this.trends = this.firebaseService.getTrends();

@@ -21,7 +21,7 @@
   background-color: #282828;
 }
 
-.mat-icon {
+.mat-icon-button {
   color: #B3B3B3;
 }
 
@@ -54,6 +54,7 @@
 
 .artwork-img {
   max-height: 72px;
+  max-width: 72px;
   margin-top: 24px;
   margin-left: -4px;
   background-size: cover;

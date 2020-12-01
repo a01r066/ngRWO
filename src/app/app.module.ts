@@ -25,6 +25,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
+import {HighlightDirective} from './highlight.directive';
 
 firebase.initializeApp(environment.firebase);
 
@@ -41,6 +42,7 @@ firebase.initializeApp(environment.firebase);
     GenreDetailComponent,
     PlaylistComponent,
     PlayerBarComponent,
+    HighlightDirective,
   ],
   imports: [
     BrowserModule,

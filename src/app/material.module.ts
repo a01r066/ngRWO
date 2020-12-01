@@ -25,7 +25,7 @@ import {MatSliderModule} from '@angular/material/slider';
     MatGridListModule,
     MatCardModule,
     MatTableModule,
-    MatSliderModule
+    MatSliderModule,
   ],
   exports: [
     MatButtonModule,

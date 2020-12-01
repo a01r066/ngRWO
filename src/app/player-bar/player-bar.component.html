@@ -1,5 +1,5 @@
 <div class="bottom-bar">
-  <div class="left">
+  <div class="left" (click)="openPlaylist(track)" style="cursor: pointer">
     <mat-list fxLayout="row">
       <mat-list-item class="artwork">
         <img class="artwork-img" src="{{ album?.imagePath }}" alt="">
@@ -29,7 +29,7 @@
             </button>
           </mat-list-item>
           <mat-list-item>
-            <button mat-icon-button (click)="previous()">
+            <button mat-icon-button (click)="previous()" [disabled]="isFirstPlaying()">
               <mat-icon>skip_previous</mat-icon>
             </button>
           </mat-list-item>
@@ -42,7 +42,7 @@
             </button>
           </mat-list-item>
           <mat-list-item>
-            <button mat-icon-button (click)="next()">
+            <button mat-icon-button (click)="next()" [disabled]="isLastPlaying()">
               <mat-icon>skip_next</mat-icon>
             </button>
           </mat-list-item>

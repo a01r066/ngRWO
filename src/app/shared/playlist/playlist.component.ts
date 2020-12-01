@@ -4,6 +4,7 @@ import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
 import {PlayerService} from '../../services/player.service';
 import {StreamState} from '../../interfaces/stream-state';
+import {AudioService} from '../../services/audio.service';
 
 export interface PeriodicElement {
   title: string;
@@ -38,9 +39,13 @@ export class PlaylistComponent implements OnInit {
   album: Album;
   tracks: Track[];
   state: StreamState;
+  selectedRowIndex = -1;
+  isFirstLoad: boolean = true;
+  isLiked: boolean = false;
 
   constructor(private firebaseService: FirebaseService,
-              private playerService: PlayerService) { }
+              private playerService: PlayerService,
+              private audioService: AudioService) { }
 
   ngOnInit(): void {
     this.album = this.firebaseService.selectedAlbum;
@@ -48,14 +53,47 @@ export class PlaylistComponent implements OnInit {
     this.firebaseService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
     });
+
+    this.playerService.selectedRowIndexSub.subscribe(index => {
+      this.selectedRowIndex = index;
+    });
+
+    this.audioService.getState().subscribe(state => {
+      this.state = state;
+    });
+
+    this.playerService.isLikedSub.subscribe(isLike => {
+      this.isLiked = isLike;
+    });
   }
 
   openFile(track: Track, index: number){
-    // console.log("Track: " + track.title);
-    // console.log("Index: " + index);
+    this.selectedRowIndex = index;
     this.firebaseService.selectedTrackSub.next(track);
     this.firebaseService.selectedAlbumSub.next(this.album);
     this.playerService.files = this.tracks;
     this.playerService.openFile(track, index);
+  }
+
+  handlePlay(){
+    if(this.isFirstLoad){
+      this.openFile(this.tracks[0], 0);
+      this.isFirstLoad = false;
+    } else {
+      this.play();
+    }
+  }
+
+  play(){
+    this.playerService.play();
+  }
+
+  pause(){
+    this.playerService.pause();
+  }
+
+  onHandleLike(){
+    this.isLiked = !this.isLiked;
+    this.playerService.isLikedSub.next(this.isLiked);
   }
 }

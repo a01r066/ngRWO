@@ -17,6 +17,8 @@ export class PlayerService {
 
   isShuffleSub = new Subject<boolean>();
   isRepeatSub = new Subject<boolean>();
+  selectedRowIndexSub = new Subject<number>();
+  isLikedSub = new Subject<boolean>();
 
   constructor(private audioService: AudioService,
               private firebaseService: FirebaseService) {
@@ -62,8 +64,14 @@ export class PlayerService {
     if(this.isShuffle){
       index = this.getRandom(0, this.files.length);
     } else {
-      index = this.currentFile.index + 1;
+      if(!this.isLastPlaying()){
+        index = this.currentFile.index + 1;
+      } else {
+        return;
+      }
     }
+    this.selectedRowIndexSub.next(index);
+
     const file = this.files[index];
     this.firebaseService.selectedTrackSub.next(file);
 
@@ -72,6 +80,8 @@ export class PlayerService {
 
   previous() {
     const index = this.currentFile.index - 1;
+    this.selectedRowIndexSub.next(index);
+
     const file = this.files[index];
     this.firebaseService.selectedTrackSub.next(file);
 

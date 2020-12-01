@@ -11,7 +11,8 @@
   <!--      </div>-->
   <!--    </mat-grid-list>-->
   <div *ngFor="let albums of trendingAlbumsList; let i = index">
-    <h1 class="trending">{{ trends[i].title }}</h1>
+    <div class="trending">{{ trends[i].title }}<span class="see-all" (click)="onClickViewAll(albums, trends[i].title)">SEE ALL</span></div>
+<!--    <h1 class="trending">{{ trends[i].title }}</h1>-->
     <ul class="flex-container">
       <li class="flex-item" style="cursor: pointer" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">
         <div class="card">

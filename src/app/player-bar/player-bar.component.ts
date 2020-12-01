@@ -5,6 +5,7 @@ import {Track} from '../music/models/track.model';
 import {PlayerService} from '../services/player.service';
 import {StreamState} from '../interfaces/stream-state';
 import {AudioService} from '../services/audio.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-player-bar',
@@ -25,15 +26,16 @@ export class PlayerBarComponent implements OnInit {
   track: Track;
 
   isFirstPlaying() {
-    return false;
+    return this.playerService.isFirstPlaying();
   }
   isLastPlaying() {
-    return true;
+    return this.playerService.isLastPlaying();
   }
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
-              private audioService: AudioService) { }
+              private audioService: AudioService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.firebaseService.selectedTrackSub.subscribe(track => {
@@ -84,7 +86,9 @@ export class PlayerBarComponent implements OnInit {
   }
 
   previous(){
-    this.playerService.previous();
+    if(!this.playerService.isFirstPlaying()){
+      this.playerService.previous();
+    }
   }
 
   shuffle(){
@@ -101,5 +105,11 @@ export class PlayerBarComponent implements OnInit {
 
   onSliderChangeEnd(change) {
     this.playerService.onSliderChangeEnd(change);
+  }
+
+  openPlaylist(track: Track){
+    // console.log("Track: " + track.title + ". GenreID: " + track.genreID + ". AlbumID: " + track.albumID);
+    this.firebaseService.selectedAlbum = this.album;
+    this.router.navigate(['album', track.albumID]);
   }
 }

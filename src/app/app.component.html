@@ -3,7 +3,7 @@
   <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
     <div fxLayout="column">
       <div fxFlex fxLayoutAlign="center">
-        <img [routerLink]="['']" class="logo" src="../assets/logo.png">
+        <img [routerLink]="['/']" class="logo" src="../assets/logo.png">
       </div>
       <div>
         <mat-list>
@@ -18,7 +18,8 @@
               <mat-icon>search</mat-icon>
             </button>
             Search</mat-list-item>
-          <mat-list-item [routerLink]="['/library']" [routerLinkActive]="['is-active']" class="nav-item">
+<!--          <mat-list-item [routerLink]="['/library']" [routerLinkActive]="['is-active']" class="nav-item">-->
+          <mat-list-item class="nav-item">
             <button mat-icon-button>
               <mat-icon>library_music</mat-icon>
             </button>
@@ -64,12 +65,14 @@
       <button mat-icon-button>
         <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
       </button>
-      <!--      <div fxFlex fxLayoutAlign="end">-->
-      <!--        <ul fxLayout fxLayoutGap="12px" class="nav-items">-->
-      <!--          <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
-      <!--          <li><a [routerLink]="['/login']">Login</a></li>-->
-      <!--        </ul>-->
-      <!--      </div>-->
+            <div fxFlex fxLayoutAlign="end">
+              <ul fxLayout fxLayoutGap="12px" class="nav-items">
+<!--                <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
+<!--                <li><a [routerLink]="['/login']">Login</a></li>-->
+                <li><a>Sign Up</a></li>
+                <li><a>Login</a></li>
+              </ul>
+            </div>
     </mat-toolbar>
     <main>
       <router-outlet></router-outlet>
