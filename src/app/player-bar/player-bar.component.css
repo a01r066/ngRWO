@@ -1,0 +1,71 @@
+.bottom-bar {
+  display: flex;
+  background-color: #282828;
+}
+
+.left {
+  width: 20%;
+}
+
+.middle {
+  width: 60%;
+  background-color: green;
+}
+
+.right {
+  width: 20%;
+}
+
+.mat-toolbar {
+  height: 96px;
+  background-color: #282828;
+}
+
+.mat-icon {
+  color: #B3B3B3;
+}
+
+.player-control {
+  height: 64px;
+}
+
+.slider-control {
+  margin-top: -16px;
+}
+
+.time-slider {
+  width: 100% !important;
+  margin-left:12px;
+  margin-right:12px;
+}
+
+.slider-bar {
+  width: 100%;
+}
+
+.playpause {
+  font-size: 2.5rem;
+  color: #1DB954
+}
+
+.artwork {
+  width: 35%;
+}
+
+.artwork-img {
+  max-height: 72px;
+  margin-top: 24px;
+  margin-left: -4px;
+  background-size: cover;
+}
+
+.track-info {
+  display: flex;
+  /*background-color: blue;*/
+  margin-left: -24px;
+  margin-top: 8px;
+}
+
+.mat-title {
+  line-height: 16px;
+}

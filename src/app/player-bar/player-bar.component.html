@@ -1,0 +1,78 @@
+<div class="bottom-bar">
+  <div class="left">
+    <mat-list fxLayout="row">
+      <mat-list-item class="artwork">
+        <img class="artwork-img" src="{{ album?.imagePath }}" alt="">
+      </mat-list-item>
+      <mat-list-item class="track-info">
+        <div fxFlowLayout="column">
+          <div>
+            <mat-label class="mat-title" style="color: white; font-size: 14px">{{ track?.title.substring(0, 44) }}</mat-label>
+          </div>
+          <div>
+            <mat-label class="mat-card-subtitle" style="color: #B3B3A2; font-size: 12px">{{ track?.author.substring(0, 24) }}</mat-label>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="middle">
+    <mat-toolbar>
+      <mat-toolbar-row fxLayoutAlign="center center" class="player-control">
+        <mat-list fxLayout="row">
+          <mat-list-item>
+            <button mat-icon-button (click)="shuffle()" *ngIf="!isShuffle">
+              <mat-icon>shuffle</mat-icon>
+            </button>
+            <button mat-icon-button (click)="shuffle()" *ngIf="isShuffle">
+              <mat-icon style="color: #1DB954; font-size: 2rem">shuffle</mat-icon>
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-icon-button (click)="previous()">
+              <mat-icon>skip_previous</mat-icon>
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-icon-button *ngIf="!state?.playing" (click)="play()">
+              <mat-icon class="playpause">play_circle_outline</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="state?.playing" (click)="pause()">
+              <mat-icon class="playpause">pause</mat-icon>
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-icon-button (click)="next()">
+              <mat-icon>skip_next</mat-icon>
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-icon-button (click)="repeat()" *ngIf="!isRepeat">
+              <mat-icon>repeat</mat-icon>
+            </button>
+            <button mat-icon-button (click)="repeat()" *ngIf="isRepeat">
+              <mat-icon style="color: #1DB954; font-size: 2rem">repeat</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-toolbar-row>
+      <mat-toolbar-row fxLayoutAlign="center center" class="slider-control">
+        <mat-list fxLayout="row" fxFill>
+<!--          <mat-list-item class="duration">-->
+<!--            <mat-label>&#45;&#45;:&#45;&#45;</mat-label>-->
+<!--          </mat-list-item>-->
+<!--          <mat-list-item>-->
+<!--            <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)"></mat-slider>-->
+<!--          </mat-list-item>-->
+          <mat-label class="mat-card-subtitle" style="color: #B3B3A2; padding-top: 8px">{{ state?.readableCurrentTime }}</mat-label>
+          <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)" [disabled]="state?.error"></mat-slider>
+          <mat-label class="mat-card-subtitle"  style="color: #B3B3A2; padding-top: 8px">{{ state?.readableDuration }}</mat-label>
+<!--          <mat-list-item class="end-duration">-->
+<!--            <mat-label>&#45;&#45;:&#45;&#45;</mat-label>-->
+<!--          </mat-list-item>-->
+        </mat-list>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+  <div class="right"></div>
+</div>
