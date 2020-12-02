@@ -49,12 +49,12 @@
 }
 
 .artwork {
-  width: 35%;
+  width: 22%;
 }
 
 .artwork-img {
-  max-height: 72px;
-  max-width: 72px;
+  max-height: 68px;
+  max-width: 68px;
   margin-top: 24px;
   margin-left: -4px;
   background-size: cover;
@@ -63,10 +63,70 @@
 .track-info {
   display: flex;
   /*background-color: blue;*/
-  margin-left: -24px;
+  margin-left: 16px;
   margin-top: 8px;
 }
 
 .mat-title {
   line-height: 16px;
+}
+
+@media screen and (max-width: 1400px) {
+  .left {
+    /*display: none;*/
+    width: 20%;
+  }
+
+  .right {
+    /*display: none;*/
+    width: 0%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .left {
+    /*display: none;*/
+    width: 30%;
+  }
+
+  .right {
+    /*display: none;*/
+    width: 0%;
+  }
+}
+
+@media screen and (max-width: 799px) {
+  .left {
+    width: 45%;
+  }
+
+  .right {
+    width: 0%;
+  }
+
+  .track-info {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .left {
+    /*display: none;*/
+    width: 35%;
+  }
+
+  .right {
+    /*display: none;*/
+    width: 0%;
+  }
+}
+
+@media screen and (max-width: 372px) {
+  .left {
+    display: none;
+  }
+
+  .right {
+    display: none;
+  }
 }

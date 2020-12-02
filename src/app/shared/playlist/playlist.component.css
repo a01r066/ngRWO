@@ -1,6 +1,7 @@
 mat-toolbar {
   background-color: #282828;
   height: 280px;
+  overflow: hidden;
 }
 
 .mat-caption {
@@ -18,7 +19,10 @@ mat-toolbar {
   color: white;
   font-size: 5rem;
   margin-top: 48px;
-  margin-bottom: 48px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  line-height: 1.2;
 }
 
 .mat-card-subtitle {
@@ -36,7 +40,7 @@ mat-toolbar {
 }
 
 .item2 {
-  width: 800px;
+  /*width: 800px;*/
   margin: 16px;
 }
 
@@ -72,6 +76,7 @@ table {
 }
 
 .mat-cell {
+  font-size: 0.9rem;
   color: #B3B3A2;
 }
 
@@ -96,15 +101,16 @@ table {
   white-space: unset !important;
   flex: 0 0 55% !important;
   width: 55% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  min-width: 100% !important;
+  /*overflow-wrap: break-word;*/
+  /*word-wrap: break-word;*/
 
-  word-break: break-word;
+  /*word-break: break-word;*/
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /*-ms-hyphens: auto;*/
+  /*-moz-hyphens: auto;*/
+  /*-webkit-hyphens: auto;*/
+  /*hyphens: auto;*/
 }
 
 .mat-column-played {
@@ -112,15 +118,16 @@ table {
   white-space: unset !important;
   flex: 0 0 15% !important;
   width: 15% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  min-width: 0% !important;
+  /*overflow-wrap: break-word;*/
+  /*word-wrap: break-word;*/
 
-  word-break: break-word;
+  /*word-break: break-word;*/
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /*-ms-hyphens: auto;*/
+  /*-moz-hyphens: auto;*/
+  /*-webkit-hyphens: auto;*/
+  /*hyphens: auto;*/
 }
 
 .mat-column-duration {
@@ -128,15 +135,16 @@ table {
   white-space: unset !important;
   flex: 0 0 15% !important;
   width: 15% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  min-width: 0% !important;
+  /*overflow-wrap: break-word;*/
+  /*word-wrap: break-word;*/
 
-  word-break: break-word;
+  /*word-break: break-word;*/
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /*-ms-hyphens: auto;*/
+  /*-moz-hyphens: auto;*/
+  /*-webkit-hyphens: auto;*/
+  /*hyphens: auto;*/
 }
 
 .mat-column-option {
@@ -144,15 +152,14 @@ table {
   white-space: unset !important;
   flex: 0 0 10% !important;
   width: 10% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  min-width: 0% !important;
+  /*overflow-wrap: break-word;*/
+  /*word-wrap: break-word;*/
+  /*word-break: break-word;*/
+  /*-ms-hyphens: auto;*/
+  /*-moz-hyphens: auto;*/
+  /*-webkit-hyphens: auto;*/
+  /*hyphens: auto;*/
 }
 
 .mat-row {
@@ -202,4 +209,47 @@ table {
     box-shadow: 0 0 0 #1DB954, 0 0 0 #1DB954; }
   50% {
     box-shadow: 0 -8px 0 #1DB954, 0 8px 0 #1DB954; }
+}
+
+/* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
+@media screen and (max-width: 2520px) {
+  .mat-title {
+    font-size: 88px;
+  }
+}
+@media screen and (max-width: 2315px) {
+  .mat-title {
+    font-size: 80px;
+  }
+}
+@media screen and (max-width: 2115px) {
+  .mat-title {
+    font-size: 72px;
+  }
+}
+@media screen and (max-width: 1910px) {
+  .mat-title {
+    font-size: 64px;
+  }
+}
+@media screen and (max-width: 1600px) {
+  .mat-title {
+    font-size: 56px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .mat-title {
+    font-size: 48px;
+  }
+}
+
+/*hide column*/
+@media screen and (max-width: 1024px) {
+  .mat-column-played {
+    display: none;
+  }
+
+  .mat-column-duration {
+    display: none;
+  }
 }
