@@ -26,6 +26,8 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
 import {HighlightDirective} from './highlight.directive';
+import { TrendComponent } from './music/trend/trend.component';
+import { TrendDetailComponent } from './music/trend/trend-detail/trend-detail.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -43,6 +45,8 @@ firebase.initializeApp(environment.firebase);
     PlaylistComponent,
     PlayerBarComponent,
     HighlightDirective,
+    TrendComponent,
+    TrendDetailComponent,
   ],
   imports: [
     BrowserModule,

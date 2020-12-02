@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
 
   onClickViewAll(albums: Album[], title: string){
     console.log("Albums: " + albums.length + ". Title: " +title);
+    this.firebaseService.trendAlbums = albums;
+    this.router.navigate(['trend', title]);
   }
 
   ngOnInit(): void {

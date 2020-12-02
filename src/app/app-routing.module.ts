@@ -9,6 +9,8 @@ import {GenreListComponent} from './search/genre/genre-list/genre-list.component
 import {GenreDetailComponent} from './search/genre/genre-detail/genre-detail.component';
 import {GenreComponent} from './search/genre/genre.component';
 import {PlaylistComponent} from './shared/playlist/playlist.component';
+import {TrendComponent} from './music/trend/trend.component';
+import {TrendDetailComponent} from './music/trend/trend-detail/trend-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +19,9 @@ const routes: Routes = [
     ] },
   { path: 'genre', component: GenreComponent, children: [
       { path: ':id', component: GenreDetailComponent }
+    ]},
+  { path: 'trend', component: TrendComponent, children: [
+      { path: ':id', component: TrendDetailComponent },
     ]},
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'album/:id', component: PlaylistComponent },

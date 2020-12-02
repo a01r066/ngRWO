@@ -27,10 +27,6 @@
   border-radius: 4px;
 }
 
-.flex-item:hover {
-  background-color: #DF1C2F;
-}
-
 h1 {
   color: white;
   padding-left: 24px;

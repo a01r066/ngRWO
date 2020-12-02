@@ -31,6 +31,7 @@ export class FirebaseService {
 
   selectedGenre: Genre;
   selectedAlbum: Album;
+  trendAlbums: Album[];
 
   trendingAlbumsListSub = new Subject<Album[][]>();
   tracksSub = new Subject<Track[]>();
