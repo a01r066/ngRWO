@@ -1,0 +1,18 @@
+<section id="music">
+  <div class="trending">
+    <h1>{{ title }}</h1>
+    <div>
+      <ul class="flex-container">
+        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
+          <div class="card">
+            <img class="card-img-top" [src]="[item.imagePath]">
+            <div class="card-body">
+              <p class="card-title">{{ item.title.substring(0, 34)}}</p>
+              <p class="card-subtitle">{{ item.author.substring(0, 24) }}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
