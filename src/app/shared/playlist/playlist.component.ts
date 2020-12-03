@@ -35,6 +35,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class PlaylistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   dataSource = ELEMENT_DATA;
+  isDataLoaded: boolean = false;
 
   album: Album;
   tracks: Track[];
@@ -52,6 +53,7 @@ export class PlaylistComponent implements OnInit {
     this.firebaseService.getTracksByAlbum();
     this.firebaseService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
+      this.isDataLoaded = true;
     });
 
     this.playerService.selectedRowIndexSub.subscribe(index => {

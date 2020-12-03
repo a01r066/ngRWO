@@ -1,28 +1,24 @@
-<section id="music">
-  <!--    <mat-grid-list cols="8" rowHeight="0.75:1" gutterSize="24px">-->
-  <!--      <div *ngFor="let item of items">-->
-  <!--        <mat-grid-tile>-->
-  <!--          <mat-card class="card-item">-->
-  <!--            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">-->
-  <!--            <mat-card-title>Top Hits Vietnam</mat-card-title>-->
-  <!--            <mat-card-subtitle>Đông tới tây, đây là những ca khúc thịnh...</mat-card-subtitle>-->
-  <!--          </mat-card>-->
-  <!--        </mat-grid-tile>-->
-  <!--      </div>-->
-  <!--    </mat-grid-list>-->
-  <div *ngFor="let albums of trendingAlbumsList; let i = index">
-    <div class="trending">{{ trends[i].title }}<span class="see-all" (click)="onClickViewAll(albums, trends[i].title)">SEE ALL</span></div>
-<!--    <h1 class="trending">{{ trends[i].title }}</h1>-->
-    <ul class="flex-container">
-      <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">
-        <div class="card">
-          <img class="card-img-top" [src]="[album.imagePath]">
-          <div class="card-body">
-            <p class="card-title">{{ album.title.substring(0, 34) }}</p>
-            <p class="card-subtitle">{{ album.author.substring(0, 24)}}</p>
+<section class="music">
+  <ng-template [ngIf]="isDataLoaded">
+    <div *ngFor="let albums of trendingAlbumsList; let i = index">
+      <div class="trending">{{ trends[i].title }}<span class="see-all" (click)="onClickViewAll(albums, trends[i].title)">SEE ALL</span></div>
+      <!--    <h1 class="trending">{{ trends[i].title }}</h1>-->
+      <ul class="flex-container">
+        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">
+          <div class="card">
+            <img class="card-img-top" [src]="[album.imagePath]">
+            <div class="card-body">
+              <p class="card-title">{{ album.title.substring(0, 34) }}</p>
+              <p class="card-subtitle">{{ album.author.substring(0, 24)}}</p>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
 </section>
+<ng-template #loading [ngIf]="!isDataLoaded">
+  <div class="spinner-stroke-color">
+    <div class="center"><mat-spinner [diameter]="68"></mat-spinner></div>
+  </div>
+</ng-template>

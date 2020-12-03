@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
   trendingAlbumsList: Album[][];
   trends: Genre[];
 
+  isDataLoaded: boolean = false;
+
   constructor(private firebaseService: FirebaseService,
               private router: Router) {
   }
@@ -37,6 +39,7 @@ export class HomeComponent implements OnInit {
     this.firebaseService.getTrendingList();
     this.firebaseService.trendingAlbumsListSub.subscribe(trendingList => {
       this.trendingAlbumsList = trendingList;
+      this.isDataLoaded = true;
     });
   }
 

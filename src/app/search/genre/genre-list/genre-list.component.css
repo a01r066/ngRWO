@@ -39,3 +39,14 @@ h1 {
   padding: 12px;
   margin: 0;
 }
+
+.spinner-stroke-color ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #1DB954;
+}
+
+.center {
+  display: flex;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
+}

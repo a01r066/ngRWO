@@ -37,6 +37,7 @@ export class FirebaseService {
   tracksSub = new Subject<Track[]>();
   selectedTrackSub = new Subject<Track>();
   selectedAlbumSub = new Subject<Album>();
+  isDataLoadedSub = new Subject<boolean>();
 
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient) {
@@ -152,6 +153,7 @@ export class FirebaseService {
         };
         const album = new Album(keys[i], genre.id, '', dataObj);
         albums.push(album);
+        this.isDataLoadedSub.next(true);
       }
     });
     return albums;
@@ -169,6 +171,7 @@ export class FirebaseService {
         };
         const genre = new Genre(keys[i], dataObj);
         genres.push(genre);
+        this.isDataLoadedSub.next(true);
       }
     });
     return genres;

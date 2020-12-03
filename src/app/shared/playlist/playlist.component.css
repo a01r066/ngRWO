@@ -253,3 +253,14 @@ table {
     display: none;
   }
 }
+
+.spinner-stroke-color ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #1DB954;
+}
+
+.center {
+  display: flex;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+}

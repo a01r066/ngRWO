@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 export class GenreDetailComponent implements OnInit {
   genre: Genre;
   items: Album[] = [];
+  isDataLoaded: boolean = false;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router) { }
@@ -19,6 +20,9 @@ export class GenreDetailComponent implements OnInit {
   ngOnInit(): void {
     this.genre = this.firebaseService.selectedGenre;
     this.items = this.firebaseService.getAlbumsByGenre(this.genre);
+    this.firebaseService.isDataLoadedSub.subscribe(isLoaded => {
+      this.isDataLoaded = isLoaded
+    });
   }
 
   onSelectItem(album: Album){

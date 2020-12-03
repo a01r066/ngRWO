@@ -12,12 +12,16 @@ import {Router} from '@angular/router';
 export class GenreListComponent implements OnInit {
   genres: Genre[];
   items: any;
+  isDataLoaded: boolean = false;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router) { }
 
   ngOnInit(): void {
     this.loadGenres();
+    this.firebaseService.isDataLoadedSub.subscribe(isLoaded => {
+      this.isDataLoaded = isLoaded
+    });
   }
 
   loadGenres(){
