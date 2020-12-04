@@ -1,0 +1,19 @@
+.right-options {
+  display: flex;
+  flex-flow: row;
+  margin-right: 8px;
+}
+
+.mat-list-item {
+  margin: 0 16px 16px 16px;
+  color: white;
+  width: 98%;
+}
+
+.mat-list-item:hover {
+  background-color: #282828;
+}
+
+.mat-title {
+  color: white;
+}

@@ -1,0 +1,8 @@
+<section class="songs">
+  <div class="trending">Songs</div>
+  <mat-list>
+    <div *ngFor="let track of tracks; let i = index" class="song-list">
+      <app-search-item [track]="track" (onOpenFile)="openFile(track, i)"></app-search-item>
+    </div>
+  </mat-list>
+</section>

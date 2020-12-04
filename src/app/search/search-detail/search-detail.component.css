@@ -1,0 +1,14 @@
+.song-list {
+  margin: -16px 16px 0 24px;
+}
+
+.spinner-stroke-color ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #1DB954;
+}
+
+.center {
+  display: flex;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
+}
