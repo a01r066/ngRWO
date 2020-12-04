@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Genre} from './music/models/genre.model';
 import {HttpClient} from '@angular/common/http';
-import {map, tap} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
 import {Album} from './music/models/album.model';
 import firebase from 'firebase';
@@ -39,6 +38,7 @@ export class FirebaseService {
   selectedAlbumSub = new Subject<Album>();
   isDataLoadedSub = new Subject<boolean>();
   searchTextSub = new Subject<string>();
+  isSearchBarHiddenSub = new Subject<boolean>();
 
   allTracks: Track[];
   allTracksSub = new Subject<Track[]>();

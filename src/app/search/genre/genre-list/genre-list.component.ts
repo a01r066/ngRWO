@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Genre} from '../../../music/models/genre.model';
 import {FirebaseService} from '../../../firebase.service';
 import {map} from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   templateUrl: './genre-list.component.html',
   styleUrls: ['./genre-list.component.css']
 })
-export class GenreListComponent implements OnInit {
+export class GenreListComponent implements OnInit, OnDestroy {
   genres: Genre[];
   items: any;
   isDataLoaded: boolean = false;
@@ -28,6 +28,8 @@ export class GenreListComponent implements OnInit {
     } else {
       this.firebaseService.isAllTracksLoaded = true;
     }
+
+    this.firebaseService.isSearchBarHiddenSub.next(false);
   }
 
   loadGenres(){
@@ -37,5 +39,9 @@ export class GenreListComponent implements OnInit {
   onSelectGenre(genre: Genre){
     this.firebaseService.selectedGenre = genre;
     this.router.navigate(['genre', genre.title]);
+  }
+
+  ngOnDestroy(): void {
+    this.firebaseService.isSearchBarHiddenSub.next(true);
   }
 }

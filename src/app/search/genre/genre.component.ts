@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-genre',
@@ -11,5 +11,4 @@ export class GenreComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

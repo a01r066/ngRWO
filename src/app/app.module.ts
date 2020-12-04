@@ -29,6 +29,7 @@ import {HighlightDirective} from './highlight.directive';
 import { TrendComponent } from './music/trend/trend.component';
 import { TrendDetailComponent } from './music/trend/trend-detail/trend-detail.component';
 import { SearchDetailComponent } from './search/search-detail/search-detail.component';
+import { SearchItemComponent } from './search/search-detail/search-item/search-item.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -49,6 +50,7 @@ firebase.initializeApp(environment.firebase);
     TrendComponent,
     TrendDetailComponent,
     SearchDetailComponent,
+    SearchItemComponent,
   ],
   imports: [
     BrowserModule,

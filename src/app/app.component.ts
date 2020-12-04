@@ -12,11 +12,15 @@ export class AppComponent implements OnInit{
   opened: boolean = true;
   mode = new FormControl('side');
   @ViewChild('searchText') searchTextRef: ElementRef;
+  isSearchBarHidden: boolean = true;
 
   constructor(private firebaseService: FirebaseService) {
   }
 
   ngOnInit(): void {
+    this.firebaseService.isSearchBarHiddenSub.subscribe(isHidden => {
+      this.isSearchBarHidden = isHidden;
+    });
   }
 
   back(){
