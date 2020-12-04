@@ -20,8 +20,14 @@ export class GenreListComponent implements OnInit {
   ngOnInit(): void {
     this.loadGenres();
     this.firebaseService.isDataLoadedSub.subscribe(isLoaded => {
-      this.isDataLoaded = isLoaded
+      this.isDataLoaded = isLoaded;
     });
+
+    if(!this.firebaseService.isAllTracksLoaded){
+      this.firebaseService.fetchAllTracks();
+    } else {
+      this.firebaseService.isAllTracksLoaded = true;
+    }
   }
 
   loadGenres(){

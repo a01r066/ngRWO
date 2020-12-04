@@ -11,11 +11,13 @@ import {GenreComponent} from './search/genre/genre.component';
 import {PlaylistComponent} from './shared/playlist/playlist.component';
 import {TrendComponent} from './music/trend/trend.component';
 import {TrendDetailComponent} from './music/trend/trend-detail/trend-detail.component';
+import {SearchDetailComponent} from './search/search-detail/search-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search', component: SearchComponent, children: [
-      { path: '', component: GenreListComponent }
+      { path: '', component: GenreListComponent },
+      { path: ':id', component: SearchDetailComponent }
     ] },
   { path: 'genre', component: GenreComponent, children: [
       { path: ':id', component: GenreDetailComponent }

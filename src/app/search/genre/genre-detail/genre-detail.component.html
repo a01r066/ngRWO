@@ -1,5 +1,5 @@
 <section id="music">
-  <ng-template [ngIf]="isDataLoaded">
+  <ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">
     <div class="trending">
       <h1>Trending</h1>
       <div>
@@ -17,7 +17,7 @@
       </div>
     </div>
   </ng-template>
-  <ng-template #loading [ngIf]="!isDataLoaded">
+  <ng-template #loading>
     <div class="spinner-stroke-color">
       <div class="center"><mat-spinner [diameter]="68"></mat-spinner></div>
     </div>

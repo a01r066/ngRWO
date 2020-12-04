@@ -65,6 +65,15 @@
       <button mat-icon-button>
         <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
       </button>
+      <div class="searchbar">
+        <input matInput placeholder="search for song, artist" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup.enter)="processSearch()">
+        <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button mat-icon-button class="close" *ngIf="searchText.value === ''" [disabled]="true">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
             <div fxFlex fxLayoutAlign="end">
               <ul fxLayout fxLayoutGap="12px" class="nav-items">
 <!--                <li><a [routerLink]="['/signup']">Sign Up</a></li>-->

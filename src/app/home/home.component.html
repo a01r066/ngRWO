@@ -1,5 +1,5 @@
 <section class="music">
-  <ng-template [ngIf]="isDataLoaded">
+  <ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">
     <div *ngFor="let albums of trendingAlbumsList; let i = index">
       <div class="trending">{{ trends[i].title }}<span class="see-all" (click)="onClickViewAll(albums, trends[i].title)">SEE ALL</span></div>
       <!--    <h1 class="trending">{{ trends[i].title }}</h1>-->
@@ -17,7 +17,7 @@
     </div>
   </ng-template>
 </section>
-<ng-template #loading [ngIf]="!isDataLoaded">
+<ng-template #loading>
   <div class="spinner-stroke-color">
     <div class="center"><mat-spinner [diameter]="68"></mat-spinner></div>
   </div>

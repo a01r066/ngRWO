@@ -12,6 +12,9 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatLineModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -27,7 +30,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCardModule,
     MatTableModule,
     MatSliderModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatLineModule
   ],
   exports: [
     MatButtonModule,
@@ -42,7 +48,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCardModule,
     MatTableModule,
     MatSliderModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatLineModule
   ]
 })
 export class MaterialModule {

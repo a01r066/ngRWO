@@ -38,9 +38,43 @@ export class FirebaseService {
   selectedTrackSub = new Subject<Track>();
   selectedAlbumSub = new Subject<Album>();
   isDataLoadedSub = new Subject<boolean>();
+  searchTextSub = new Subject<string>();
+
+  allTracks: Track[];
+  allTracksSub = new Subject<Track[]>();
+  isAllTracksLoaded: boolean = false;
 
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient) {
+  }
+
+  fetchAllTracks(){
+    let tracks: Track[] = [];
+    this.database.ref('Tracks').once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          const albumID = albumSnapshot.key;
+          albumSnapshot.forEach(trackSnapshot => {
+            const trackID = trackSnapshot.key;
+            const dataObj = {
+              title: trackSnapshot.val().title,
+              author: trackSnapshot.val().author,
+              filePath: trackSnapshot.val().filePath,
+              index: trackSnapshot.val().index,
+              tags: trackSnapshot.val().tags,
+              duration: 0
+            }
+            const track = new Track(trackID, albumID, genreID, dataObj);
+            tracks.push(track);
+          });
+        });
+      });
+      this.allTracks = tracks;
+      this.isAllTracksLoaded = true;
+      this.allTracksSub.next(tracks);
+      this.isDataLoadedSub.next(true);
+    });
   }
 
   getTracksByAlbum(){
