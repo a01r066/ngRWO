@@ -1,0 +1,66 @@
+mat-list {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mat-list-item {
+  outline: none;
+  color: #B3B3A2;
+}
+
+mat-list-item:hover, mat-list-item:active {
+  color: white;
+  cursor: pointer;
+}
+
+.is-active {
+  color: white;
+  background-color: #282828;
+  border-radius: 4px;
+}
+
+mat-icon:hover, mat-icon:active {
+  color: white;
+}
+
+.copyright {
+  /*margin-top: -16px;*/
+  margin-left: -24px;
+}
+
+.copyright-list {
+  list-style: none;
+  color: #B3B3A2;
+}
+
+.copyright-item {
+  height: 64px;
+  margin-top: -8px;
+}
+
+li>img {
+  margin-left: 24px;
+}
+
+a {
+  text-decoration: none;
+  color: #B3B3A2;
+}
+
+a:hover, a:active {
+  color: white;
+}
+
+.logo {
+  width: 80%;
+  /*height: 72px;*/
+  margin-top: 16px;
+  outline: none;
+}
+
+.appstore {
+  height: 48px;
+  margin-top: -16px;
+  margin-left: 25px;
+}

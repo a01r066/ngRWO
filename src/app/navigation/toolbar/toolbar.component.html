@@ -1,0 +1,28 @@
+<mat-toolbar>
+  <!--      <button mat-icon-button (click)="sidenav.toggle()">-->
+  <!--        <mat-icon>menu</mat-icon>-->
+  <!--      </button>-->
+  <button mat-icon-button style="margin-right: 16px; margin-left: -16px">
+    <mat-icon class="backnext" (click)="back()">keyboard_arrow_left</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
+  </button>
+  <div class="searchbar" *ngIf="!isSearchBarHidden">
+    <input matInput placeholder="search for song, artist" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup.enter)="processSearch()">
+    <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-icon-button class="close" *ngIf="searchText.value === ''" [disabled]="true">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+  <div fxFlex fxLayoutAlign="end">
+    <ul fxLayout fxLayoutGap="12px" class="nav-items">
+      <!--                <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
+      <!--                <li><a [routerLink]="['/login']">Login</a></li>-->
+      <li style="font-size: 1rem"><a>Sign Up</a></li>
+      <li style="font-size: 1rem"><a>Login</a></li>
+    </ul>
+  </div>
+</mat-toolbar>
