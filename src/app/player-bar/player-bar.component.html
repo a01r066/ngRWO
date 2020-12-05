@@ -1,11 +1,11 @@
 <div class="bottom-bar">
   <div class="left" (click)="openPlaylist(track)" style="cursor: pointer">
     <mat-list fxLayout="row">
-      <mat-list-item class="artwork">
+      <mat-list-item class="artwork" style="width: 64px">
         <img class="artwork-img" src="{{ album?.imagePath }}" alt="">
       </mat-list-item>
       <mat-list-item class="track-info">
-        <div fxFlowLayout="column">
+        <div fxFlowLayout="column" style="width: 128px;">
           <div>
             <mat-label class="mat-title" style="color: white; font-size: 14px">{{ track?.title.substring(0, 44) }}</mat-label>
           </div>

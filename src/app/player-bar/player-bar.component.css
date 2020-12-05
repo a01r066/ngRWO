@@ -1,6 +1,11 @@
 .bottom-bar {
   display: flex;
   background-color: #282828;
+  justify-content: center;
+}
+
+.mat-list-item {
+
 }
 
 .left {
@@ -50,7 +55,8 @@
 }
 
 .artwork {
-  width: 22%;
+  /*width: 22%;*/
+  width: 68px;
 }
 
 .artwork-img {

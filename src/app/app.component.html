@@ -1,88 +1,10 @@
 <mat-sidenav-container>
   <!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
   <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
-    <div fxLayout="column">
-      <div fxFlex fxLayoutAlign="center">
-        <img [routerLink]="['/']" class="logo" src="../assets/logo.png">
-      </div>
-      <div>
-        <mat-list>
-          <mat-list-item [routerLink]="['/']" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
-            <button mat-icon-button>
-              <mat-icon>home</mat-icon>
-            </button>
-            Home
-          </mat-list-item>
-          <mat-list-item [routerLink]="['/search']" [routerLinkActive]="['is-active']" class="nav-item">
-            <button mat-icon-button>
-              <mat-icon>search</mat-icon>
-            </button>
-            Search</mat-list-item>
-<!--          <mat-list-item [routerLink]="['/library']" [routerLinkActive]="['is-active']" class="nav-item">-->
-          <mat-list-item class="nav-item">
-            <button mat-icon-button>
-              <mat-icon>library_music</mat-icon>
-            </button>
-            Library</mat-list-item>
-        </mat-list>
-      </div>
-      <div>
-        <mat-list>
-          <h5 style="color: #B3B3A2">PLAYLISTS</h5>
-          <mat-list-item class="nav-item">
-            <button mat-icon-button>
-              <mat-icon>add</mat-icon>
-            </button>
-            Create playlist</mat-list-item>
-          <mat-list-item class="nav-item">
-            <button mat-icon-button>
-              <mat-icon>favorite</mat-icon>
-            </button>
-            Like songs</mat-list-item>
-        </mat-list>
-      </div>
-      <mat-divider style="background-color: #282828; width: 80%; margin-left: 16px"></mat-divider>
-      <div class="copyright">
-        <ul class="copyright-list">
-          <li class="copyright-item">
-            <button mat-icon-button>
-              <mat-icon>copyright</mat-icon>2020 RelaxingWorld.Online
-            </button>
-          </li>
-          <li class="copyright-item"><a href="https://apps.apple.com/vn/app/kho-ebooks-audiobooks/id1366613779" target="_blank"><img class="appstore" src="../assets/appstore.png"></a></li>
-        </ul>
-      </div>
-    </div>
+    <app-sidebar></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar>
-      <!--      <button mat-icon-button (click)="sidenav.toggle()">-->
-      <!--        <mat-icon>menu</mat-icon>-->
-      <!--      </button>-->
-      <button mat-icon-button style="margin-right: 16px; margin-left: -16px">
-        <mat-icon class="backnext" (click)="back()">keyboard_arrow_left</mat-icon>
-      </button>
-      <button mat-icon-button>
-        <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
-      </button>
-      <div class="searchbar" *ngIf="!isSearchBarHidden">
-        <input matInput placeholder="search for song, artist" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup.enter)="processSearch()">
-        <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
-          <mat-icon>close</mat-icon>
-        </button>
-        <button mat-icon-button class="close" *ngIf="searchText.value === ''" [disabled]="true">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
-            <div fxFlex fxLayoutAlign="end">
-              <ul fxLayout fxLayoutGap="12px" class="nav-items">
-<!--                <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
-<!--                <li><a [routerLink]="['/login']">Login</a></li>-->
-                <li style="font-size: 1rem"><a>Sign Up</a></li>
-                <li style="font-size: 1rem"><a>Login</a></li>
-              </ul>
-            </div>
-    </mat-toolbar>
+    <app-toolbar></app-toolbar>
     <main>
       <router-outlet></router-outlet>
     </main>

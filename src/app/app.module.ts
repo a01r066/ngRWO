@@ -30,6 +30,12 @@ import { TrendComponent } from './music/trend/trend.component';
 import { TrendDetailComponent } from './music/trend/trend-detail/trend-detail.component';
 import { SearchDetailComponent } from './search/search-detail/search-detail.component';
 import { SearchItemComponent } from './search/search-detail/search-item/search-item.component';
+import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
+import { SidebarComponent } from './navigation/sidebar/sidebar.component';
+import { CategoryComponent } from './book/category/category.component';
+import { CategoryListComponent } from './book/category/category-list/category-list.component';
+import { CategoryDetailComponent } from './book/category/category-detail/category-detail.component';
+import { CategoryItemComponent } from './book/category/category-list/category-item/category-item.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -51,6 +57,12 @@ firebase.initializeApp(environment.firebase);
     TrendDetailComponent,
     SearchDetailComponent,
     SearchItemComponent,
+    ToolbarComponent,
+    SidebarComponent,
+    CategoryComponent,
+    CategoryListComponent,
+    CategoryDetailComponent,
+    CategoryItemComponent,
   ],
   imports: [
     BrowserModule,

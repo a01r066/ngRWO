@@ -59,7 +59,8 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
     this.firebaseService.selectedTrackSub.next(track);
     // this.firebaseService.selectedAlbumSub.next(this.album);
     this.getAlbumByID(track);
-    this.playerService.files = this.tracks;
+    // this.playerService.files = this.tracks;
+    this.playerService.files = [track];
     this.playerService.openFile(track, i);
   }
 

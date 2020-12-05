@@ -70,6 +70,7 @@ export class PlayerService {
         return;
       }
     }
+
     this.selectedRowIndexSub.next(index);
 
     const file = this.files[index];

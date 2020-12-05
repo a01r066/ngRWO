@@ -13,10 +13,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./player-bar.component.css']
 })
 export class PlayerBarComponent implements OnInit {
-  files: Array<any> = [
-    { name: "First Song", artist: "Inder" },
-    { name: "Second Song", artist: "You" }
-  ];
   state: StreamState;
   currentFile: any = {};
   isShuffle: boolean;
@@ -82,12 +78,20 @@ export class PlayerBarComponent implements OnInit {
   }
 
   next(){
-    this.playerService.next();
+    if(this.playerService.files.length > 1){
+      this.playerService.next();
+    } else {
+      this.playerService.pause();
+    }
   }
 
   previous(){
-    if(!this.playerService.isFirstPlaying()){
-      this.playerService.previous();
+    if(this.playerService.files.length > 1){
+      if(!this.playerService.isFirstPlaying()){
+        this.playerService.previous();
+      }
+    } else {
+      this.playerService.pause();
     }
   }
 
