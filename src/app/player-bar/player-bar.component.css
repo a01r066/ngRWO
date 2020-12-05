@@ -78,57 +78,7 @@
   line-height: 16px;
 }
 
-@media screen and (max-width: 1400px) {
-  .left {
-    /*display: none;*/
-    width: 20%;
-  }
-
-  .right {
-    /*display: none;*/
-    width: 0%;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .left {
-    /*display: none;*/
-    width: 30%;
-  }
-
-  .right {
-    /*display: none;*/
-    width: 0%;
-  }
-}
-
-@media screen and (max-width: 799px) {
-  .left {
-    width: 45%;
-  }
-
-  .right {
-    width: 0%;
-  }
-
-  .track-info {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 540px) {
-  .left {
-    /*display: none;*/
-    width: 35%;
-  }
-
-  .right {
-    /*display: none;*/
-    width: 0%;
-  }
-}
-
-@media screen and (max-width: 372px) {
+@media screen and (max-width: 770px) {
   .left {
     display: none;
   }
