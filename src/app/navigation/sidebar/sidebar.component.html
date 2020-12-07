@@ -16,14 +16,17 @@
         </button>
         Search</mat-list-item>
       <!--          <mat-list-item [routerLink]="['/library']" [routerLinkActive]="['is-active']" class="nav-item">-->
-      <mat-list-item class="nav-item">
-        <button mat-icon-button>
-          <mat-icon>library_music</mat-icon>
-        </button>
-        Library</mat-list-item>
+      <div>
+        <mat-list-item class="nav-item" (click)="onSelectLibrary()">
+          <button mat-icon-button>
+            <mat-icon>library_music</mat-icon>
+          </button>
+          Library
+        </mat-list-item>
+      </div>
     </mat-list>
   </div>
-  <div>
+  <div *ngIf="isAuth">
     <mat-list>
       <h5 style="color: #B3B3A2">PLAYLISTS</h5>
       <mat-list-item class="nav-item">

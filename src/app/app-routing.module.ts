@@ -12,6 +12,7 @@ import {PlaylistComponent} from './shared/playlist/playlist.component';
 import {TrendComponent} from './music/trend/trend.component';
 import {TrendDetailComponent} from './music/trend/trend-detail/trend-detail.component';
 import {SearchDetailComponent} from './search/search-detail/search-detail.component';
+import {AuthGuard} from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,13 +28,14 @@ const routes: Routes = [
     ]},
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'album/:id', component: PlaylistComponent },
-  { path: 'library', component: LibraryComponent },
+  { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule {
 

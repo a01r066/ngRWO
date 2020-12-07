@@ -1,0 +1,36 @@
+.fields-container {
+  background-color: transparent;
+  width: 320px;
+  margin-top: 32px;
+  /*border: solid 5px #1DB954;*/
+  border-radius: 4px;
+  height: 248px;
+}
+.mat-form-field {
+  width: 300px;
+  background-color: transparent;
+  color: white;
+}
+
+::ng-deep.mat-error .mat-warn {
+  color: white;
+}
+
+::ng-deep.mat-form-field-label {
+  color: #1DB954 !important;
+}
+
+::ng-deep .mat-focused {
+  /*change color of label*/
+  color: orange !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: green !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: orange !important;;
+}

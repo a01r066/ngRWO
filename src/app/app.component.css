@@ -34,7 +34,6 @@ mat-sidenav-content::-webkit-scrollbar-thumb {
   outline: none;
 }
 
-
 /*hide column*/
 @media screen and (max-width: 320px) {
   /*.mat-sidenav {*/

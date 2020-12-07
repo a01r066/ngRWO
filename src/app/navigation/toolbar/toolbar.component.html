@@ -19,10 +19,9 @@
   </div>
   <div fxFlex fxLayoutAlign="end">
     <ul fxLayout fxLayoutGap="12px" class="nav-items">
-      <!--                <li><a [routerLink]="['/signup']">Sign Up</a></li>-->
-      <!--                <li><a [routerLink]="['/login']">Login</a></li>-->
-      <li style="font-size: 1rem"><a>Sign Up</a></li>
-      <li style="font-size: 1rem"><a>Login</a></li>
+      <li class="SignInOut" [routerLink]="['/signup']" *ngIf="!isAuth">Sign Up</li>
+      <li class="SignInOut" [routerLink]="['/login']" *ngIf="!isAuth">Login</li>
+      <li class="SignInOut" (click)="logout()" *ngIf="isAuth">Logout</li>
     </ul>
   </div>
 </mat-toolbar>

@@ -3,6 +3,8 @@ import {Album} from '../music/models/album.model';
 import {FirebaseService} from '../firebase.service';
 import {Genre} from '../music/models/genre.model';
 import {Router} from '@angular/router';
+import {Audiobook} from '../book/models/audiobook.model';
+import {Category} from '../book/models/category.model';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,9 @@ export class HomeComponent implements OnInit {
 
   trendingAlbumsList: Album[][];
   trends: Genre[];
+
+  trendingAudiobooksList: Audiobook[][];
+  categorys: Category[];
 
   isDataLoaded: boolean = false;
 
