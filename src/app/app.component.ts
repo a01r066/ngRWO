@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirebaseService} from './firebase.service';
+import {AuthService} from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,10 @@ export class AppComponent implements OnInit{
   opened: boolean = true;
   mode = new FormControl('side');
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.authService.initAuthListener();
   }
 }

@@ -12,8 +12,23 @@ export class AuthService {
   private user: User;
   authChangeSub = new Subject<boolean>();
   auth = firebase.auth();
+  isAuthenticated: boolean = false;
 
   constructor(private router: Router) {
+  }
+
+  initAuthListener(){
+    this.auth.onAuthStateChanged(user => {
+      if(user){
+        this.user = user;
+        this.isAuthenticated = true;
+        this.authChangeSub.next(true);
+      } else {
+        this.user = null;
+        this.isAuthenticated = false;
+        this.authChangeSub.next(false);
+      }
+    });
   }
 
   registerUser(authData: AuthData){
@@ -28,15 +43,12 @@ export class AuthService {
     const email = authData.email;
     const password = authData.password;
     this.auth.createUserWithEmailAndPassword(email, password).then(result => {
-      console.log("Sign up success! You've already signed In.");
-      this.user = result.user;
-      this.authChangeSub.next(true);
+      // this.user = result.user;
       this.router.navigate(['/library']);
     })
       .catch(error => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("ErrorCode: " +errorCode + ". Message: " + errorMessage);
     });
   }
 
@@ -53,25 +65,18 @@ export class AuthService {
     const password = authData.password;
 
     this.auth.signInWithEmailAndPassword(email, password).then(result => {
-      console.log("Login success!. You've already signed In.");
-      this.user = result.user;
-      this.authChangeSub.next(true);
       this.router.navigate(['/library']);
     })
       .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log("ErrorCode: " +errorCode + ". Message: " + errorMessage);
     });
   }
 
   logout(){
     this.auth.signOut().then(() => {
-      this.user = null;
-      this.authChangeSub.next(false);
       this.router.navigate(['/login']);
     }).catch(error => {
-      console.log("Sign out error: " + error.message);
     });
   }
 
@@ -80,6 +85,6 @@ export class AuthService {
   }
 
   isAuth(){
-    return this.user != null;
+    return this.isAuthenticated;
   }
 }
