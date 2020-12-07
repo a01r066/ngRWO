@@ -17,21 +17,21 @@
       </ul>
     </div>
 <!--    Audiobook-->
-    <div *ngFor="let albums of trendingAlbumsList; let i = index">
-      <div class="trending">{{ trends[i].title }}<span class="see-all" (click)="onClickViewAll(albums, trends[i].title)">SEE ALL</span></div>
-      <!--    <h1 class="trending">{{ trends[i].title }}</h1>-->
-      <ul class="flex-container">
-        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">
-          <div class="card">
-            <img class="card-img-top" [src]="[album.imagePath]">
-            <div class="card-body">
-              <p class="card-title">{{ album.title.substring(0, 34) }}</p>
-              <p class="card-subtitle">{{ album.author.substring(0, 24)}}</p>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+<!--    <div *ngFor="let albums of trendingAlbumsList; let i = index">-->
+<!--      <div class="trending">{{ trends[i].title }}<span class="see-all" (click)="onClickViewAll(albums, trends[i].title)">SEE ALL</span></div>-->
+<!--      &lt;!&ndash;    <h1 class="trending">{{ trends[i].title }}</h1>&ndash;&gt;-->
+<!--      <ul class="flex-container">-->
+<!--        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">-->
+<!--          <div class="card">-->
+<!--            <img class="card-img-top" [src]="[album.imagePath]">-->
+<!--            <div class="card-body">-->
+<!--              <p class="card-title">{{ album.title.substring(0, 34) }}</p>-->
+<!--              <p class="card-subtitle">{{ album.author.substring(0, 24)}}</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
   </ng-template>
 </section>
 <ng-template #loading>
