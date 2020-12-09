@@ -1,0 +1,56 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 50;
+}
+
+.alert-container {
+  position: fixed;
+  top: 20vh;
+  left: 40vw;
+  width: 30vw;
+  /*height: 30vh;*/
+  padding: 16px;
+  z-index: 100;
+  /*border: 1px solid #1DB954;*/
+  /*box-shadow: 0 2px 8px rgba(0,0,0,0.25);*/
+  /*border-radius: 6px;*/
+}
+
+.content {
+  /*width: 60%;*/
+  /*background-color: #1DB954;*/
+  margin: 16px;
+}
+
+/* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
+@media screen and (max-width: 968px) {
+  .alert-container {
+    top: 10vh;
+    left: 30vw;
+    width: 40vw;
+    /*height: 20vh;*/
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .alert-container {
+    top: 10vh;
+    left: 25vw;
+    width: 60vw;
+    /*height: 20vh;*/
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .alert-container {
+    top: 5vh;
+    left: 12vw;
+    width: 75vw;
+    /*height: 20vh;*/
+  }
+}
