@@ -59,3 +59,7 @@ mat-icon:hover, mat-icon:active {
 .SignInOut:hover {
   color: white;
 }
+
+.tab-label {
+  color: #B3B3A2;
+}

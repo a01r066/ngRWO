@@ -1,10 +1,12 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Album} from '../music/models/album.model';
 import {FirebaseService} from '../firebase.service';
 import {Genre} from '../music/models/genre.model';
 import {Router} from '@angular/router';
 import {Audiobook} from '../book/models/audiobook.model';
 import {Category} from '../book/models/category.model';
+import {UiService} from '../shared/ui.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +24,11 @@ export class HomeComponent implements OnInit {
   categorys: Category[];
 
   isDataLoaded: boolean = false;
+  loadingSub: Subscription;
 
   constructor(private firebaseService: FirebaseService,
-              private router: Router) {
+              private router: Router,
+              private uiService: UiService) {
   }
 
   onSelectItem(album: Album){
@@ -46,6 +50,8 @@ export class HomeComponent implements OnInit {
       this.trendingAlbumsList = trendingList;
       this.isDataLoaded = true;
     });
+
+
   }
 
   @HostListener('window:resize', ['$event'])

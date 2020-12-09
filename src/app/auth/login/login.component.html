@@ -21,7 +21,10 @@
           <mat-error>Missing password.</mat-error>
         </mat-form-field>
 <!--        <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>-->
-        <button type="submit" mat-raised-button color="primary">Login</button>
+        <button type="submit" mat-raised-button color="primary" *ngIf="!isLoadingStateChanged">Login</button>
+        <div *ngIf="isLoadingStateChanged" class="spinner-stroke-color">
+          <mat-spinner [diameter]="36"></mat-spinner>
+        </div>
       </form>
     </div>
   </div>

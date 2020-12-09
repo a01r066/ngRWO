@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
 import {PlayerService} from '../../services/player.service';
 import {StreamState} from '../../interfaces/stream-state';
 import {AudioService} from '../../services/audio.service';
+import {AuthService} from '../../auth/auth.service';
+import {UiService} from '../ui.service';
+import {Subscription} from 'rxjs';
 
 export interface PeriodicElement {
   title: string;
@@ -14,27 +17,13 @@ export interface PeriodicElement {
   option: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, title: 'Hydrogen', played: 1.0079, duration: 'H', option: '***'},
-  {position: 2, title: 'Helium', played: 4.0026, duration: 'He', option: '***'},
-  {position: 3, title: 'Lithium', played: 6.941, duration: 'Li', option: '***'},
-  {position: 4, title: 'Beryllium', played: 9.0122, duration: 'Be', option: '***'},
-  {position: 5, title: 'Boron', played: 10.811, duration: 'B', option: '***'},
-  {position: 6, title: 'Carbon', played: 12.0107, duration: 'C', option: '***'},
-  {position: 7, title: 'Nitrogen', played: 14.0067, duration: 'N', option: '***'},
-  {position: 8, title: 'Oxygen', played: 15.9994, duration: 'O', option: '***'},
-  {position: 9, title: 'Fluorine', played: 18.9984, duration: 'F', option: '***'},
-  {position: 10, title: 'Neon', played: 20.1797, duration: 'Ne', option: '***'},
-];
-
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
-  dataSource = ELEMENT_DATA;
   isDataLoaded: boolean = false;
 
   album: Album;
@@ -42,11 +31,17 @@ export class PlaylistComponent implements OnInit {
   state: StreamState;
   selectedRowIndex = -1;
   isFirstLoad: boolean = true;
-  isLiked: boolean = false;
+  isLikedAlbum: boolean = false;
+  isLikedTrack: boolean = false;
+  isAuth: boolean = false;
+  isAlertShow = false;
+  alertSub: Subscription;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
-              private audioService: AudioService) { }
+              private audioService: AudioService,
+              private authService: AuthService,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
     this.album = this.firebaseService.selectedAlbum;
@@ -64,9 +59,27 @@ export class PlaylistComponent implements OnInit {
       this.state = state;
     });
 
-    this.playerService.isLikedSub.subscribe(isLike => {
-      this.isLiked = isLike;
+    this.playerService.isLikedAlbumSub.subscribe(isLike => {
+      this.isLikedAlbum = isLike;
     });
+
+    this.playerService.isLikedTrackSub.subscribe(isLike => {
+      this.isLikedTrack = isLike;
+    });
+
+    this.authService.authChangeSub.subscribe(authStatus => {
+      this.isAuth = authStatus;
+    });
+
+    this.alertSub = this.uiService.loginAlertChanged.subscribe(isAlert => {
+      this.isAlertShow = isAlert;
+    });
+
+    this.isAuth = this.authService.isAuthenticated;
+  }
+
+  ngOnDestroy(): void {
+    this.alertSub.unsubscribe();
   }
 
   openFile(track: Track, index: number){
@@ -94,8 +107,23 @@ export class PlaylistComponent implements OnInit {
     this.playerService.pause();
   }
 
-  onHandleLike(){
-    this.isLiked = !this.isLiked;
-    this.playerService.isLikedSub.next(this.isLiked);
+  onHandleLikeAlbum(album: Album){
+    if(this.isAuth){
+      this.isLikedAlbum = !this.isLikedAlbum;
+      this.playerService.isLikedAlbumSub.next(this.isLikedAlbum);
+    } else {
+      this.uiService.loginAlertChanged.next(true);
+    }
+    console.log(this.isLikedAlbum + ": " + album.title);
+  }
+
+  onHandleLikeTrack(index: number){
+    if(this.isAuth){
+      this.isLikedTrack = true;
+      this.playerService.isLikedTrackSub.next(this.isLikedTrack);
+    } else {
+      this.uiService.loginAlertChanged.next(true);
+    }
+    console.log(this.isLikedTrack + ": " + index);
   }
 }

@@ -1,15 +1,20 @@
-<mat-sidenav-container>
-  <!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
-  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
-    <app-sidebar></app-sidebar>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <app-toolbar></app-toolbar>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-<div class="player-bar">
-  <app-player-bar></app-player-bar>
+<div>
+  <mat-sidenav-container>
+    <!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
+    <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-toolbar></app-toolbar>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <div class="player-bar">
+    <app-player-bar></app-player-bar>
+  </div>
 </div>
+<ng-template [ngIf]="isAlertShow">
+  <app-auth-alert></app-auth-alert>
+</ng-template>

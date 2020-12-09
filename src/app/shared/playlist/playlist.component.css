@@ -170,6 +170,10 @@ table {
   background: #5A5A5A; /* green */
 }
 
+.like-Track {
+  color: #1DB954;
+}
+
 .track-row {
   cursor: pointer;
 }
@@ -212,21 +216,6 @@ table {
 }
 
 /* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
-@media screen and (max-width: 2520px) {
-  .mat-title {
-    font-size: 88px;
-  }
-}
-@media screen and (max-width: 2315px) {
-  .mat-title {
-    font-size: 80px;
-  }
-}
-@media screen and (max-width: 2115px) {
-  .mat-title {
-    font-size: 72px;
-  }
-}
 @media screen and (max-width: 1910px) {
   .mat-title {
     font-size: 64px;
@@ -263,4 +252,19 @@ table {
   height: 400px;
   justify-content: center;
   align-items: center;
+}
+
+.right-options {
+  display: flex;
+  flex-flow: row;
+  /*margin-right: 8px;*/
+}
+
+.option-buttons {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.option-buttons:hover {
+  color: white;
 }

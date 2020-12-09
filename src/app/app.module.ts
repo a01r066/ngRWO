@@ -36,6 +36,10 @@ import { CategoryComponent } from './book/category/category.component';
 import { CategoryListComponent } from './book/category/category-list/category-list.component';
 import { CategoryDetailComponent } from './book/category/category-detail/category-detail.component';
 import { CategoryItemComponent } from './book/category/category-list/category-item/category-item.component';
+import { AlertComponent } from './shared/alert/alert.component';
+import { AuthAlertComponent } from './shared/auth-alert/auth-alert.component';
+import { LibPlaylistsComponent } from './library/lib-playlists/lib-playlists.component';
+import { LibLikedSongsComponent } from './library/lib-liked-songs/lib-liked-songs.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -63,6 +67,10 @@ firebase.initializeApp(environment.firebase);
     CategoryListComponent,
     CategoryDetailComponent,
     CategoryItemComponent,
+    AlertComponent,
+    AuthAlertComponent,
+    LibPlaylistsComponent,
+    LibLikedSongsComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirebaseService} from './firebase.service';
 import {AuthService} from './auth/auth.service';
+import {UiService} from './shared/ui.service';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +13,16 @@ export class AppComponent implements OnInit{
   title = 'Relaxing World Online';
   opened: boolean = true;
   mode = new FormControl('side');
+  isAlertShow = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private uiService: UiService) {
   }
 
   ngOnInit(): void {
     this.authService.initAuthListener();
+    this.uiService.loginAlertChanged.subscribe(isAlert => {
+      this.isAlertShow = isAlert;
+    });
   }
 }

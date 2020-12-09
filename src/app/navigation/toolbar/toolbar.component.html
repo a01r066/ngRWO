@@ -17,6 +17,14 @@
       <mat-icon>search</mat-icon>
     </button>
   </div>
+  <div class="library-tabs" style="margin-left: 32px" *ngIf="isLibTabsShow">
+    <nav mat-tab-nav-bar [backgroundColor]="background">
+      <a mat-tab-link *ngFor="let link of links"
+         (click)="activeLink = link"
+         [active]="activeLink == link" style="color: white"> {{link}}
+      </a>
+    </nav>
+  </div>
   <div fxFlex fxLayoutAlign="end">
     <ul fxLayout fxLayoutGap="12px" class="nav-items">
       <li class="SignInOut" [routerLink]="['/signup']" *ngIf="!isAuth">Sign Up</li>

@@ -13,6 +13,8 @@ import {TrendComponent} from './music/trend/trend.component';
 import {TrendDetailComponent} from './music/trend/trend-detail/trend-detail.component';
 import {SearchDetailComponent} from './search/search-detail/search-detail.component';
 import {AuthGuard} from './auth/auth.guard';
+import {LibPlaylistsComponent} from './library/lib-playlists/lib-playlists.component';
+import {LibLikedSongsComponent} from './library/lib-liked-songs/lib-liked-songs.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +30,10 @@ const routes: Routes = [
     ]},
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'album/:id', component: PlaylistComponent },
-  { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
+  { path: 'library', component: LibraryComponent, canActivate: [AuthGuard], children: [
+      { path: ':playlists', component: LibPlaylistsComponent },
+      { path: ':liked-songs', component: LibLikedSongsComponent }
+    ] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];

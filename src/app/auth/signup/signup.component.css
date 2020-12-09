@@ -34,3 +34,7 @@
   /*change color of underline when focused*/
   background-color: #1DB954 !important;;
 }
+
+.spinner-stroke-color ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #1DB954;
+}

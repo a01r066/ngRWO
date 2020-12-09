@@ -3,6 +3,8 @@ import {FirebaseService} from '../../firebase.service';
 import {AuthService} from '../../auth/auth.service';
 import {Subscription} from 'rxjs';
 import firebase from 'firebase';
+import {ThemePalette} from '@angular/material/core';
+import {UiService} from '../../shared/ui.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,8 +17,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
   authSubscription: Subscription;
 
+  links = ['Playlists', 'Liked Songs'];
+  activeLink = this.links[0];
+  background: ThemePalette = undefined;
+
+  isLibTabsShow = false;
+
   constructor(private firebaseService: FirebaseService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
     this.firebaseService.isSearchBarHiddenSub.subscribe(isHidden => {
@@ -25,6 +34,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     this.authSubscription = this.authService.authChangeSub.subscribe(authStatus => {
       this.isAuth = authStatus;
+    });
+
+    this.uiService.isLibraryTabsShowSub.subscribe(isShow => {
+      this.isLibTabsShow = isShow;
     });
   }
 

@@ -4,6 +4,8 @@ import {User} from './user.model';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import firebase from 'firebase';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {UiService} from '../shared/ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,9 @@ export class AuthService {
   auth = firebase.auth();
   isAuthenticated: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private snackBar: MatSnackBar,
+              private uiService: UiService) {
   }
 
   initAuthListener(){
@@ -42,13 +46,19 @@ export class AuthService {
     // sign up with firebase
     const email = authData.email;
     const password = authData.password;
+    this.uiService.loadingStateChanged.next(true);
     this.auth.createUserWithEmailAndPassword(email, password).then(result => {
       // this.user = result.user;
+      this.uiService.loadingStateChanged.next(false);
       this.router.navigate(['/library']);
     })
       .catch(error => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        this.uiService.loadingStateChanged.next(false);
+        this.snackBar.open(error.message, null, {
+          duration: 3000
+        });
     });
   }
 
@@ -64,12 +74,18 @@ export class AuthService {
     const email = authData.email;
     const password = authData.password;
 
+    this.uiService.loadingStateChanged.next(true);
     this.auth.signInWithEmailAndPassword(email, password).then(result => {
+      this.uiService.loadingStateChanged.next(false);
       this.router.navigate(['/library']);
     })
       .catch(error => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+        this.uiService.loadingStateChanged.next(false);
+        this.snackBar.open(error.message, null, {
+          duration: 3000
+        });
     });
   }
 

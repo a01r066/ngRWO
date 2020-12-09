@@ -6,6 +6,7 @@ import {of, Subject} from 'rxjs';
 import {Album} from './music/models/album.model';
 import firebase from 'firebase';
 import {Track} from './music/models/track.model';
+import {UiService} from './shared/ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,8 @@ export class FirebaseService {
   isAllTracksLoaded: boolean = false;
 
   constructor(private af: AngularFireDatabase,
-              private httpClient: HttpClient) {
+              private httpClient: HttpClient,
+              private uiService: UiService) {
   }
 
   fetchAllTracks(){
