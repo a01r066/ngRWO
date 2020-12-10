@@ -1,9 +1,9 @@
 export class User {
-  userID?: string;
+  uid?: string;
   email: string;
 
-  constructor(userID: string, dataObj: { email: string }) {
-    this.userID = userID;
+  constructor(uid: string, dataObj: { email: string }) {
+    this.uid = uid;
     this.email = dataObj.email;
   }
 }

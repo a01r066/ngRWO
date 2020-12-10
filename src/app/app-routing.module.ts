@@ -31,8 +31,8 @@ const routes: Routes = [
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'album/:id', component: PlaylistComponent },
   { path: 'library', component: LibraryComponent, canActivate: [AuthGuard], children: [
-      { path: ':playlists', component: LibPlaylistsComponent },
-      { path: ':liked-songs', component: LibLikedSongsComponent }
+      { path: '', component: LibPlaylistsComponent },
+      { path: ':index', component: LibLikedSongsComponent }
     ] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }

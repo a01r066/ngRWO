@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -8,6 +8,7 @@ import {AudioService} from '../../services/audio.service';
 import {AuthService} from '../../auth/auth.service';
 import {UiService} from '../ui.service';
 import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 export interface PeriodicElement {
   title: string;
@@ -41,10 +42,17 @@ export class PlaylistComponent implements OnInit, OnDestroy {
               private playerService: PlayerService,
               private audioService: AudioService,
               private authService: AuthService,
-              private uiService: UiService) { }
+              private uiService: UiService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.album = this.firebaseService.selectedAlbum;
+    this.firebaseService.favouristPlaylists.find(album => {
+      if(album.id === this.album.id){
+        this.isLikedAlbum = true;
+      }
+    });
+
     this.firebaseService.getTracksByAlbum();
     this.firebaseService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
@@ -59,11 +67,11 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       this.state = state;
     });
 
-    this.playerService.isLikedAlbumSub.subscribe(isLike => {
+    this.uiService.isLikedAlbumSub.subscribe(isLike => {
       this.isLikedAlbum = isLike;
     });
 
-    this.playerService.isLikedTrackSub.subscribe(isLike => {
+    this.uiService.isLikedTrackSub.subscribe(isLike => {
       this.isLikedTrack = isLike;
     });
 
@@ -110,20 +118,25 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   onHandleLikeAlbum(album: Album){
     if(this.isAuth){
       this.isLikedAlbum = !this.isLikedAlbum;
-      this.playerService.isLikedAlbumSub.next(this.isLikedAlbum);
+      this.uiService.isLikedAlbumSub.next(this.isLikedAlbum);
+      if(this.isLikedAlbum){
+        // add to favourite
+        this.firebaseService.addFavouritePlaylist(album, this.authService.getUser());
+      } else {
+        // remove from playlist
+        this.firebaseService.removeAlbumFromFavouritePlaylists(album, this.authService.getUser());
+      }
     } else {
       this.uiService.loginAlertChanged.next(true);
     }
-    console.log(this.isLikedAlbum + ": " + album.title);
   }
 
   onHandleLikeTrack(index: number){
     if(this.isAuth){
       this.isLikedTrack = true;
-      this.playerService.isLikedTrackSub.next(this.isLikedTrack);
+      this.uiService.isLikedTrackSub.next(this.isLikedTrack);
     } else {
       this.uiService.loginAlertChanged.next(true);
     }
-    console.log(this.isLikedTrack + ": " + index);
   }
 }

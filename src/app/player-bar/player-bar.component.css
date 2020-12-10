@@ -14,7 +14,7 @@
 
 .middle {
   width: 60%;
-  background-color: green;
+  /*background-color: green;*/
 }
 
 .right {
@@ -45,9 +45,9 @@
   margin-right:12px;
 }
 
-.slider-bar {
-  width: 100%;
-}
+/*.slider-bar {*/
+/*  width: 100%;*/
+/*}*/
 
 .playpause {
   font-size: 32px;
@@ -81,9 +81,15 @@
 @media screen and (max-width: 770px) {
   .left {
     display: none;
+    width: 0%;
   }
 
   .right {
+    display: none;
+    width: 0%;
+  }
+
+  .volumn-control {
     display: none;
   }
 }

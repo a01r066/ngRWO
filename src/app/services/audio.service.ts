@@ -29,12 +29,12 @@ export class AudioService {
       this.audioObj.src = url;
       this.audioObj.load();
       this.audioObj.play();
-  
+
       const handler = (event: Event) => {
         this.updateStateEvents(event);
         observer.next(event);
       };
-  
+
       this.addEvents(this.audioObj, this.audioEvents, handler);
       return () => {
         // Stop Playing
@@ -126,5 +126,13 @@ export class AudioService {
 
   getState(): Observable<StreamState> {
     return this.stateChange.asObservable();
+  }
+
+  currentVolumn(){
+    return this.audioObj.volume;
+  }
+
+  setVolumn(value: number){
+    this.audioObj.volume = value;
   }
 }

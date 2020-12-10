@@ -24,7 +24,11 @@ export class AuthService {
   initAuthListener(){
     this.auth.onAuthStateChanged(user => {
       if(user){
-        this.user = user;
+        // this.user = user;
+        this.user = {
+          uid: user.uid,
+          email: user.email
+        };
         this.isAuthenticated = true;
         this.authChangeSub.next(true);
       } else {

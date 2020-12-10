@@ -7,6 +7,7 @@ import {Album} from './music/models/album.model';
 import firebase from 'firebase';
 import {Track} from './music/models/track.model';
 import {UiService} from './shared/ui.service';
+import {User} from './auth/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class FirebaseService {
   selectedGenre: Genre;
   selectedAlbum: Album;
   trendAlbums: Album[];
+  favouristPlaylists: Album[] = [];
 
   trendingAlbumsListSub = new Subject<Album[][]>();
   tracksSub = new Subject<Track[]>();
@@ -50,6 +52,55 @@ export class FirebaseService {
               private uiService: UiService) {
   }
 
+  fetchFavouritePlaylists(user: User){
+    let albums: Album[] = [];
+    const trendID = "";
+    this.database.ref('Favourite-Playlists').child(user.uid).once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          const albumID = albumSnapshot.key;
+          const dataObj = {
+            title: albumSnapshot.val().title,
+            author: albumSnapshot.val().author,
+            imagePath: albumSnapshot.val().imagePath,
+            tags: albumSnapshot.val().tags
+          };
+          const album = new Album(albumID, genreID, trendID, dataObj);
+          albums.push(album);
+        });
+      });
+      this.favouristPlaylists = albums;
+      this.uiService.favouritePlaylistsSub.next(albums);
+    });
+  }
+
+  removeAlbumFromFavouritePlaylists(album: Album, user: User){
+    const uid = user.uid;
+    const genreID = album.genreID;
+    const albumID = album.id;
+    this.database.ref('Favourite-Playlists').child(uid).child(genreID).child(albumID).remove((error) => {
+      // refresh favourite playlists
+      this.fetchFavouritePlaylists(user);
+    });
+  }
+
+  addFavouritePlaylist(album: Album, user: User){
+    const uid = user.uid;
+    const genreID = album.genreID;
+    const albumID = album.id;
+    const dataObj = {
+      title: album.title,
+      author: album.author,
+      imagePath: album.imagePath
+    };
+
+    this.database.ref('Favourite-Playlists').child(uid).child(genreID).child(albumID).update(dataObj).then(() => {
+      // console.log("Added to favourite playlists");
+      // refresh favourite playlists
+    });
+  }
+
   fetchAllTracks(){
     let tracks: Track[] = [];
     this.database.ref('Tracks').once('value').then(snapshot => {
@@ -66,7 +117,7 @@ export class FirebaseService {
               index: trackSnapshot.val().index,
               tags: trackSnapshot.val().tags,
               duration: 0
-            }
+            };
             const track = new Track(trackID, albumID, genreID, dataObj);
             tracks.push(track);
           });
@@ -93,7 +144,7 @@ export class FirebaseService {
           tags: itemSnapshot.val().filePath,
           index: itemSnapshot.val().index,
           duration: 0
-        }
+        };
         const track = new Track(id, this.selectedAlbum.id, this.selectedAlbum.genreID, dataObj);
         tracks.push(track);
       });
@@ -114,7 +165,7 @@ export class FirebaseService {
         const dataObj = {
           title: itemSnapshot.val().title,
           imagePath: itemSnapshot.val().imagePath
-        }
+        };
 
         const genre = new Genre(genreID, dataObj);
         trends.push(genre);

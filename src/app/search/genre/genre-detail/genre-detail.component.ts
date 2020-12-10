@@ -21,7 +21,7 @@ export class GenreDetailComponent implements OnInit {
     this.genre = this.firebaseService.selectedGenre;
     this.items = this.firebaseService.getAlbumsByGenre(this.genre);
     this.firebaseService.isDataLoadedSub.subscribe(isLoaded => {
-      this.isDataLoaded = isLoaded
+      this.isDataLoaded = isLoaded;
     });
   }
 

@@ -18,8 +18,6 @@ export class PlayerService {
   isShuffleSub = new Subject<boolean>();
   isRepeatSub = new Subject<boolean>();
   selectedRowIndexSub = new Subject<number>();
-  isLikedAlbumSub = new Subject<boolean>();
-  isLikedTrackSub = new Subject<boolean>();
 
   constructor(private audioService: AudioService,
               private firebaseService: FirebaseService) {

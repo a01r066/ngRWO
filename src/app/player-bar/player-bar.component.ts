@@ -21,6 +21,8 @@ export class PlayerBarComponent implements OnInit {
   album: Album;
   track: Track;
 
+  currentVolumn = 0.75;
+
   isFirstPlaying() {
     return this.playerService.isFirstPlaying();
   }
@@ -115,5 +117,19 @@ export class PlayerBarComponent implements OnInit {
     // console.log("Track: " + track.title + ". GenreID: " + track.genreID + ". AlbumID: " + track.albumID);
     this.firebaseService.selectedAlbum = this.album;
     this.router.navigate(['album', track.albumID]);
+  }
+
+  onVolumnChange(value){
+    this.currentVolumn = value;
+    this.audioService.setVolumn(value);
+  }
+
+  onResetVolumn(){
+    if(this.currentVolumn !== 0){
+      this.currentVolumn = 0;
+    } else {
+      this.currentVolumn = 0.75;
+    }
+    this.audioService.setVolumn(this.currentVolumn);
   }
 }
