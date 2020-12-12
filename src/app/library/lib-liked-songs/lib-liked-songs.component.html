@@ -1,1 +1,90 @@
-<p>lib-liked-songs works!</p>
+<mat-toolbar>
+  <div class="container">
+    <div class="item1">
+      <img mat-card-image src="../../../assets/likedSongs.png" alt="">
+    </div>
+    <div class="item2">
+      <div class="mat-caption">PLAYLIST</div>
+      <div class="mat-title">Liked Songs</div>
+      <div class="mat-card-subtitle">{{ user.email }}, {{ tracks?.length }} songs</div>
+    </div>
+  </div>
+</mat-toolbar>
+<div class="actionbar">
+  <div fxLayout="row" fxLayoutGap="64px">
+    <button mat-icon-button *ngIf="!state?.playing" (click)="handlePlay()">
+      <mat-icon class="play">play_circle_filled</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="state?.playing" (click)="pause()">
+      <mat-icon class="play">pause_circle_filled</mat-icon>
+    </button>
+  </div>
+</div>
+<ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">
+  <div class="playlistTbl">
+    <!--  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
+    <table mat-table [dataSource]="tracks" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <div class="header">
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <!--        <td mat-cell *matCellDef="let element"> {{element.position}} </td>-->
+          <td mat-cell *matCellDef="let element"> {{element.index}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> TITLE </th>
+          <td mat-cell *matCellDef="let element" style="color: white"> {{element.title}}<span style="font-size: 0.9rem; color: #B3B3A2"><br>{{ element.author }}</span></td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="played">
+          <th mat-header-cell *matHeaderCellDef> PLAYED </th>
+          <!--        <td mat-cell *matCellDef="let element"> {{element.played}} </td>-->
+          <td mat-cell *matCellDef="let element"> N/A </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="duration">
+          <th mat-header-cell *matHeaderCellDef> DURATION </th>
+          <!--        <td mat-cell *matCellDef="let element"> {{element.duration}} </td>-->
+          <td mat-cell *matCellDef="let element"> --:-- </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="option">
+          <th mat-header-cell *matHeaderCellDef> OPTION </th>
+          <!--        <td mat-cell *matCellDef="let element"> {{element.option}} </td>-->
+          <td mat-cel *matCellDef="let element">
+            <!--            <button mat-icon-button>-->
+            <!--            <mat-icon>more_horiz</mat-icon>-->
+            <!--          </button>-->
+            <div class="right-options" fxLayoutGap="24px">
+              <div class="like" *ngIf="!isLikedTrack">
+                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element)">favorite_border</mat-icon>
+              </div>
+              <div class="like" *ngIf="isLikedTrack">
+                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element)" [ngClass]="{'highlight-favourite': element.index == selectedRowIndex}">favorite</mat-icon>
+              </div>
+              <div class="option">
+                <mat-icon class="option-buttons">more_horiz</mat-icon>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+      </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!--    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="openFile(row, i)" appHighlightDirective="#282828" defaultColor="transparent" [ngClass]="{'highlight': selectedRowIndex === row.id}"></tr>-->
+      <tr mat-row class="track-row" *matRowDef="let row; let i = index; columns: displayedColumns;" (dblclick)="openFile(row, i)" [ngClass]="{'highlight': i == selectedRowIndex}"></tr>
+    </table>
+  </div>
+</ng-template>
+<ng-template #loading>
+  <div class="spinner-stroke-color">
+    <div class="center"><mat-spinner [diameter]="68"></mat-spinner></div>
+  </div>
+</ng-template>

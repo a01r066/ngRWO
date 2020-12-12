@@ -57,7 +57,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatInputModule,
     MatLineModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
   ]
 })
 export class MaterialModule {

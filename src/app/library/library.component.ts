@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UiService} from '../shared/ui.service';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
+import {FirebaseService} from '../firebase.service';
 
 @Component({
   selector: 'app-library',
@@ -9,13 +10,20 @@ import {AuthService} from '../auth/auth.service';
   styleUrls: ['./library.component.css']
 })
 export class LibraryComponent implements OnInit, OnDestroy {
+  selectedIndex: number;
   constructor(private uiService: UiService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
+    this.selectedIndex = this.firebaseService.selectedTabIndex;
     if(this.authService.isAuthenticated){
       this.uiService.isLibraryTabsShowSub.next(true);
     }
+    this.uiService.selectedIndexSub.subscribe(index => {
+      this.selectedIndex = index;
+      this.firebaseService.selectedTabIndex = index;
+    });
   }
 
   ngOnDestroy(): void {

@@ -92,8 +92,8 @@ export class PlaylistComponent implements OnInit, OnDestroy {
 
   openFile(track: Track, index: number){
     this.selectedRowIndex = index;
-    this.firebaseService.selectedTrackSub.next(track);
-    this.firebaseService.selectedAlbumSub.next(this.album);
+    this.uiService.selectedTrackSub.next(track);
+    this.uiService.selectedAlbumSub.next(this.album);
     this.playerService.files = this.tracks;
     this.playerService.openFile(track, index);
   }
@@ -131,10 +131,17 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
-  onHandleLikeTrack(index: number){
+  onHandleLikeTrack(track: Track){
     if(this.isAuth){
-      this.isLikedTrack = true;
+      this.isLikedTrack = !this.isLikedTrack;
       this.uiService.isLikedTrackSub.next(this.isLikedTrack);
+      if(this.isLikedTrack){
+        // add to liked songs
+        this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
+      } else {
+        // remove from liked songs
+        this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
+      }
     } else {
       this.uiService.loginAlertChanged.next(true);
     }

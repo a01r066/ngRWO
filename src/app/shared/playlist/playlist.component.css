@@ -264,8 +264,13 @@ table {
 .option-buttons {
   cursor: pointer;
   font-size: 24px;
+  color: #5A5A5A;
 }
 
 .option-buttons:hover {
   color: white;
+}
+
+.highlight-favourite{
+  color: #1DB954;
 }

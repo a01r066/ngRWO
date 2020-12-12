@@ -32,7 +32,7 @@
     </div>
   </div>
 </div>
-<ng-template [ngIf]="isDataLoaded">
+<ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">
   <div class="playlistTbl">
     <!--  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
     <table mat-table [dataSource]="tracks" class="mat-elevation-z8">
@@ -76,8 +76,11 @@
 <!--            <mat-icon>more_horiz</mat-icon>-->
 <!--          </button>-->
             <div class="right-options" fxLayoutGap="24px">
-              <div class="like">
-                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element.index)" [ngClass]="{'like-Track': element.index}">favorite_border</mat-icon>
+              <div class="like" *ngIf="!isLikedTrack">
+                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element)">favorite_border</mat-icon>
+              </div>
+              <div class="like" *ngIf="isLikedTrack">
+                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element)" [ngClass]="{'highlight-favourite': element.index == selectedRowIndex}">favorite</mat-icon>
               </div>
               <div class="option">
                 <mat-icon class="option-buttons">more_horiz</mat-icon>

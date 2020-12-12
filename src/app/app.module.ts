@@ -1,15 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MaterialModule} from './material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { LibraryComponent } from './library/library.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './auth/login/login.component';
 import { GenreComponent } from './search/genre/genre.component';
 import { GenreListComponent } from './search/genre/genre-list/genre-list.component';
 import { GenreDetailComponent } from './search/genre/genre-detail/genre-detail.component';
@@ -26,8 +20,6 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
 import {HighlightDirective} from './highlight.directive';
-import { TrendComponent } from './music/trend/trend.component';
-import { TrendDetailComponent } from './music/trend/trend-detail/trend-detail.component';
 import { SearchDetailComponent } from './search/search-detail/search-detail.component';
 import { SearchItemComponent } from './search/search-detail/search-item/search-item.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
@@ -40,6 +32,9 @@ import { AlertComponent } from './shared/alert/alert.component';
 import { AuthAlertComponent } from './shared/auth-alert/auth-alert.component';
 import { LibPlaylistsComponent } from './library/lib-playlists/lib-playlists.component';
 import { LibLikedSongsComponent } from './library/lib-liked-songs/lib-liked-songs.component';
+import {AuthModule} from './auth/auth.module';
+import {MusicModule} from './music/music.module';
+import {SharedModule} from './shared/shared.module';
 
 firebase.initializeApp(environment.firebase);
 
@@ -49,16 +44,12 @@ firebase.initializeApp(environment.firebase);
     HomeComponent,
     SearchComponent,
     LibraryComponent,
-    SignupComponent,
-    LoginComponent,
     GenreComponent,
     GenreListComponent,
     GenreDetailComponent,
     PlaylistComponent,
     PlayerBarComponent,
     HighlightDirective,
-    TrendComponent,
-    TrendDetailComponent,
     SearchDetailComponent,
     SearchItemComponent,
     ToolbarComponent,
@@ -73,11 +64,8 @@ firebase.initializeApp(environment.firebase);
     LibLikedSongsComponent,
   ],
   imports: [
+    SharedModule,
     BrowserModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MaterialModule,
-    FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -85,7 +73,9 @@ firebase.initializeApp(environment.firebase);
     AngularFireDatabaseModule,
     AngularFireAnalyticsModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    AuthModule,
+    MusicModule
   ],
   providers: [],
   bootstrap: [AppComponent]

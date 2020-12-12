@@ -1,8 +1,7 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FirebaseService} from '../../firebase.service';
 import {AuthService} from '../../auth/auth.service';
 import {Subscription} from 'rxjs';
-import firebase from 'firebase';
 import {ThemePalette} from '@angular/material/core';
 import {UiService} from '../../shared/ui.service';
 
@@ -22,12 +21,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   background: ThemePalette = undefined;
 
   isLibTabsShow = false;
+  selectedIndex: number;
 
   constructor(private firebaseService: FirebaseService,
               private authService: AuthService,
               private uiService: UiService) { }
 
   ngOnInit(): void {
+    // this.tabNav.selectedIndex = 1;
+
     this.firebaseService.isSearchBarHiddenSub.subscribe(isHidden => {
       this.isSearchBarHidden = isHidden;
     });
@@ -77,5 +79,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   logout(){
     this.authService.logout();
+  }
+
+  onClickLink(selectedIndex: number){
+    this.selectedIndex = selectedIndex;
+    this.activeLink = this.links[selectedIndex];
+    this.uiService.selectedIndexSub.next(selectedIndex);
   }
 }

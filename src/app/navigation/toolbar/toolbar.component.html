@@ -18,9 +18,9 @@
     </button>
   </div>
   <div class="library-tabs" style="margin-left: 32px" *ngIf="isLibTabsShow">
-    <nav mat-tab-nav-bar [backgroundColor]="background">
-      <a mat-tab-link *ngFor="let link of links"
-         (click)="activeLink = link"
+    <nav #tabs mat-tab-nav-bar [backgroundColor]="background">
+      <a mat-tab-link *ngFor="let link of links; let i = index"
+         (click)="onClickLink(i)"
          [active]="activeLink == link" style="color: white"> {{link}}
       </a>
     </nav>

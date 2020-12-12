@@ -4,6 +4,7 @@ import {Track} from '../../music/models/track.model';
 import {Album} from '../../music/models/album.model';
 import {PlayerService} from '../../services/player.service';
 import firebase from 'firebase';
+import {UiService} from '../../shared/ui.service';
 
 export interface Section {
   name: string;
@@ -19,12 +20,12 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   isAllTracksLoaded: boolean;
   tracks: Track[];
   searchText: string;
-  selectedAlbum: Album;
   selectedRowIndex: number;
   database = firebase.database();
 
   constructor(private firebaseService: FirebaseService,
-              private playerService: PlayerService) { }
+              private playerService: PlayerService,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
     this.isAllTracksLoaded = this.firebaseService.isAllTracksLoaded;
@@ -56,10 +57,8 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
 
   openFile(track: Track, i: number){
     this.selectedRowIndex = i;
-    this.firebaseService.selectedTrackSub.next(track);
-    // this.firebaseService.selectedAlbumSub.next(this.album);
+    this.uiService.selectedTrackSub.next(track);
     this.getAlbumByID(track);
-    // this.playerService.files = this.tracks;
     this.playerService.files = [track];
     this.playerService.openFile(track, i);
   }
@@ -77,7 +76,7 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
         tags: snapshot.val().tags
       }
       const album  = new Album(albumID, genreID, trendID, dataObj);
-      this.firebaseService.selectedAlbumSub.next(album);
+      this.uiService.selectedAlbumSub.next(album);
     });
   }
 }

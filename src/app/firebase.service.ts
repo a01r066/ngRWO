@@ -33,12 +33,13 @@ export class FirebaseService {
   selectedGenre: Genre;
   selectedAlbum: Album;
   trendAlbums: Album[];
+
   favouristPlaylists: Album[] = [];
+  favouristTracks: Track[] = [];
+  selectedTabIndex = 0;
 
   trendingAlbumsListSub = new Subject<Album[][]>();
   tracksSub = new Subject<Track[]>();
-  selectedTrackSub = new Subject<Track>();
-  selectedAlbumSub = new Subject<Album>();
   isDataLoadedSub = new Subject<boolean>();
   searchTextSub = new Subject<string>();
   isSearchBarHiddenSub = new Subject<boolean>();
@@ -50,6 +51,62 @@ export class FirebaseService {
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient,
               private uiService: UiService) {
+  }
+
+  fetchFavouriteTracks(user: User){
+    const tracks: Track[] = [];
+    const uid = user.uid;
+    this.database.ref('Favourite-Tracks').child(uid).once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          const albumID = albumSnapshot.key;
+          albumSnapshot.forEach(trackSnapshot => {
+            const trackID = trackSnapshot.key;
+            const dataObj = {
+              title: trackSnapshot.val().title,
+              author: trackSnapshot.val().author,
+              filePath: trackSnapshot.val().filePath,
+              index: trackSnapshot.val().index,
+              duration: trackSnapshot.val().duration,
+              tags: trackSnapshot.val().tags
+            };
+            const track = new Track(trackID, albumID, genreID, dataObj);
+            tracks.push(track);
+          });
+        });
+      });
+      this.favouristTracks = tracks;
+      this.uiService.favouriteTracksSub.next(tracks);
+    });
+  }
+
+  removeTrackFromFavouriteTracks(track: Track, user: User){
+    const uid = user.uid;
+    const genreID = track.genreID;
+    const albumID = track.albumID;
+    const trackID = track.id;
+    this.database.ref('Favourite-Tracks').child(uid).child(genreID).child(albumID).child(trackID).remove((error) => {
+      // refresh favourite playlists
+      this.fetchFavouriteTracks(user);
+    });
+  }
+
+  addFavouriteTrack(track: Track, user: User){
+    const uid = user.uid;
+    const genreID = track.genreID;
+    const albumID = track.albumID;
+    const trackID = track.id;
+    const dataObj = {
+      title: track.title,
+      author: track.author,
+      filePath: track.filePath
+    };
+
+    this.database.ref('Favourite-Tracks').child(uid).child(genreID).child(albumID).child(trackID).update(dataObj).then(() => {
+      console.log("Added to liked songs");
+      // refresh favourite liked songs
+    });
   }
 
   fetchFavouritePlaylists(user: User){

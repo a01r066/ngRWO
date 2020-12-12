@@ -3,6 +3,7 @@ import {AudioService} from './audio.service';
 import {StreamState} from '../interfaces/stream-state';
 import {FirebaseService} from '../firebase.service';
 import {Subject} from 'rxjs';
+import {UiService} from '../shared/ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class PlayerService {
   selectedRowIndexSub = new Subject<number>();
 
   constructor(private audioService: AudioService,
-              private firebaseService: FirebaseService) {
+              private firebaseService: FirebaseService,
+              private uiService: UiService) {
     // listen to stream state
     this.audioService.getState()
       .subscribe(state => {
@@ -73,7 +75,7 @@ export class PlayerService {
     this.selectedRowIndexSub.next(index);
 
     const file = this.files[index];
-    this.firebaseService.selectedTrackSub.next(file);
+    this.uiService.selectedTrackSub.next(file);
 
     this.openFile(file, index);
   }
@@ -83,7 +85,7 @@ export class PlayerService {
     this.selectedRowIndexSub.next(index);
 
     const file = this.files[index];
-    this.firebaseService.selectedTrackSub.next(file);
+    this.uiService.selectedTrackSub.next(file);
 
     this.openFile(file, index);
   }
@@ -103,7 +105,7 @@ export class PlayerService {
   repeat(){
     if(this.isRepeat){
       const file = this.files[0];
-      this.firebaseService.selectedTrackSub.next(file);
+      this.uiService.selectedTrackSub.next(file);
       this.openFile(file, 0);
     }
   }

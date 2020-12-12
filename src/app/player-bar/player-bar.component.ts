@@ -6,6 +6,7 @@ import {PlayerService} from '../services/player.service';
 import {StreamState} from '../interfaces/stream-state';
 import {AudioService} from '../services/audio.service';
 import {Router} from '@angular/router';
+import {UiService} from '../shared/ui.service';
 
 @Component({
   selector: 'app-player-bar',
@@ -33,13 +34,14 @@ export class PlayerBarComponent implements OnInit {
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
               private audioService: AudioService,
-              private router: Router) { }
+              private router: Router,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
-    this.firebaseService.selectedTrackSub.subscribe(track => {
+    this.uiService.selectedTrackSub.subscribe(track => {
       this.track = track;
     });
-    this.firebaseService.selectedAlbumSub.subscribe(album => {
+    this.uiService.selectedAlbumSub.subscribe(album => {
       this.album = album;
     });
 
