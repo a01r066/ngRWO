@@ -35,6 +35,7 @@ import { LibLikedSongsComponent } from './library/lib-liked-songs/lib-liked-song
 import {AuthModule} from './auth/auth.module';
 import {MusicModule} from './music/music.module';
 import {SharedModule} from './shared/shared.module';
+import { PlaylistItemComponent } from './shared/playlist/playlist-item/playlist-item.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -62,6 +63,7 @@ firebase.initializeApp(environment.firebase);
     AuthAlertComponent,
     LibPlaylistsComponent,
     LibLikedSongsComponent,
+    PlaylistItemComponent,
   ],
   imports: [
     SharedModule,

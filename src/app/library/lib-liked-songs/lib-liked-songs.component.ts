@@ -10,6 +10,7 @@ import {AuthService} from '../../auth/auth.service';
 import {AudioService} from '../../services/audio.service';
 import {User} from '../../auth/user.model';
 import firebase from 'firebase';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-lib-liked-songs',
@@ -25,10 +26,12 @@ export class LibLikedSongsComponent implements OnInit {
   state: StreamState;
   selectedRowIndex = -1;
   isFirstLoad: boolean = true;
-  isLikedTrack: boolean = false;
   isAuth: boolean = false;
   user: User;
   database = firebase.database();
+
+  favouriteList: boolean[] = [];
+  favouriteListSub = new Subject<boolean[]>();
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -43,6 +46,11 @@ export class LibLikedSongsComponent implements OnInit {
     this.uiService.favouriteTracksSub.subscribe(tracks => {
       this.tracks = tracks;
       this.isDataLoaded = true;
+
+      // favourite list
+      tracks.forEach(track => {
+        this.favouriteList.push(true);
+      });
     });
 
     this.playerService.selectedRowIndexSub.subscribe(index => {
@@ -51,10 +59,6 @@ export class LibLikedSongsComponent implements OnInit {
 
     this.audioService.getState().subscribe(state => {
       this.state = state;
-    });
-
-    this.uiService.isLikedTrackSub.subscribe(isLike => {
-      this.isLikedTrack = isLike;
     });
 
     this.authService.authChangeSub.subscribe(authStatus => {
@@ -106,11 +110,12 @@ export class LibLikedSongsComponent implements OnInit {
     this.playerService.pause();
   }
 
-  onHandleLikeTrack(track: Track){
+  onHandleLikeTrack(track: Track, index: number){
     if(this.isAuth){
-      this.isLikedTrack = !this.isLikedTrack;
-      this.uiService.isLikedTrackSub.next(this.isLikedTrack);
-      if(this.isLikedTrack){
+      this.favouriteList[index] = !this.favouriteList[index];
+      this.favouriteListSub.next(this.favouriteList);
+
+      if(this.favouriteList[index]){
         // add to liked songs
         this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
       } else {

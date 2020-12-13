@@ -104,7 +104,7 @@ export class FirebaseService {
     };
 
     this.database.ref('Favourite-Tracks').child(uid).child(genreID).child(albumID).child(trackID).update(dataObj).then(() => {
-      console.log("Added to liked songs");
+      // console.log("Added to liked songs");
       // refresh favourite liked songs
     });
   }

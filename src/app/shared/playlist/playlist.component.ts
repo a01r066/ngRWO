@@ -7,7 +7,7 @@ import {StreamState} from '../../interfaces/stream-state';
 import {AudioService} from '../../services/audio.service';
 import {AuthService} from '../../auth/auth.service';
 import {UiService} from '../ui.service';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 
 export interface PeriodicElement {
@@ -33,10 +33,11 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   selectedRowIndex = -1;
   isFirstLoad: boolean = true;
   isLikedAlbum: boolean = false;
-  isLikedTrack: boolean = false;
   isAuth: boolean = false;
   isAlertShow = false;
   alertSub: Subscription;
+  favouriteList: boolean[] = [];
+  favouriteListSub = new Subject<boolean[]>();
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -57,6 +58,11 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     this.firebaseService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
       this.isDataLoaded = true;
+
+      // favourite list
+      tracks.forEach(track => {
+        this.favouriteList.push(false);
+      });
     });
 
     this.playerService.selectedRowIndexSub.subscribe(index => {
@@ -71,10 +77,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       this.isLikedAlbum = isLike;
     });
 
-    this.uiService.isLikedTrackSub.subscribe(isLike => {
-      this.isLikedTrack = isLike;
-    });
-
     this.authService.authChangeSub.subscribe(authStatus => {
       this.isAuth = authStatus;
     });
@@ -84,6 +86,9 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     });
 
     this.isAuth = this.authService.isAuthenticated;
+    this.favouriteListSub.subscribe(list => {
+      this.favouriteList = list;
+    });
   }
 
   ngOnDestroy(): void {
@@ -131,11 +136,12 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
-  onHandleLikeTrack(track: Track){
+  onHandleLikeTrack(track: Track, index: number){
     if(this.isAuth){
-      this.isLikedTrack = !this.isLikedTrack;
-      this.uiService.isLikedTrackSub.next(this.isLikedTrack);
-      if(this.isLikedTrack){
+      this.favouriteList[index] = !this.favouriteList[index];
+      this.favouriteListSub.next(this.favouriteList);
+
+      if(this.favouriteList[index]){
         // add to liked songs
         this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
       } else {
