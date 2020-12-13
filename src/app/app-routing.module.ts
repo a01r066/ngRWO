@@ -26,7 +26,8 @@ const routes: Routes = [
   { path: 'library', component: LibraryComponent, canActivate: [AuthGuard], children: [
       // { path: '', component: LibPlaylistsComponent },
       // { path: ':index', component: LibLikedSongsComponent }
-    ] }
+    ] },
+  { path: 'library/liked-songs', component: LibLikedSongsComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

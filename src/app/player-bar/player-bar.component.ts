@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Album} from '../music/models/album.model';
 import {FirebaseService} from '../firebase.service';
 import {Track} from '../music/models/track.model';
@@ -7,13 +7,15 @@ import {StreamState} from '../interfaces/stream-state';
 import {AudioService} from '../services/audio.service';
 import {Router} from '@angular/router';
 import {UiService} from '../shared/ui.service';
+import {AuthService} from '../auth/auth.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-player-bar',
   templateUrl: './player-bar.component.html',
   styleUrls: ['./player-bar.component.css']
 })
-export class PlayerBarComponent implements OnInit {
+export class PlayerBarComponent implements OnInit, OnDestroy {
   state: StreamState;
   currentFile: any = {};
   isShuffle: boolean;
@@ -23,6 +25,11 @@ export class PlayerBarComponent implements OnInit {
   track: Track;
 
   currentVolumn = 0.75;
+  isFavouriteTrack: boolean = false;
+
+  isAuth: boolean = false;
+  alertSub: Subscription;
+  isAlertShow = false;
 
   isFirstPlaying() {
     return this.playerService.isFirstPlaying();
@@ -35,7 +42,8 @@ export class PlayerBarComponent implements OnInit {
               private playerService: PlayerService,
               private audioService: AudioService,
               private router: Router,
-              private uiService: UiService) { }
+              private uiService: UiService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.uiService.selectedTrackSub.subscribe(track => {
@@ -71,6 +79,18 @@ export class PlayerBarComponent implements OnInit {
     this.playerService.isRepeatSub.subscribe(isRepeat => {
       this.isRepeat = isRepeat;
     });
+
+    this.alertSub = this.uiService.loginAlertChanged.subscribe(isAlert => {
+      this.isAlertShow = isAlert;
+    });
+
+    this.authService.authChangeSub.subscribe(authStatus => {
+      this.isAuth = authStatus;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.alertSub.unsubscribe();
   }
 
   play(){
@@ -133,5 +153,24 @@ export class PlayerBarComponent implements OnInit {
       this.currentVolumn = 0.75;
     }
     this.audioService.setVolumn(this.currentVolumn);
+  }
+
+  onHandleLikeTrack(track: Track){
+    if(this.isAuth){
+      if(typeof track !== 'undefined'){
+        this.isFavouriteTrack = !this.isFavouriteTrack;
+        if(this.isFavouriteTrack){
+          // add to liked songs
+          this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
+        } else {
+          // remove from liked songs
+          this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
+        }
+      } else {
+        console.log("Empty track");
+      }
+    } else {
+      this.uiService.loginAlertChanged.next(true);
+    }
   }
 }
