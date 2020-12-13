@@ -9,9 +9,7 @@ import {GenreComponent} from './search/genre/genre.component';
 import {PlaylistComponent} from './shared/playlist/playlist.component';
 import {SearchDetailComponent} from './search/search-detail/search-detail.component';
 import {AuthGuard} from './auth/auth.guard';
-import {LibPlaylistsComponent} from './library/lib-playlists/lib-playlists.component';
 import {LibLikedSongsComponent} from './library/lib-liked-songs/lib-liked-songs.component';
-import {AuthAlertComponent} from './shared/auth-alert/auth-alert.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,8 +26,7 @@ const routes: Routes = [
       // { path: '', component: LibPlaylistsComponent },
       // { path: ':index', component: LibLikedSongsComponent }
     ] },
-  { path: 'library/liked-songs', component: LibLikedSongsComponent },
-  { path: 'auth', component: AuthAlertComponent }
+  { path: 'library/liked-songs', component: LibLikedSongsComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

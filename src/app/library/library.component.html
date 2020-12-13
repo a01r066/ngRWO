@@ -1,7 +1,10 @@
 <!--<router-outlet></router-outlet>-->
-<ng-template [ngIf]="selectedIndex === 0"; [ngIfElse]="likedsongs">
+<ng-template [ngIf]="selectedIndex === 0">
   <app-lib-playlists></app-lib-playlists>
 </ng-template>
-<ng-template #likedsongs>
+<ng-template [ngIf]="selectedIndex=== 1">
   <app-lib-liked-songs></app-lib-liked-songs>
+</ng-template>
+<ng-template [ngIf]="selectedIndex === 2">
+  <app-lib-albums></app-lib-albums>
 </ng-template>

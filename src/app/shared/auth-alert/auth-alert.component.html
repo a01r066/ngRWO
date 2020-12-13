@@ -7,8 +7,8 @@
   </div>
   <div class="content" fxLayout="column" fxLayoutGap="16px">
     <p style="color: white; font-size: 20px; font-weight: bold; text-align: center">Start listening music with free account</p>
-    <button mat-raised-button color="accent" (click)="onSignUp()">Sign Up Free</button>
-    <button mat-raised-button (click)="onDownload()">Download App</button>
+    <button mat-raised-button color="primary" (click)="onSignUp()">Sign Up Free</button>
+    <button mat-raised-button (click)="onDownload()" color="warn">Download App</button>
     <div class="login-hint" fxLayoutAlign="center center">
       <mat-hint style="color: #B3B3A2; font-size: 12px">Already have account? <span><button mat-button (click)="onLogin()" color="accent">LOGIN</button></span></mat-hint>
     </div>

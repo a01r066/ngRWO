@@ -7,11 +7,11 @@ import {UiService} from '../../shared/ui.service';
 import {AuthService} from '../../auth/auth.service';
 
 @Component({
-  selector: 'app-lib-playlists',
-  templateUrl: './lib-playlists.component.html',
-  styleUrls: ['./lib-playlists.component.css']
+  selector: 'app-lib-albums',
+  templateUrl: './lib-albums.component.html',
+  styleUrls: ['./lib-albums.component.css']
 })
-export class LibPlaylistsComponent implements OnInit {
+export class LibAlbumsComponent implements OnInit {
   genre: Genre;
   items: Album[] = [];
   isDataLoaded: boolean = false;
@@ -25,7 +25,7 @@ export class LibPlaylistsComponent implements OnInit {
     this.firebaseService.fetchFavouritePlaylists(this.authService.getUser());
     this.uiService.favouritePlaylistsSub.subscribe(albums => {
       this.isDataLoaded = true;
-      // this.items = albums;
+      this.items = albums;
     });
   }
 

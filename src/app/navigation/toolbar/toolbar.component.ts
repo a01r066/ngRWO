@@ -16,7 +16,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
   authSubscription: Subscription;
 
-  links = ['Playlists', 'Liked Songs'];
+  links = ['Playlists', 'Liked Songs', 'Albums'];
   activeLink = this.links[0];
   background: ThemePalette = undefined;
 
