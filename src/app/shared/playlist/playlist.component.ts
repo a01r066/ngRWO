@@ -37,7 +37,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   isAlertShow = false;
   alertSub: Subscription;
   favouriteList: boolean[] = [];
-  favouriteListSub = new Subject<boolean[]>();
+  playingTrack: Track;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -86,8 +86,12 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     });
 
     this.isAuth = this.authService.isAuthenticated;
-    this.favouriteListSub.subscribe(list => {
+    this.uiService.favouriteListSub.subscribe(list => {
       this.favouriteList = list;
+    });
+
+    this.uiService.selectedTrackSub.subscribe(track => {
+      this.playingTrack = track;
     });
   }
 
@@ -97,6 +101,13 @@ export class PlaylistComponent implements OnInit, OnDestroy {
 
   openFile(track: Track, index: number){
     this.selectedRowIndex = index;
+    if(typeof this.playingTrack !== 'undefined'){
+      if(this.playingTrack.id === track.id || this.favouriteList[index] === true){
+        this.uiService.isLikedTrackSub.next(true);
+      } else {
+        this.uiService.isLikedTrackSub.next(false);
+      }
+    }
     this.uiService.selectedTrackSub.next(track);
     this.uiService.selectedAlbumSub.next(this.album);
     this.playerService.files = this.tracks;
@@ -139,14 +150,18 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   onHandleLikeTrack(track: Track, index: number){
     if(this.isAuth){
       this.favouriteList[index] = !this.favouriteList[index];
-      this.favouriteListSub.next(this.favouriteList);
-
+      this.uiService.favouriteListSub.next(this.favouriteList);
       if(this.favouriteList[index]){
         // add to liked songs
         this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
       } else {
         // remove from liked songs
         this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
+      }
+      if(typeof this.playingTrack !== 'undefined'){
+        if(this.playingTrack.id === track.id){
+          this.uiService.isLikedTrackSub.next(this.favouriteList[index]);
+        }
       }
     } else {
       this.uiService.loginAlertChanged.next(true);

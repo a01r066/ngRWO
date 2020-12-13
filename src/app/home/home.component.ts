@@ -43,14 +43,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.size = window.innerWidth;
+    this.getCounter();
     this.trends = this.firebaseService.getTrends();
     this.firebaseService.getTrendingList();
     this.firebaseService.trendingAlbumsListSub.subscribe(trendingList => {
       this.trendingAlbumsList = trendingList;
       this.isDataLoaded = true;
     });
-
-
   }
 
   @HostListener('window:resize', ['$event'])

@@ -13,7 +13,10 @@ export class UiService {
   favouritePlaylistsSub = new Subject<Album[]>();
   favouriteTracksSub = new Subject<Track[]>();
   isLikedAlbumSub = new Subject<boolean>();
+  isLikedTrackSub = new Subject<boolean>();
   selectedIndexSub = new Subject<number>();
   selectedTrackSub = new Subject<Track>();
   selectedAlbumSub = new Subject<Album>();
+  favouriteListSub = new Subject<boolean[]>();
+  currentIndexSub = new Subject<number>();
 }

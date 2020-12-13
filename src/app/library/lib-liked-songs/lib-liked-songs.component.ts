@@ -71,6 +71,7 @@ export class LibLikedSongsComponent implements OnInit {
   openFile(track: Track, index: number){
     this.selectedRowIndex = index;
     this.uiService.selectedTrackSub.next(track);
+    this.uiService.isLikedTrackSub.next(true);
     this.getAlbumByID(track);
     this.playerService.files = this.tracks;
     this.playerService.openFile(track, index);
@@ -112,16 +113,8 @@ export class LibLikedSongsComponent implements OnInit {
 
   onHandleLikeTrack(track: Track, index: number){
     if(this.isAuth){
-      this.favouriteList[index] = !this.favouriteList[index];
-      this.favouriteListSub.next(this.favouriteList);
-
-      if(this.favouriteList[index]){
-        // add to liked songs
-        this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
-      } else {
-        // remove from liked songs
-        this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
-      }
+      // remove from liked songs
+      this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
     } else {
       this.uiService.loginAlertChanged.next(true);
     }

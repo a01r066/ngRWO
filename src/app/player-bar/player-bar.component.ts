@@ -30,6 +30,8 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
   alertSub: Subscription;
   isAlertShow = false;
+  favouriteList: boolean[] = [];
+  currentIndex: number;
 
   isFirstPlaying() {
     return this.playerService.isFirstPlaying();
@@ -87,6 +89,18 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
     this.authService.authChangeSub.subscribe(authStatus => {
       this.isAuth = authStatus;
     });
+
+    this.uiService.isLikedTrackSub.subscribe(isLike => {
+      this.isFavouriteTrack = isLike;
+    });
+
+    this.uiService.favouriteListSub.subscribe(list => {
+      this.favouriteList = list;
+    });
+
+    this.uiService.currentIndexSub.subscribe(index => {
+      this.currentIndex = index;
+    });
   }
 
   ngOnDestroy(): void {
@@ -107,6 +121,7 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
     } else {
       this.playerService.pause();
     }
+    this.isFavouriteTrack = this.favouriteList[this.currentIndex];
   }
 
   previous(){
@@ -117,6 +132,7 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
     } else {
       this.playerService.pause();
     }
+    this.isFavouriteTrack = this.favouriteList[this.currentIndex];
   }
 
   shuffle(){

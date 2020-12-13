@@ -41,6 +41,7 @@ export class PlayerService {
     this.currentFile = { index, file };
     this.stop();
     // this.playStream(file.url);
+    this.uiService.currentIndexSub.next(index);
     this.playStream(file.filePath);
   }
 
@@ -76,6 +77,7 @@ export class PlayerService {
 
     const file = this.files[index];
     this.uiService.selectedTrackSub.next(file);
+    this.uiService.currentIndexSub.next(index);
 
     this.openFile(file, index);
   }
@@ -86,6 +88,7 @@ export class PlayerService {
 
     const file = this.files[index];
     this.uiService.selectedTrackSub.next(file);
+    this.uiService.currentIndexSub.next(index);
 
     this.openFile(file, index);
   }

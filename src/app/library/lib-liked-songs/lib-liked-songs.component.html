@@ -57,11 +57,8 @@
           <th mat-header-cell *matHeaderCellDef> OPTION </th>
           <td mat-cel *matCellDef="let element; let i = index">
             <div class="right-options" fxLayoutGap="24px">
-              <div class="like" *ngIf="!favouriteList[i]">
-                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element, i)">favorite_border</mat-icon>
-              </div>
               <div class="like" *ngIf="favouriteList[i]">
-                <mat-icon class="option-buttons" (click)="onHandleLikeTrack(element, i)" style="color: #1DB954">favorite</mat-icon>
+                <mat-icon matTooltip="Unlike" class="option-buttons" (click)="onHandleLikeTrack(element, i)" style="color: #1DB954">favorite</mat-icon>
               </div>
               <div class="option">
                 <mat-icon class="option-buttons">more_horiz</mat-icon>

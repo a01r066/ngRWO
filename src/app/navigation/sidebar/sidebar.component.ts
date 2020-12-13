@@ -22,7 +22,8 @@ export class SidebarComponent implements OnInit {
 
   onSelectLibrary(){
     if(!this.isAuth){
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
+      this.router.navigate(['auth']);
     } else {
       this.router.navigate(['/library']);
     }

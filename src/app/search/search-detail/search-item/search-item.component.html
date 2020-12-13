@@ -1,13 +1,25 @@
-<mat-list-item style="height: 64px" (click)="openFile(track)">
+<mat-list-item style="height: 64px" (dblclick)="openFile(track)">
   <div class="right-options" fxLayoutGap="24px">
-    <div class="like">
-      <mat-icon style="cursor: pointer">favorite_border</mat-icon>
-    </div>
-    <div class="duration">--:--</div>
-    <div class="option">
-      <mat-icon style="cursor: pointer">more_horiz</mat-icon>
+    <div class="right-options" fxLayoutGap="24px">
+      <div class="like" *ngIf="!isFavourite">
+        <mat-icon matTooltip="Like" class="option-buttons" (click)="onHandleLikeTrack(track)">favorite_border</mat-icon>
+      </div>
+      <div class="like" *ngIf="isFavourite">
+        <mat-icon matTooltip="Unlike" class="option-buttons" (click)="onHandleLikeTrack(track)" style="color: #1DB954">favorite</mat-icon>
+      </div>
+      <div class="option">
+        <mat-icon class="option-buttons">more_horiz</mat-icon>
+      </div>
     </div>
   </div>
+<!--    <div class="like">-->
+<!--      <mat-icon style="cursor: pointer">favorite_border</mat-icon>-->
+<!--    </div>-->
+<!--    <div class="duration">&#45;&#45;:&#45;&#45;</div>-->
+<!--    <div class="option">-->
+<!--      <mat-icon style="cursor: pointer">more_horiz</mat-icon>-->
+<!--    </div>-->
+<!--  </div>-->
   <img style="border-radius: 0; width: 40px; height: 40px" matListAvatar src="{{ selectedAlbum?.imagePath }}" alt="">
   <h3 matLine class="mat-title"> {{ track.title }} </h3>
   <p matLine class="mat-card-subtitle" style="color: #B3B3A2">
