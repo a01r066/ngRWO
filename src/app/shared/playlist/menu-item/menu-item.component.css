@@ -1,0 +1,11 @@
+.mat-menu-item {
+  color: #E0E0E0;
+  margin: 0 8px 0 8px;
+  width: 90%;
+  border-radius: 4px;
+}
+
+.mat-menu-item:hover {
+  /*color: #FFD740;*/
+  background: #5A5A5A;
+}
