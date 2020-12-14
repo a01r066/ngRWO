@@ -275,3 +275,25 @@ table {
 .highlight-favourite{
   color: #1DB954;
 }
+
+::ng-deep.mat-menu-panel {
+  background-color: #282828;
+  width: 180px;
+  overflow: hidden;
+}
+
+.mat-menu-item {
+  color: #E0E0E0;
+  margin: 0 8px 0 8px;
+  width: 90%;
+}
+
+.mat-menu-item:hover {
+  color: #FFD740;
+}
+
+.mat-divider {
+  background: #5A5A5A;
+  width: 90%;
+  margin-left: 8px;
+}

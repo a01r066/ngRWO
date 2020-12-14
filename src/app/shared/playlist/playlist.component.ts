@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -7,16 +7,10 @@ import {StreamState} from '../../interfaces/stream-state';
 import {AudioService} from '../../services/audio.service';
 import {AuthService} from '../../auth/auth.service';
 import {UiService} from '../ui.service';
-import {Subject, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-
-export interface PeriodicElement {
-  title: string;
-  position: number;
-  played: number;
-  duration: string;
-  option: string;
-}
+import {MatMenuTrigger} from '@angular/material/menu';
+import {NavItem} from '../nav-item';
 
 @Component({
   selector: 'app-playlist',
@@ -26,7 +20,6 @@ export interface PeriodicElement {
 export class PlaylistComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   isDataLoaded: boolean = false;
-
   album: Album;
   tracks: Track[];
   state: StreamState;
@@ -40,6 +33,43 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   playingTrack: Track;
   isPlaylistEdit = false;
 
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+  navItems: NavItem[] = [
+    {
+      text: "Add to playlist",
+      icon: null,
+      href: "#",
+      hrefTarget: "external",
+      subItems: [
+        {
+          text: "New playlist",
+          icon: null,
+          href: "../SupplyChain/#/searchCOA",
+          hrefTarget: "external",
+        },
+        {
+          text: "Playlist #1",
+          icon: null,
+          href: "#",
+          hrefTarget: "external",
+        },
+        {
+          text: "Playlist #2",
+          icon: null,
+          href: "#",
+          hrefTarget: "external",
+        },
+      ]
+    },
+    {
+      text: "Save to liked songs",
+      icon: null,
+      href: "../SupplyChain/#/actionItems",
+      hrefTarget: "external",
+    },
+  ];
+
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
               private audioService: AudioService,
@@ -50,7 +80,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isPlaylistEdit = this.uiService.isPlaylistEdit;
     if(this.isPlaylistEdit){
-      console.log("Edit playlist");
       this.tracks = [];
       this.isDataLoaded = true;
     } else {
@@ -174,5 +203,13 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     } else {
       this.uiService.loginAlertChanged.next(true);
     }
+  }
+
+  addToPlaylist(track: Track){
+    // show playlist
+  }
+
+  addToFavourite(track: Track){
+
   }
 }

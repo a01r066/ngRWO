@@ -21,13 +21,13 @@
     </button>
     <div fxLayoutGap="32px">
       <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="!isLikedAlbum">
-        <mat-icon>favorite_border</mat-icon>
+        <mat-icon style="transform: scale(1.5)">favorite_border</mat-icon>
       </button>
       <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="isLikedAlbum">
-        <mat-icon style="color: #1DB954">favorite</mat-icon>
+        <mat-icon style="color: #1DB954; transform: scale(1.5)">favorite</mat-icon>
       </button>
       <button mat-icon-button [disabled]="true">
-        <mat-icon>more_horiz</mat-icon>
+        <mat-icon style="transform: scale(1.5)">more_horiz</mat-icon>
       </button>
     </div>
   </div>
@@ -80,9 +80,30 @@
                 <div class="like" *ngIf="favouriteList[i]">
                   <mat-icon matTooltip="Unlike" class="option-buttons" (click)="onHandleLikeTrack(element, i)" style="color: #1DB954">favorite</mat-icon>
                 </div>
-                <div class="option">
-                  <mat-icon class="option-buttons">more_horiz</mat-icon>
-                </div>
+<!--                menu work-->
+<!--                <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>-->
+<!--                <mat-menu #menu="matMenu">-->
+<!--                  <button mat-menu-item (click)="addToPlaylist(element)">Add to playlist</button>-->
+<!--                  <mat-divider></mat-divider>-->
+<!--                  <button mat-menu-item (click)="addToFavourite(element)">Save to liked songs</button>-->
+<!--                </mat-menu>-->
+<!--                Sub-Menu optimize-->
+                <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>
+                <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                  <ng-container *ngFor="let child of navItems">
+                    <!-- Handle branch node menu items -->
+                    <ng-container *ngIf="child.subItems && child.subItems.length > 0">
+                      <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{child.text}}</button>
+                      <app-menu-item #menu [items]="child.subItems"></app-menu-item>
+                    </ng-container>
+                    <!-- Handle leaf node menu items -->
+                    <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
+                      <button mat-menu-item>
+                        <span>{{child.text}}</span>
+                      </button>
+                    </ng-container>
+                  </ng-container>
+                </mat-menu>
               </div>
             </td>
           </ng-container>

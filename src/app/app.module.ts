@@ -35,10 +35,10 @@ import { LibLikedSongsComponent } from './library/lib-liked-songs/lib-liked-song
 import {AuthModule} from './auth/auth.module';
 import {MusicModule} from './music/music.module';
 import {SharedModule} from './shared/shared.module';
-import { PlaylistItemComponent } from './shared/playlist/playlist-item/playlist-item.component';
 import { LibAlbumsComponent } from './library/lib-albums/lib-albums.component';
 import {PlaylistAlertComponent} from './library/lib-playlists/playlist-alert/playlist-alert.component';
 import { PlaylistEmptyComponent } from './library/lib-playlists/playlist-empty/playlist-empty.component';
+import { MenuItemComponent } from './shared/playlist/menu-item/menu-item.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -66,10 +66,10 @@ firebase.initializeApp(environment.firebase);
     AuthAlertComponent,
     LibPlaylistsComponent,
     LibLikedSongsComponent,
-    PlaylistItemComponent,
     LibAlbumsComponent,
     PlaylistAlertComponent,
-    PlaylistEmptyComponent
+    PlaylistEmptyComponent,
+    MenuItemComponent,
   ],
   imports: [
     SharedModule,
@@ -83,7 +83,7 @@ firebase.initializeApp(environment.firebase);
     AngularFireAuthModule,
     AngularFireStorageModule,
     AuthModule,
-    MusicModule
+    MusicModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
