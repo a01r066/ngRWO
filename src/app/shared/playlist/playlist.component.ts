@@ -38,6 +38,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   alertSub: Subscription;
   favouriteList: boolean[] = [];
   playingTrack: Track;
+  isPlaylistEdit = false;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -47,24 +48,28 @@ export class PlaylistComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.album = this.firebaseService.selectedAlbum;
-    this.firebaseService.favouristPlaylists.find(album => {
-      if(album.id === this.album.id){
-        this.isLikedAlbum = true;
-      }
-    });
-
-    this.firebaseService.getTracksByAlbum();
-    this.firebaseService.tracksSub.subscribe(tracks => {
-      this.tracks = tracks;
+    this.isPlaylistEdit = this.uiService.isPlaylistEdit;
+    if(this.isPlaylistEdit){
+      console.log("Edit playlist");
+      this.tracks = [];
       this.isDataLoaded = true;
-
-      // favourite list
-      tracks.forEach(track => {
-        this.favouriteList.push(false);
+    } else {
+      this.album = this.firebaseService.selectedAlbum;
+      this.firebaseService.favouristAlbums.find(album => {
+        if(album.id === this.album.id){
+          this.isLikedAlbum = true;
+        }
       });
-    });
-
+      this.firebaseService.getTracksByAlbum();
+      this.firebaseService.tracksSub.subscribe(tracks => {
+        this.tracks = tracks;
+        this.isDataLoaded = true;
+        // favourite list
+        tracks.forEach(track => {
+          this.favouriteList.push(false);
+        });
+      });
+    }
     this.playerService.selectedRowIndexSub.subscribe(index => {
       this.selectedRowIndex = index;
     });
@@ -97,6 +102,9 @@ export class PlaylistComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.alertSub.unsubscribe();
+    if(this.isPlaylistEdit){
+      this.uiService.isPlaylistEdit = false;
+    }
   }
 
   openFile(track: Track, index: number){
@@ -137,10 +145,10 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       this.uiService.isLikedAlbumSub.next(this.isLikedAlbum);
       if(this.isLikedAlbum){
         // add to favourite
-        this.firebaseService.addFavouritePlaylist(album, this.authService.getUser());
+        this.firebaseService.addFavouriteAlbum(album, this.authService.getUser());
       } else {
         // remove from playlist
-        this.firebaseService.removeAlbumFromFavouritePlaylists(album, this.authService.getUser());
+        this.firebaseService.removeAlbumFromFavouriteAlbums(album, this.authService.getUser());
       }
     } else {
       this.uiService.loginAlertChanged.next(true);

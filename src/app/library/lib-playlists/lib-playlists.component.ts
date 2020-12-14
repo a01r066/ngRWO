@@ -22,10 +22,10 @@ export class LibPlaylistsComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.firebaseService.fetchFavouritePlaylists(this.authService.getUser());
-    this.uiService.favouritePlaylistsSub.subscribe(albums => {
+    this.firebaseService.getPlaylists(this.authService.getUser());
+    this.uiService.favouritePlaylistsSub.subscribe(playlists => {
+      this.items = playlists
       this.isDataLoaded = true;
-      // this.items = albums;
     });
   }
 

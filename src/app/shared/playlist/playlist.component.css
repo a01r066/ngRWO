@@ -52,7 +52,8 @@ mat-toolbar {
 
 .mat-icon {
   color: #B3B3A2;
-  font-size: 36px;
+  /*font-size: 36px;*/
+  transform: scale(1);
 }
 
 .play {

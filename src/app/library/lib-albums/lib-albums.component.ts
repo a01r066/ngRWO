@@ -22,8 +22,8 @@ export class LibAlbumsComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.firebaseService.fetchFavouritePlaylists(this.authService.getUser());
-    this.uiService.favouritePlaylistsSub.subscribe(albums => {
+    this.firebaseService.fetchFavouriteAlbums(this.authService.getUser());
+    this.uiService.favouriteAlbumsSub.subscribe(albums => {
       this.isDataLoaded = true;
       this.items = albums;
     });

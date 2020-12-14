@@ -37,7 +37,8 @@ import {MusicModule} from './music/music.module';
 import {SharedModule} from './shared/shared.module';
 import { PlaylistItemComponent } from './shared/playlist/playlist-item/playlist-item.component';
 import { LibAlbumsComponent } from './library/lib-albums/lib-albums.component';
-import { PlaylistAlertComponent } from './library/lib-playlists/playlist-alert/playlist-alert.component';
+import {PlaylistAlertComponent} from './library/lib-playlists/playlist-alert/playlist-alert.component';
+import { PlaylistEmptyComponent } from './library/lib-playlists/playlist-empty/playlist-empty.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -68,6 +69,7 @@ firebase.initializeApp(environment.firebase);
     PlaylistItemComponent,
     LibAlbumsComponent,
     PlaylistAlertComponent,
+    PlaylistEmptyComponent
   ],
   imports: [
     SharedModule,

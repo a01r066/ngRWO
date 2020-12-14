@@ -10,7 +10,7 @@ export class UiService {
   loadingStateChanged = new Subject<boolean>();
   loginAlertChanged = new Subject<boolean>();
   isLibraryTabsShowSub = new Subject<boolean>();
-  favouritePlaylistsSub = new Subject<Album[]>();
+  favouriteAlbumsSub = new Subject<Album[]>();
   favouriteTracksSub = new Subject<Track[]>();
   isLikedAlbumSub = new Subject<boolean>();
   isLikedTrackSub = new Subject<boolean>();
@@ -19,4 +19,6 @@ export class UiService {
   selectedAlbumSub = new Subject<Album>();
   favouriteListSub = new Subject<boolean[]>();
   currentIndexSub = new Subject<number>();
+  isPlaylistEdit: boolean = false;
+  favouritePlaylistsSub = new Subject<Album[]>();
 }
