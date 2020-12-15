@@ -1,0 +1,25 @@
+<div class="backdrop" (click)="onDismiss()"></div>
+<div class="form-container">
+  <div>
+    <h2 class="title">Edit details<span></span><button mat-icon-button class="close"><mat-icon>close</mat-icon></button></h2>
+  </div>
+  <div class="content">
+    <div class="content-detail" fxLayout="row" fxLayoutGap="16px">
+      <img class="mat-card-image" src="../../../../assets/playlist1.jpg" alt="">
+      <div class="form-field" fxLayout="column" fxLayoutGap="16px">
+        <mat-form-field appearance="fill" class="input-field">
+          <mat-label>Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="textarea-field">
+          <mat-label>Description</mat-label>
+          <textarea matInput placeholder="Add an optional description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div fxLayoutAlign="end">
+    <button mat-raised-button style="height: 32px; width: 80px; border-radius: 16px; margin-right: 8px">Save</button>
+  </div>
+  <p class="term">By proceeding, you agree to give RelaxingWorld access to the image you choose to upload. Please make sure you have the right to upload the image.</p>
+</div>

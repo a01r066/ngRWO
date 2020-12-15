@@ -1,0 +1,63 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 50;
+}
+
+.form-container {
+  position: fixed;
+  top: 20vh;
+  left: 35vw;
+  width: 30vw;
+  padding: 0 16px 16px 16px;
+  background-color: #282828;
+  border-radius: 8px;
+  z-index: 100;
+}
+
+.title {
+  color: white;
+  margin-left: 8px;
+}
+
+.content {
+  color: white;
+  margin: 8px;
+}
+
+.term {
+  color: #B3B3A2;
+  font-size: 0.75rem;
+  margin-left: 8px;
+}
+
+.mat-card-image {
+  width: 30%;
+  max-height: 180px;
+  border-radius: 4px;
+}
+
+.form-field {
+  width: 70%;
+  /*height: 148px;*/
+}
+
+.close {
+  float: right;
+}
+
+.input-field {
+  height: 30%;
+}
+
+.textarea-field {
+  height: 70%;
+}
+
+::ng-deep.mat-form-field-label {
+  color: #B3B3A2 !important;
+}

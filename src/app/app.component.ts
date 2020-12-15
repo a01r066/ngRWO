@@ -14,6 +14,7 @@ export class AppComponent implements OnInit{
   opened: boolean = true;
   mode = new FormControl('side');
   isAlertShow = false;
+  isEditPlaylistShow = false;
 
   constructor(private authService: AuthService,
               private uiService: UiService) {
@@ -23,6 +24,9 @@ export class AppComponent implements OnInit{
     this.authService.initAuthListener();
     this.uiService.loginAlertChanged.subscribe(isAlert => {
       this.isAlertShow = isAlert;
+    });
+    this.uiService.editPlaylistChanged.subscribe(isEdit => {
+      this.isEditPlaylistShow = isEdit;
     });
   }
 }

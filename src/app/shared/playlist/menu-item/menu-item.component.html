@@ -1,8 +1,8 @@
 <mat-menu #childMenu="matMenu" [overlapTrigger]="false">
-  <ng-container *ngFor="let child of items">
+  <ng-container *ngFor="let child of items; let i = index">
     <!-- Handle branch node menu items -->
     <ng-container>
-      <button mat-menu-item>{{ child.title }}</button>
+      <button mat-menu-item (click)="onSelectSubMenu(child)">{{ child.title }}</button>
     </ng-container>
   </ng-container>
 </mat-menu>

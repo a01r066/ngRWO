@@ -39,6 +39,7 @@ import { LibAlbumsComponent } from './library/lib-albums/lib-albums.component';
 import {PlaylistAlertComponent} from './library/lib-playlists/playlist-alert/playlist-alert.component';
 import { PlaylistEmptyComponent } from './library/lib-playlists/playlist-empty/playlist-empty.component';
 import { MenuItemComponent } from './shared/playlist/menu-item/menu-item.component';
+import { EditPlaylistComponent } from './shared/playlist/edit-playlist/edit-playlist.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -70,6 +71,7 @@ firebase.initializeApp(environment.firebase);
     PlaylistAlertComponent,
     PlaylistEmptyComponent,
     MenuItemComponent,
+    EditPlaylistComponent,
   ],
   imports: [
     SharedModule,

@@ -7,7 +7,6 @@ import {StreamState} from '../../interfaces/stream-state';
 import {AudioService} from '../../services/audio.service';
 import {AuthService} from '../../auth/auth.service';
 import {UiService} from '../ui.service';
-import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NavItem} from '../nav-item';
@@ -27,28 +26,15 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   isFirstLoad: boolean = true;
   isLikedAlbum: boolean = false;
   isAuth: boolean = false;
-  isAlertShow = false;
-  alertSub: Subscription;
   favouriteList: boolean[] = [];
   playingTrack: Track;
   isPlaylistEdit = false;
-  favouritePlaylists: Album[] = [];
+  isPlaylist = false;
+  playlist: Album;
+  // favouritePlaylists: Album[] = [];
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
-  // navItems: NavItem[] = [
-  //   {
-  //     text: "Add to playlist",
-  //     subItems: [
-  //       {
-  //         text: "Playlist #1"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     text: "Save to liked songs"
-  //   },
-  // ];
   navItems: NavItem[] = [
     {
       title: "New playlist"
@@ -74,7 +60,12 @@ export class PlaylistComponent implements OnInit, OnDestroy {
           this.isLikedAlbum = true;
         }
       });
-      this.firebaseService.getTracksByAlbum();
+      this.isPlaylist = this.uiService.isPlaylist;
+      if(this.isPlaylist){
+        this.firebaseService.getTracksByPlaylist(this.authService.getUser());
+      } else {
+        this.firebaseService.getTracksByAlbum();
+      }
       this.firebaseService.tracksSub.subscribe(tracks => {
         this.tracks = tracks;
         this.isDataLoaded = true;
@@ -100,10 +91,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       this.isAuth = authStatus;
     });
 
-    this.alertSub = this.uiService.loginAlertChanged.subscribe(isAlert => {
-      this.isAlertShow = isAlert;
-    });
-
     this.isAuth = this.authService.isAuthenticated;
     this.uiService.favouriteListSub.subscribe(list => {
       this.favouriteList = list;
@@ -114,21 +101,26 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     });
 
     if(this.isAuth){
-      this.favouritePlaylists = this.firebaseService.favouritePlaylists;
-      this.navItems.push({
-        title: "Add to playlist",
-        subItems: this.favouritePlaylists
-      });
-      this.navItems.push({
-        title: "Save to liked songs"
+      this.firebaseService.getPlaylists(this.authService.getUser());
+      this.uiService.favouritePlaylistsSub.subscribe(playlists => {
+        // this.favouritePlaylists = playlists;
+        this.navItems.push({
+          title: "Add to playlist",
+          subItems: playlists
+        });
+        this.navItems.push({
+          title: "Save to liked songs"
+        });
       });
     }
   }
 
   ngOnDestroy(): void {
-    this.alertSub.unsubscribe();
     if(this.isPlaylistEdit){
       this.uiService.isPlaylistEdit = false;
+    }
+    if(this.isPlaylist){
+      this.uiService.isPlaylist = false;
     }
   }
 
@@ -201,11 +193,19 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
-  addToPlaylist(track: Track){
-    // show playlist
+  onSelectItem(item: NavItem){
+    console.log("Selected: " + item.title);
   }
 
-  addToFavourite(track: Track){
+  selectSubItem(item: Album, track: Track){
+    // console.log("SubItem: " + item.title);
+    this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
+  }
 
+  onSelectTitle(){
+    // console.log("Edit playlist: " +this.album.title);
+    if(this.isPlaylist){
+      this.uiService.editPlaylistChanged.next(true);
+    }
   }
 }

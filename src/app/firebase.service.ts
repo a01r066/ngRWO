@@ -75,6 +75,45 @@ export class FirebaseService {
     });
   }
 
+  getTracksByPlaylist(user: User){
+    console.log(this.selectedAlbum.id);
+    const tracks: Track[] = [];
+    this.database.ref('Tracks-Playlist').child(user.uid).child(this.selectedAlbum.id).once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          const albumID = albumSnapshot.key;
+          albumSnapshot.forEach(trackSnapshot => {
+            const trackID = trackSnapshot.key;
+            const dataObj = {
+              title: trackSnapshot.val().title,
+              author: trackSnapshot.val().author,
+              filePath: trackSnapshot.val().filePath,
+              index: trackSnapshot.val().index,
+              tags: trackSnapshot.val().tags,
+              duration: trackSnapshot.val().duration
+            };
+            const track = new Track(trackID, albumID, genreID, dataObj);
+            tracks.push(track);
+          });
+        });
+      });
+      console.log("Playlist tracks: " + tracks.length);
+      this.tracksSub.next(tracks);
+    });
+  }
+
+  addTrackToPlaylist(user: User, track: Track, playlist: Album){
+    const dataObj = {
+      title: track.title,
+      author: track.author,
+      filePath: track.filePath
+    };
+    this.database.ref('Tracks-Playlist').child(user.uid).child(playlist.id).child(track.genreID).child(track.albumID).child(track.id).update(dataObj).then(() => {
+      // refresh playlists
+    });
+  }
+
   createPlaylist(user: User, playlistID: string, data: any){
     const databObj = {
       title: data.title,

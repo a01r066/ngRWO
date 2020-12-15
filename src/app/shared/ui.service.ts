@@ -20,5 +20,7 @@ export class UiService {
   favouriteListSub = new Subject<boolean[]>();
   currentIndexSub = new Subject<number>();
   isPlaylistEdit: boolean = false;
+  isPlaylist: boolean = false;
   favouritePlaylistsSub = new Subject<Album[]>();
+  editPlaylistChanged = new Subject<boolean>();
 }
