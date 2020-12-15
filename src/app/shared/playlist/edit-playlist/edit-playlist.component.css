@@ -22,6 +22,7 @@
 .title {
   color: white;
   margin-left: 8px;
+  font-weight: 500;
 }
 
 .content {
@@ -32,7 +33,6 @@
 .term {
   color: #B3B3A2;
   font-size: 0.75rem;
-  margin-left: 8px;
 }
 
 .mat-card-image {
@@ -60,4 +60,11 @@
 
 ::ng-deep.mat-form-field-label {
   color: #B3B3A2 !important;
+}
+
+.button-save {
+  height: 32px;
+  width: 80px;
+  border-radius: 16px;
+  margin-right: 8px;
 }

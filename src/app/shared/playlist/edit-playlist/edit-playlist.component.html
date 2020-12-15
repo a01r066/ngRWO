@@ -1,25 +1,29 @@
 <div class="backdrop" (click)="onDismiss()"></div>
 <div class="form-container">
   <div>
-    <h2 class="title">Edit details<span></span><button mat-icon-button class="close"><mat-icon>close</mat-icon></button></h2>
+    <h3 class="title">Edit details<span></span><button mat-icon-button class="close" (click)="onDismiss()"><mat-icon>close</mat-icon></button></h3>
   </div>
-  <div class="content">
+  <form class="content" [formGroup]="playlistForm" (ngSubmit)="onSavePlaylist()">
     <div class="content-detail" fxLayout="row" fxLayoutGap="16px">
-      <img class="mat-card-image" src="../../../../assets/playlist1.jpg" alt="">
+      <img class="mat-card-image" src="{{ imagePath }}" alt="" on-mouseover="mouseOver()" on-mouseleave="mouseLeave()" (click)="onSelectPhoto()" *ngIf="!isEditPhoto">
+      <img class="mat-card-image" src="../../../../assets/edit-photo.png" alt="" on-mouseover="mouseOver()" on-mouseleave="mouseLeave()" (click)="hiddenfileinput.click()" *ngIf="isEditPhoto">
+      <!-- Fetch selected filed on change -->
+      <input type="file" style="display: none" (change)="fileProgress($event)" #hiddenfileinput
+             accept="image/*" />
       <div class="form-field" fxLayout="column" fxLayoutGap="16px">
         <mat-form-field appearance="fill" class="input-field">
           <mat-label>Name</mat-label>
-          <input matInput>
+          <input matInput value="{{ playlist.title }}" formControlName="title">
         </mat-form-field>
         <mat-form-field appearance="fill" class="textarea-field">
           <mat-label>Description</mat-label>
-          <textarea matInput placeholder="Add an optional description"></textarea>
+          <textarea matInput value="{{ playlist.author }}" formControlName="author"></textarea>
         </mat-form-field>
       </div>
     </div>
-  </div>
-  <div fxLayoutAlign="end">
-    <button mat-raised-button style="height: 32px; width: 80px; border-radius: 16px; margin-right: 8px">Save</button>
-  </div>
-  <p class="term">By proceeding, you agree to give RelaxingWorld access to the image you choose to upload. Please make sure you have the right to upload the image.</p>
+    <div fxLayoutAlign="end">
+      <button mat-raised-button class="button-save" type="submit">Save</button>
+    </div>
+    <p class="term">By proceeding, you agree to give RelaxingWorld access to the image you choose to upload. Please make sure you have the right to upload the image.</p>
+  </form>
 </div>
