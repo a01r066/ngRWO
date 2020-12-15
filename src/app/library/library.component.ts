@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UiService} from '../shared/ui.service';
-import {Subscription} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
 import {FirebaseService} from '../firebase.service';
 
@@ -11,6 +10,7 @@ import {FirebaseService} from '../firebase.service';
 })
 export class LibraryComponent implements OnInit, OnDestroy {
   selectedIndex: number;
+  isAuth = false;
   constructor(private uiService: UiService,
               private authService: AuthService,
               private firebaseService: FirebaseService) { }

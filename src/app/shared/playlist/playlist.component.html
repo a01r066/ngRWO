@@ -93,13 +93,13 @@
                   <ng-container *ngFor="let child of navItems">
                     <!-- Handle branch node menu items -->
                     <ng-container *ngIf="child.subItems && child.subItems.length > 0">
-                      <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{child.text}}</button>
+                      <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{child.title}}</button>
                       <app-menu-item #menu [items]="child.subItems"></app-menu-item>
                     </ng-container>
                     <!-- Handle leaf node menu items -->
                     <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
                       <button mat-menu-item>
-                        <span>{{child.text}}</span>
+                        <span>{{child.title}}</span>
                       </button>
                     </ng-container>
                   </ng-container>

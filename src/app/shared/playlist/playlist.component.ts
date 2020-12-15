@@ -32,42 +32,27 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   favouriteList: boolean[] = [];
   playingTrack: Track;
   isPlaylistEdit = false;
+  favouritePlaylists: Album[] = [];
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
+  // navItems: NavItem[] = [
+  //   {
+  //     text: "Add to playlist",
+  //     subItems: [
+  //       {
+  //         text: "Playlist #1"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     text: "Save to liked songs"
+  //   },
+  // ];
   navItems: NavItem[] = [
     {
-      text: "Add to playlist",
-      icon: null,
-      href: "#",
-      hrefTarget: "external",
-      subItems: [
-        {
-          text: "New playlist",
-          icon: null,
-          href: "../SupplyChain/#/searchCOA",
-          hrefTarget: "external",
-        },
-        {
-          text: "Playlist #1",
-          icon: null,
-          href: "#",
-          hrefTarget: "external",
-        },
-        {
-          text: "Playlist #2",
-          icon: null,
-          href: "#",
-          hrefTarget: "external",
-        },
-      ]
-    },
-    {
-      text: "Save to liked songs",
-      icon: null,
-      href: "../SupplyChain/#/actionItems",
-      hrefTarget: "external",
-    },
+      title: "New playlist"
+    }
   ];
 
   constructor(private firebaseService: FirebaseService,
@@ -127,6 +112,17 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     this.uiService.selectedTrackSub.subscribe(track => {
       this.playingTrack = track;
     });
+
+    if(this.isAuth){
+      this.favouritePlaylists = this.firebaseService.favouritePlaylists;
+      this.navItems.push({
+        title: "Add to playlist",
+        subItems: this.favouritePlaylists
+      });
+      this.navItems.push({
+        title: "Save to liked songs"
+      });
+    }
   }
 
   ngOnDestroy(): void {

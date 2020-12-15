@@ -14,7 +14,7 @@ import {AuthService} from '../../auth/auth.service';
 export class LibPlaylistsComponent implements OnInit {
   genre: Genre;
   items: Album[] = [];
-  isDataLoaded: boolean = false;
+  isDataLoaded: boolean;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -24,7 +24,7 @@ export class LibPlaylistsComponent implements OnInit {
   ngOnInit(): void {
     this.firebaseService.getPlaylists(this.authService.getUser());
     this.uiService.favouritePlaylistsSub.subscribe(playlists => {
-      this.items = playlists
+      this.items = playlists;
       this.isDataLoaded = true;
     });
   }
