@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AuthService} from '../../auth/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UiService} from '../../shared/ui.service';
 import {FirebaseService} from '../../firebase.service';
+import {Album} from '../../music/models/album.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -41,8 +42,15 @@ export class SidebarComponent implements OnInit {
     const data = {
       title: "My Playlist",
       author: user.email,
-      imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf"
+      imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf",
+      tags: ""
     };
+
+    const genreID = "";
+    const trendID = "";
+    let playlist = new Album(playlistID, genreID, trendID, data);
+    this.firebaseService.selectedAlbum = playlist;
+    this.uiService.isPlaylist = true;
     this.firebaseService.createPlaylist(user, playlistID, data);
     this.router.navigate(['playlist', playlistID]);
   }

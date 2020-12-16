@@ -69,4 +69,32 @@ export class LibPlaylistsComponent implements OnInit {
       this.firebaseService.deletePlaylist(this.authService.getUser(), this.selectedPlaylist);
     }
   }
+
+  getImagePath(album: Album){
+    if(typeof album.imagePath !== 'undefined' || album.imagePath === ''){
+      return album.imagePath;
+    } else {
+      return "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf";
+    }
+  }
+
+  getTitle(album: Album){
+    if(typeof album.title !== 'undefined' || album.title === ''){
+      let titleStr = album.title;
+      if(titleStr.length > 18){
+        titleStr = titleStr.slice(0, 18) + "...";
+      }
+      return titleStr;
+    } else {
+      return "My Playlist";
+    }
+  }
+
+  getSubTitle(album: Album){
+    if(typeof album.author !== 'undefined' || album.author === ''){
+      return album.author.slice(0, 24);
+    } else {
+      return "Optional description";
+    }
+  }
 }

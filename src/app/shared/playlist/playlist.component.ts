@@ -50,11 +50,11 @@ export class PlaylistComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isPlaylistEdit = this.uiService.isPlaylistEdit;
+    this.album = this.firebaseService.selectedAlbum;
     if(this.isPlaylistEdit){
       this.tracks = [];
       this.isDataLoaded = true;
     } else {
-      this.album = this.firebaseService.selectedAlbum;
       this.firebaseService.favouristAlbums.find(album => {
         if(album.id === this.album.id){
           this.isLikedAlbum = true;
@@ -112,6 +112,34 @@ export class PlaylistComponent implements OnInit, OnDestroy {
           title: "Save to liked songs"
         });
       });
+    }
+  }
+
+  getImagePath(){
+    if(typeof this.album.imagePath !== 'undefined' || this.album.imagePath === ''){
+      return this.album.imagePath;
+    } else {
+      return "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf";
+    }
+  }
+
+  getTitle(){
+    if(typeof this.album.title !== 'undefined' || this.album.title !== ''){
+      let titleStr = this.album.title;
+      if(titleStr.length > 36){
+        titleStr = titleStr.slice(0, 36) + "...";
+      }
+      return titleStr;
+    } else {
+      return "My Playlist";
+    }
+  }
+
+  getSubTitle(){
+    if(typeof this.album.author !== 'undefined' || this.album.author === ''){
+      return this.album.author.slice(0, 64);
+    } else {
+      return "Description: N/A";
     }
   }
 

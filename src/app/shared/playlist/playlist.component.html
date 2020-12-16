@@ -1,12 +1,12 @@
 <mat-toolbar>
   <div class="container">
     <div class="item1">
-      <img mat-card-image src="{{ album.imagePath }}" alt="">
+      <img mat-card-image src="{{ getImagePath() }}" alt="">
     </div>
     <div class="item2">
       <div class="mat-caption">PLAYLIST</div>
-      <div class="mat-title" style="cursor: pointer" (click)="onSelectTitle()">{{ album.title.substring(0, 44) }}</div>
-      <div class="mat-card-subtitle">{{ album.author.substring(0, 88) }}</div>
+      <div class="mat-title" style="cursor: pointer" (click)="onSelectTitle()">{{ getTitle() }}</div>
+      <div class="mat-card-subtitle">{{ getSubTitle() }}</div>
       <div class="mat-card-subtitle">RelaxingWorld * 71,766 likes, {{ tracks?.length }} songs, 3 hr 19 min</div>
     </div>
   </div>
@@ -20,10 +20,10 @@
       <mat-icon class="play">pause_circle_filled</mat-icon>
     </button>
     <div fxLayoutGap="32px">
-      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="!isLikedAlbum">
+      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="!isLikedAlbum && !isPlaylist">
         <mat-icon style="transform: scale(1.5)">favorite_border</mat-icon>
       </button>
-      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="isLikedAlbum">
+      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="isLikedAlbum && !isPlaylist">
         <mat-icon style="color: #1DB954; transform: scale(1.5)">favorite</mat-icon>
       </button>
       <button mat-icon-button [disabled]="true">
