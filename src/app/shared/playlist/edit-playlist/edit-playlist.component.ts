@@ -22,8 +22,6 @@ export class EditPlaylistComponent implements OnInit {
 
   fileData: File = null;
   previewUrl: any = null;
-  fileUploadProgress: string = null;
-  uploadedFilePath: string = null;
 
   constructor(private uiService: UiService,
               private firebaseService: FirebaseService,
@@ -39,8 +37,15 @@ export class EditPlaylistComponent implements OnInit {
       }),
       author: new FormControl()
     });
+
     this.playlist = this.firebaseService.selectedAlbum;
     this.imagePath = this.playlist.imagePath;
+
+    this.playlistForm.patchValue({
+      title: this.playlist.title,
+      author: this.playlist.author,
+      imagePath: this.imagePath
+    });
 
     this.authService.authChangeSub.subscribe(authStatus => {
       this.isAuth = authStatus;
@@ -57,7 +62,17 @@ export class EditPlaylistComponent implements OnInit {
       this.playlist.author = this.playlistForm.value.author;
 
       // upload image
-      this.uploadImageFile();
+      if(this.fileData !== null){
+        this.uploadImageFile();
+      } else {
+        const data = {
+          title: this.playlist.title,
+          author: this.playlist.author
+        };
+        this.firebaseService.updatePlaylist(this.authService.getUser(), this.playlist, data);
+        this.uiService.editPlaylistChanged.next(false);
+        this.firebaseService.selectedAlbum = this.playlist;
+      }
     } else {
       window.alert("Playlist's name must at least 6 characters!");
     }
@@ -81,13 +96,13 @@ export class EditPlaylistComponent implements OnInit {
       snapshot => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
+        // console.log('Upload is ' + progress + '% done');
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
+            // console.log('Upload is paused');
             break;
           case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
+            // console.log('Upload is running');
             break;
         }
       }, error => {
@@ -109,7 +124,7 @@ export class EditPlaylistComponent implements OnInit {
       }, () => {
         // Upload completed successfully, now we can get the download URL
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          console.log('File available at', downloadURL);
+          // console.log('File available at', downloadURL);
           const data = {
             title: this.playlist.title,
             author: this.playlist.author,
@@ -118,6 +133,8 @@ export class EditPlaylistComponent implements OnInit {
           this.firebaseService.updatePlaylist(this.authService.getUser(), this.playlist, data);
           this.uiService.editPlaylistChanged.next(false);
           this.firebaseService.selectedAlbum = this.playlist;
+          this.uiService.selectedAlbumSub.next(this.playlist);
+          this.uiService.playlistImagePathSub.next(downloadURL);
         });
       });
   }
@@ -152,15 +169,4 @@ export class EditPlaylistComponent implements OnInit {
       this.imagePath = this.previewUrl;
     };
   }
-
-  // onSubmit() {
-  //   const formData = new FormData();
-  //   formData.append('file', this.fileData);
-  //   this.http.post('url/to/your/api', formData)
-  //     .subscribe(res => {
-  //       console.log(res);
-  //       this.uploadedFilePath = res.data.filePath;
-  //       alert('SUCCESS !!');
-  //     })
-  // }
 }

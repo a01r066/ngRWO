@@ -33,6 +33,7 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
   favouriteList: boolean[] = [];
 
   isPlaylist = false;
+  playlistImagePath: string;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -42,10 +43,19 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
-
     this.isPlaylist = this.uiService.isPlaylist;
+
+    this.uiService.selectedAlbumSub.subscribe(album => {
+      this.album = album;
+    });
+
+    this.uiService.playlistImagePathSub.subscribe(imagePath => {
+      this.playlistImagePath = imagePath;
+    });
+
     if(this.isPlaylist){
       this.album = this.firebaseService.selectedAlbum;
+      this.playlistImagePath = this.album.imagePath;
       this.firebaseService.getTracksByPlaylist(this.user);
       this.firebaseService.tracksSub.subscribe(tracks => {
         this.tracks = tracks;
@@ -56,13 +66,14 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
         });
       });
     } else {
+      this.playlistImagePath = "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2FlikedSongs.png?alt=media&token=964d390e-2075-4ff3-966c-74eef355ed0e";
       const albumID = "";
       const genreID = "";
       const trendID = "";
       const dataObj = {
         title: "Liked Songs",
         author: this.user.email,
-        imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2FlikedSongs.png?alt=media&token=964d390e-2075-4ff3-966c-74eef355ed0e",
+        imagePath: this.playlistImagePath,
         tags: ""
       };
       this.album = new Album(albumID, genreID, trendID, dataObj);
@@ -159,7 +170,8 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
 
   getImagePath(){
     if(typeof this.album.imagePath !== 'undefined' || this.album.imagePath === ''){
-      return this.album.imagePath;
+      // return this.album.imagePath;
+      return this.playlistImagePath;
     } else {
       return "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf";
     }

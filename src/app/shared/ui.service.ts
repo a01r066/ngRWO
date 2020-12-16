@@ -23,4 +23,5 @@ export class UiService {
   isPlaylist: boolean = false;
   favouritePlaylistsSub = new Subject<Album[]>();
   editPlaylistChanged = new Subject<boolean>();
+  playlistImagePathSub = new Subject<string>();
 }

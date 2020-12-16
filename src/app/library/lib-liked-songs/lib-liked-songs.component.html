@@ -18,6 +18,9 @@
     <button mat-icon-button *ngIf="state?.playing" (click)="pause()">
       <mat-icon class="play">pause_circle_filled</mat-icon>
     </button>
+    <button mat-icon-button [disabled]="true">
+      <mat-icon style="transform: scale(1.5)">more_horiz</mat-icon>
+    </button>
   </div>
 </div>
 <ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">

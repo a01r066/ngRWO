@@ -76,7 +76,7 @@ export class FirebaseService {
   }
 
   getTracksByPlaylist(user: User){
-    console.log(this.selectedAlbum.id);
+    // console.log(this.selectedAlbum.id);
     const tracks: Track[] = [];
     this.database.ref('Tracks-Playlist').child(user.uid).child(this.selectedAlbum.id).once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
@@ -98,7 +98,7 @@ export class FirebaseService {
           });
         });
       });
-      console.log("Playlist tracks: " + tracks.length);
+      // console.log("Playlist tracks: " + tracks.length);
       this.tracksSub.next(tracks);
     });
   }

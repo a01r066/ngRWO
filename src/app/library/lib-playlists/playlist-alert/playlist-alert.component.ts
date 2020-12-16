@@ -34,7 +34,8 @@ export class PlaylistAlertComponent implements OnInit {
     const trendID = "";
     let playlist = new Album(playlistID, genreID, trendID, data);
     this.firebaseService.selectedAlbum = playlist;
+    this.uiService.isPlaylist = true;
     this.firebaseService.createPlaylist(user, playlistID, data);
-    this.router.navigate(['playlist', playlistID]);
+    this.router.navigate(['library/playlist', playlistID]);
   }
 }
