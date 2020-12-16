@@ -41,7 +41,8 @@ export class LibPlaylistsComponent implements OnInit {
   onSelectItem(album: Album){
     this.firebaseService.selectedAlbum = album;
     this.uiService.isPlaylist = true;
-    this.router.navigate(['playlist', album.id]);
+    // this.router.navigate(['playlist', album.id]);
+    this.router.navigate(['/library/playlist', album.id]);
   }
 
   onRightClick(event: MouseEvent, item: Album){

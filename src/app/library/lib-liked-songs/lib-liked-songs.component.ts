@@ -17,11 +17,12 @@ import {Subject} from 'rxjs';
   templateUrl: './lib-liked-songs.component.html',
   styleUrls: ['./lib-liked-songs.component.css']
 })
-export class LibLikedSongsComponent implements OnInit {
+export class LibLikedSongsComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   isDataLoaded: boolean = false;
 
+  album: Album;
   tracks: Track[];
   state: StreamState;
   selectedRowIndex = -1;
@@ -29,29 +30,53 @@ export class LibLikedSongsComponent implements OnInit {
   isAuth: boolean = false;
   user: User;
   database = firebase.database();
-
   favouriteList: boolean[] = [];
-  favouriteListSub = new Subject<boolean[]>();
+
+  isPlaylist = false;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
               private audioService: AudioService,
               private authService: AuthService,
-              private uiService: UiService,
-              private route: ActivatedRoute) { }
+              private uiService: UiService) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
-    this.firebaseService.fetchFavouriteTracks(this.user);
-    this.uiService.favouriteTracksSub.subscribe(tracks => {
-      this.tracks = tracks;
-      this.isDataLoaded = true;
 
-      // favourite list
-      tracks.forEach(track => {
-        this.favouriteList.push(true);
+    this.isPlaylist = this.uiService.isPlaylist;
+    if(this.isPlaylist){
+      this.album = this.firebaseService.selectedAlbum;
+      this.firebaseService.getTracksByPlaylist(this.user);
+      this.firebaseService.tracksSub.subscribe(tracks => {
+        this.tracks = tracks;
+        this.isDataLoaded = true;
+        // favourite list
+        tracks.forEach(track => {
+          this.favouriteList.push(false);
+        });
       });
-    });
+    } else {
+      const albumID = "";
+      const genreID = "";
+      const trendID = "";
+      const dataObj = {
+        title: "Liked Songs",
+        author: this.user.email,
+        imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2FlikedSongs.png?alt=media&token=964d390e-2075-4ff3-966c-74eef355ed0e",
+        tags: ""
+      };
+      this.album = new Album(albumID, genreID, trendID, dataObj);
+      this.firebaseService.fetchFavouriteTracks(this.user);
+      this.uiService.favouriteTracksSub.subscribe(tracks => {
+        this.tracks = tracks;
+        this.isDataLoaded = true;
+
+        // favourite list
+        tracks.forEach(track => {
+          this.favouriteList.push(true);
+        });
+      });
+    }
 
     this.playerService.selectedRowIndexSub.subscribe(index => {
       this.selectedRowIndex = index;
@@ -66,6 +91,12 @@ export class LibLikedSongsComponent implements OnInit {
     });
 
     this.isAuth = this.authService.isAuthenticated;
+  }
+
+  ngOnDestroy(): void {
+    if(this.isPlaylist){
+      this.uiService.isPlaylist = false;
+    }
   }
 
   openFile(track: Track, index: number){
@@ -117,6 +148,40 @@ export class LibLikedSongsComponent implements OnInit {
       this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
     } else {
       this.uiService.loginAlertChanged.next(true);
+    }
+  }
+
+  onSelectTitle(){
+    if(this.isPlaylist){
+      this.uiService.editPlaylistChanged.next(true);
+    }
+  }
+
+  getImagePath(){
+    if(typeof this.album.imagePath !== 'undefined' || this.album.imagePath === ''){
+      return this.album.imagePath;
+    } else {
+      return "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf";
+    }
+  }
+
+  getTitle(){
+    if(typeof this.album.title !== 'undefined' || this.album.title !== ''){
+      let titleStr = this.album.title;
+      if(titleStr.length > 36){
+        titleStr = titleStr.slice(0, 36) + "...";
+      }
+      return titleStr;
+    } else {
+      return "My Playlist";
+    }
+  }
+
+  getSubTitle(){
+    if(typeof this.album.author !== 'undefined' || this.album.author === ''){
+      return this.album.author.slice(0, 64);
+    } else {
+      return "Description: N/A";
     }
   }
 }

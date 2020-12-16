@@ -5,7 +5,7 @@
     </div>
     <div class="item2">
       <div class="mat-caption">PLAYLIST</div>
-      <div class="mat-title" style="cursor: pointer" (click)="onSelectTitle()">{{ getTitle() }}</div>
+      <div class="mat-title">{{ getTitle() }}</div>
       <div class="mat-card-subtitle">{{ getSubTitle() }}</div>
       <div class="mat-card-subtitle">RelaxingWorld * 71,766 likes, {{ tracks?.length }} songs, 3 hr 19 min</div>
     </div>
@@ -20,10 +20,10 @@
       <mat-icon class="play">pause_circle_filled</mat-icon>
     </button>
     <div fxLayoutGap="32px">
-      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="!isLikedAlbum && !isPlaylist">
+      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="!isLikedAlbum">
         <mat-icon style="transform: scale(1.5)">favorite_border</mat-icon>
       </button>
-      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="isLikedAlbum && !isPlaylist">
+      <button mat-icon-button (click)="onHandleLikeAlbum(album)" *ngIf="isLikedAlbum">
         <mat-icon style="color: #1DB954; transform: scale(1.5)">favorite</mat-icon>
       </button>
       <button mat-icon-button [disabled]="true">
@@ -33,88 +33,76 @@
   </div>
 </div>
 <ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">
-  <ng-template [ngIf]="tracks.length > 0"; [ngIfElse]="playlistalert">
-    <div class="playlistTbl">
-      <!--  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
-      <table mat-table [dataSource]="tracks" class="mat-elevation-z8">
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
+  <div class="playlistTbl">
+    <table mat-table [dataSource]="tracks" class="mat-elevation-z8">
+      <div class="header">
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let element; let i = index"> {{ i+1 }} </td>
+        </ng-container>
 
-        <div class="header">
-          <!-- Position Column -->
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> # </th>
-            <!--        <td mat-cell *matCellDef="let element"> {{element.position}} </td>-->
-            <td mat-cell *matCellDef="let element; let i = index"> {{ i+1 }} </td>
-          </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> TITLE </th>
+          <td mat-cell *matCellDef="let element" style="color: white"> {{element.title}}<span style="font-size: 0.9rem; color: #B3B3A2"><br>{{ element.author }}</span></td>
+        </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef> TITLE </th>
-            <td mat-cell *matCellDef="let element" style="color: white"> {{element.title}}<span style="font-size: 0.9rem; color: #B3B3A2"><br>{{ element.author }}</span></td>
-          </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="played">
+          <th mat-header-cell *matHeaderCellDef> PLAYED </th>
+          <td mat-cell *matCellDef="let element"> N/A </td>
+        </ng-container>
 
-          <!-- Weight Column -->
-          <ng-container matColumnDef="played">
-            <th mat-header-cell *matHeaderCellDef> PLAYED </th>
-            <!--        <td mat-cell *matCellDef="let element"> {{element.played}} </td>-->
-            <td mat-cell *matCellDef="let element"> N/A </td>
-          </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="duration">
+          <th mat-header-cell *matHeaderCellDef> DURATION </th>
+          <td mat-cell *matCellDef="let element"> --:-- </td>
+        </ng-container>
 
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="duration">
-            <th mat-header-cell *matHeaderCellDef> DURATION </th>
-            <!--        <td mat-cell *matCellDef="let element"> {{element.duration}} </td>-->
-            <td mat-cell *matCellDef="let element"> --:-- </td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="option">
-            <th mat-header-cell *matHeaderCellDef> OPTION </th>
-            <!--        <td mat-cell *matCellDef="let element"> {{element.option}} </td>-->
-            <td mat-cel *matCellDef="let element; let i = index">
-              <div class="right-options" fxLayoutGap="24px">
-                <div class="like" *ngIf="!favouriteList[i]">
-                  <mat-icon matTooltip="Like" class="option-buttons" (click)="onHandleLikeTrack(element, i)">favorite_border</mat-icon>
-                </div>
-                <div class="like" *ngIf="favouriteList[i]">
-                  <mat-icon matTooltip="Unlike" class="option-buttons" (click)="onHandleLikeTrack(element, i)" style="color: #1DB954">favorite</mat-icon>
-                </div>
-<!--                menu work-->
-<!--                <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>-->
-<!--                <mat-menu #menu="matMenu">-->
-<!--                  <button mat-menu-item (click)="addToPlaylist(element)">Add to playlist</button>-->
-<!--                  <mat-divider></mat-divider>-->
-<!--                  <button mat-menu-item (click)="addToFavourite(element)">Save to liked songs</button>-->
-<!--                </mat-menu>-->
-<!--                Sub-Menu optimize-->
-                <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>
-                <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                  <ng-container *ngFor="let child of navItems">
-                    <!-- Handle branch node menu items -->
-                    <ng-container *ngIf="child.subItems && child.subItems.length > 0">
-                      <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>
-                      <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, element)"></app-menu-item>
-                    </ng-container>
-                    <!-- Handle leaf node menu items -->
-                    <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
-                      <button mat-menu-item (click)="onSelectItem(child)">{{ child.title }}</button>
-                    </ng-container>
-                  </ng-container>
-                </mat-menu>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="option">
+          <th mat-header-cell *matHeaderCellDef> OPTION </th>
+          <!--        <td mat-cell *matCellDef="let element"> {{element.option}} </td>-->
+          <td mat-cel *matCellDef="let element; let i = index">
+            <div class="right-options" fxLayoutGap="24px">
+              <div class="like" *ngIf="!favouriteList[i]">
+                <mat-icon matTooltip="Like" class="option-buttons" (click)="onHandleLikeTrack(element, i)">favorite_border</mat-icon>
               </div>
-            </td>
-          </ng-container>
-        </div>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <!--    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="openFile(row, i)" appHighlightDirective="#282828" defaultColor="transparent" [ngClass]="{'highlight': selectedRowIndex === row.id}"></tr>-->
-        <tr mat-row class="track-row" *matRowDef="let row; let i = index; columns: displayedColumns;" (dblclick)="openFile(row, i)" [ngClass]="{'highlight': i == selectedRowIndex}"></tr>
-      </table>
-    </div>
-  </ng-template>
-  <ng-template #playlistalert>
-    <app-playlist-empty></app-playlist-empty>
-  </ng-template>
+              <div class="like" *ngIf="favouriteList[i]">
+                <mat-icon matTooltip="Unlike" class="option-buttons" (click)="onHandleLikeTrack(element, i)" style="color: #1DB954">favorite</mat-icon>
+              </div>
+              <!--                menu work-->
+              <!--                <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>-->
+              <!--                <mat-menu #menu="matMenu">-->
+              <!--                  <button mat-menu-item (click)="addToPlaylist(element)">Add to playlist</button>-->
+              <!--                  <mat-divider></mat-divider>-->
+              <!--                  <button mat-menu-item (click)="addToFavourite(element)">Save to liked songs</button>-->
+              <!--                </mat-menu>-->
+              <!--                Sub-Menu optimize-->
+              <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>
+              <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <ng-container *ngFor="let child of navItems">
+                  <!-- Handle branch node menu items -->
+                  <ng-container *ngIf="child.subItems && child.subItems.length > 0">
+                    <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>
+                    <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, element)"></app-menu-item>
+                  </ng-container>
+                  <!-- Handle leaf node menu items -->
+                  <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
+                    <button mat-menu-item (click)="onSelectItem(child)">{{ child.title }}</button>
+                  </ng-container>
+                </ng-container>
+              </mat-menu>
+            </div>
+          </td>
+        </ng-container>
+      </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!--    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="openFile(row, i)" appHighlightDirective="#282828" defaultColor="transparent" [ngClass]="{'highlight': selectedRowIndex === row.id}"></tr>-->
+      <tr mat-row class="track-row" *matRowDef="let row; let i = index; columns: displayedColumns;" (dblclick)="openFile(row, i)" [ngClass]="{'highlight': i == selectedRowIndex}"></tr>
+    </table>
+  </div>
 </ng-template>
 <ng-template #loading>
   <div class="spinner-stroke-color">

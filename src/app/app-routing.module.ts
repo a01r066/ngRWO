@@ -26,7 +26,8 @@ const routes: Routes = [
       // { path: '', component: LibPlaylistsComponent },
       // { path: ':index', component: LibLikedSongsComponent }
     ] },
-  { path: 'library/liked-songs', component: LibLikedSongsComponent }
+  { path: 'library/liked-songs', component: LibLikedSongsComponent },
+  { path: 'library/playlist/:id', component: LibLikedSongsComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

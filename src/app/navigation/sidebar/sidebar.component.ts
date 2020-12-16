@@ -48,10 +48,11 @@ export class SidebarComponent implements OnInit {
 
     const genreID = "";
     const trendID = "";
-    let playlist = new Album(playlistID, genreID, trendID, data);
-    this.firebaseService.selectedAlbum = playlist;
+    let album = new Album(playlistID, genreID, trendID, data);
+    this.firebaseService.selectedAlbum = album;
     this.uiService.isPlaylist = true;
     this.firebaseService.createPlaylist(user, playlistID, data);
-    this.router.navigate(['playlist', playlistID]);
+    // this.router.navigate(['playlist', playlistID]);
+    this.router.navigate(['/library/playlist', album.id]);
   }
 }

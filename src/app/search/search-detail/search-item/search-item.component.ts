@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Track} from '../../../music/models/track.model';
 import {Album} from '../../../music/models/album.model';
 import {FirebaseService} from '../../../firebase.service';
@@ -6,6 +6,8 @@ import firebase from 'firebase';
 import {AuthService} from '../../../auth/auth.service';
 import {UiService} from '../../../shared/ui.service';
 import {Subscription} from 'rxjs';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {NavItem} from '../../../shared/nav-item';
 
 @Component({
   selector: 'app-search-item',
@@ -22,6 +24,14 @@ export class SearchItemComponent implements OnInit, OnDestroy {
   playingTrack: Track;
   alertSub: Subscription;
   isAlertShow = false;
+
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+  navItems: NavItem[] = [
+    {
+      title: "New playlist"
+    }
+  ];
 
   constructor(private firebaseService: FirebaseService,
               private authService: AuthService,
@@ -40,6 +50,21 @@ export class SearchItemComponent implements OnInit, OnDestroy {
     this.uiService.selectedTrackSub.subscribe(track => {
       this.playingTrack = track;
     });
+
+    if(this.isAuth) {
+      this.firebaseService.getPlaylists(this.authService.getUser());
+      this.uiService.favouritePlaylistsSub.subscribe(playlists => {
+        // this.favouritePlaylists = playlists;
+        this.navItems = this.navItems.slice(0, 1);
+        this.navItems.push({
+          title: "Add to playlist",
+          subItems: playlists
+        });
+        this.navItems.push({
+          title: "Save to liked songs"
+        });
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -92,4 +117,14 @@ export class SearchItemComponent implements OnInit, OnDestroy {
       this.uiService.loginAlertChanged.next(true);
     }
   }
+
+  onSelectItem(item: NavItem){
+    console.log("Selected: " + item.title);
+  }
+
+  selectSubItem(item: Album, track: Track){
+    // console.log("SubItem: " + item.title);
+    this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
+  }
+
 }

@@ -8,7 +8,20 @@
         <mat-icon matTooltip="Unlike" class="option-buttons" (click)="onHandleLikeTrack(track)" style="color: #1DB954">favorite</mat-icon>
       </div>
       <div class="option">
-        <mat-icon class="option-buttons">more_horiz</mat-icon>
+        <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">more_horiz</mat-icon>
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+          <ng-container *ngFor="let child of navItems">
+            <!-- Handle branch node menu items -->
+            <ng-container *ngIf="child.subItems && child.subItems.length > 0">
+              <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>
+              <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, track)"></app-menu-item>
+            </ng-container>
+            <!-- Handle leaf node menu items -->
+            <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
+              <button mat-menu-item (click)="onSelectItem(child)">{{ child.title }}</button>
+            </ng-container>
+          </ng-container>
+        </mat-menu>
       </div>
     </div>
   </div>

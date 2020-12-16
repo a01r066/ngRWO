@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -16,7 +16,7 @@ import {NavItem} from '../nav-item';
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
-export class PlaylistComponent implements OnInit, OnDestroy {
+export class PlaylistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   isDataLoaded: boolean = false;
   album: Album;
@@ -28,10 +28,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
   favouriteList: boolean[] = [];
   playingTrack: Track;
-  isPlaylistEdit = false;
-  isPlaylist = false;
   playlist: Album;
-  // favouritePlaylists: Album[] = [];
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
@@ -49,32 +46,21 @@ export class PlaylistComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.isPlaylistEdit = this.uiService.isPlaylistEdit;
     this.album = this.firebaseService.selectedAlbum;
-    if(this.isPlaylistEdit){
-      this.tracks = [];
-      this.isDataLoaded = true;
-    } else {
-      this.firebaseService.favouristAlbums.find(album => {
-        if(album.id === this.album.id){
-          this.isLikedAlbum = true;
-        }
-      });
-      this.isPlaylist = this.uiService.isPlaylist;
-      if(this.isPlaylist){
-        this.firebaseService.getTracksByPlaylist(this.authService.getUser());
-      } else {
-        this.firebaseService.getTracksByAlbum();
+    this.firebaseService.favouristAlbums.find(album => {
+      if(album.id === this.album.id){
+        this.isLikedAlbum = true;
       }
-      this.firebaseService.tracksSub.subscribe(tracks => {
-        this.tracks = tracks;
-        this.isDataLoaded = true;
-        // favourite list
-        tracks.forEach(track => {
-          this.favouriteList.push(false);
-        });
+    });
+    this.firebaseService.getTracksByAlbum();
+    this.firebaseService.tracksSub.subscribe(tracks => {
+      this.tracks = tracks;
+      this.isDataLoaded = true;
+      // favourite list
+      tracks.forEach(track => {
+        this.favouriteList.push(false);
       });
-    }
+    });
     this.playerService.selectedRowIndexSub.subscribe(index => {
       this.selectedRowIndex = index;
     });
@@ -140,15 +126,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       return this.album.author.slice(0, 64);
     } else {
       return "Description: N/A";
-    }
-  }
-
-  ngOnDestroy(): void {
-    if(this.isPlaylistEdit){
-      this.uiService.isPlaylistEdit = false;
-    }
-    if(this.isPlaylist){
-      this.uiService.isPlaylist = false;
     }
   }
 
@@ -222,18 +199,9 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   }
 
   onSelectItem(item: NavItem){
-    console.log("Selected: " + item.title);
   }
 
   selectSubItem(item: Album, track: Track){
-    // console.log("SubItem: " + item.title);
     this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
-  }
-
-  onSelectTitle(){
-    // console.log("Edit playlist: " +this.album.title);
-    if(this.isPlaylist){
-      this.uiService.editPlaylistChanged.next(true);
-    }
   }
 }
