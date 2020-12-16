@@ -36,7 +36,7 @@
 }
 
 .mat-card-image {
-  width: 30%;
+  /*width: 30%;*/
   max-height: 180px;
   border-radius: 4px;
 }
@@ -67,4 +67,17 @@
   width: 80px;
   border-radius: 16px;
   margin-right: 8px;
+}
+
+.image-container {
+  width: 30%;
+  /*max-height: 180px;*/
+  /*border-radius: 4px;*/
+}
+
+.centered {
+  position: absolute;
+  top: 35%;
+  left: 15%;
+  transform: translate(-20%, -20%);
 }

@@ -5,8 +5,8 @@
       <ng-template [ngIf]="items.length > 0"; [ngIfElse]="create_playlist">
         <div>
           <ul class="flex-container">
-            <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
-              <div class="card">
+            <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let item of items; let i = index" (click)="onSelectItem(item)">
+              <div class="card" (contextmenu)="onRightClick($event, item)">
                 <img class="card-img-top" [src]="[item.imagePath]">
                 <div class="card-body">
                   <p class="card-title">{{ item.title.substring(0, 34)}}</p>
@@ -28,3 +28,18 @@
     </div>
   </ng-template>
 </section>
+<!-- an hidden div is created to set the position of appearance of the menu-->
+<div style="visibility: hidden; position: fixed;"
+     [style.left]="menuTopLeftPosition.x"
+     [style.top]="menuTopLeftPosition.y"
+     [matMenuTriggerFor]="rightMenu"></div>
+<!-- standard material menu -->
+<mat-menu #rightMenu="matMenu" style="background-color: #5A5A5A">
+  <ng-template matMenuContent let-item="item">
+    <span (mouseleave)="matMenuTrigger.closeMenu()">
+      <div style="margin: 0 8px 0 8px" *ngFor="let option of options">
+        <button mat-menu-item (click)="onClickOption(option)">{{ option }}</button>
+      </div>
+    </span>
+  </ng-template>
+</mat-menu>

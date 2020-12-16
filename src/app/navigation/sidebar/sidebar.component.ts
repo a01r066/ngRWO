@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {AuthService} from '../../auth/auth.service';
 import {Router} from '@angular/router';
 import {UiService} from '../../shared/ui.service';
+import {FirebaseService} from '../../firebase.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +15,8 @@ export class SidebarComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router,
-              private uiService: UiService) { }
+              private uiService: UiService,
+              private firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
     this.authService.authChangeSub.subscribe(authStatus => {
@@ -30,5 +32,18 @@ export class SidebarComponent implements OnInit {
     } else {
       this.router.navigate(['/library']);
     }
+  }
+
+  onCreatePlaylist(){
+    const playlistID = this.firebaseService.uuid();
+    this.uiService.isPlaylistEdit = true;
+    const user = this.authService.getUser();
+    const data = {
+      title: "My Playlist",
+      author: user.email,
+      imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf"
+    };
+    this.firebaseService.createPlaylist(user, playlistID, data);
+    this.router.navigate(['playlist', playlistID]);
   }
 }

@@ -5,6 +5,7 @@ import validate = WebAssembly.validate;
 import {Album} from '../../../music/models/album.model';
 import {FirebaseService} from '../../../firebase.service';
 import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-edit-playlist',
@@ -16,6 +17,7 @@ export class EditPlaylistComponent implements OnInit {
   playlist: Album;
   imagePath: string;
   isEditPhoto = false;
+  isAuth = false;
 
   fileData: File = null;
   previewUrl: any = null;
@@ -24,7 +26,8 @@ export class EditPlaylistComponent implements OnInit {
 
   constructor(private uiService: UiService,
               private firebaseService: FirebaseService,
-              private http: HttpClient) { }
+              private http: HttpClient,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.playlistForm = new FormGroup({
@@ -37,6 +40,10 @@ export class EditPlaylistComponent implements OnInit {
     });
     this.playlist = this.firebaseService.selectedAlbum;
     this.imagePath = this.playlist.imagePath;
+
+    this.authService.authChangeSub.subscribe(authStatus => {
+      this.isAuth = authStatus;
+    });
   }
 
   onDismiss(){
@@ -45,10 +52,19 @@ export class EditPlaylistComponent implements OnInit {
 
   onSavePlaylist(){
     if(this.playlistForm.valid){
-      console.log("Valid");
+      this.playlist.title = this.playlistForm.value.title;
+      this.playlist.author = this.playlistForm.value.author;
+      const data = {
+        title: this.playlistForm.value.title,
+        author: this.playlistForm.value.author,
+        // imagePath: this.imagePath
+      };
+      this.firebaseService.updatePlaylist(this.authService.getUser(), this.playlist, data);
+      this.uiService.editPlaylistChanged.next(false);
+      this.firebaseService.selectedAlbum = this.playlist;
     } else {
       console.log("Invalid");
-      window.alert("Playlist's name must at least 4 characters!");
+      window.alert("Playlist's name must at least 6 characters!");
     }
   }
 

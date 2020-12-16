@@ -114,6 +114,19 @@ export class FirebaseService {
     });
   }
 
+  deletePlaylist(user: User, playlist: Album){
+    this.database.ref('Playlists').child(user.uid).child(playlist.id).remove(() => {
+      // refresh playlists
+      this.getPlaylists(user);
+    });
+  }
+
+  updatePlaylist(user: User, playlist: Album, data: any){
+    this.database.ref('Playlists').child(user.uid).child(playlist.id).update(data).then(() => {
+      // refresh playlist
+    });
+  }
+
   createPlaylist(user: User, playlistID: string, data: any){
     const databObj = {
       title: data.title,
