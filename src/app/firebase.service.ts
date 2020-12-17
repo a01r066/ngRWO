@@ -8,6 +8,8 @@ import firebase from 'firebase';
 import {Track} from './music/models/track.model';
 import {UiService} from './shared/ui.service';
 import {User} from './auth/user.model';
+import {AuthService} from './auth/auth.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +53,9 @@ export class FirebaseService {
 
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private authService: AuthService,
+              private router: Router) {
   }
 
   getPlaylists(user: User){
@@ -127,6 +131,27 @@ export class FirebaseService {
     });
   }
 
+  onCreatePlaylist(){
+    const playlistID = this.uuid();
+    this.uiService.isPlaylistEdit = true;
+    const user = this.authService.getUser();
+    const data = {
+      title: "My Playlist",
+      author: user.email,
+      imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf",
+      tags: ""
+    };
+
+    const genreID = "";
+    const trendID = "";
+    let album = new Album(playlistID, genreID, trendID, data);
+    this.selectedAlbum = album;
+    this.uiService.isPlaylist = true;
+    this.createPlaylist(user, playlistID, data);
+    // this.router.navigate(['playlist', playlistID]);
+    this.router.navigate(['/library/playlist', album.id]);
+  }
+
   createPlaylist(user: User, playlistID: string, data: any){
     const databObj = {
       title: data.title,
@@ -166,6 +191,13 @@ export class FirebaseService {
       });
       this.favouristTracks = tracks;
       this.uiService.favouriteTracksSub.next(tracks);
+    });
+  }
+
+  removeTrackFromPlaylist(user: User, playlist: Album, track: Track){
+    this.database.ref('Tracks-Playlist').child(user.uid).child(playlist.id).child(track.genreID).child(track.albumID).child(track.id).remove(() => {
+      // refresh tracks in playlist
+      this.getTracksByPlaylist(user);
     });
   }
 

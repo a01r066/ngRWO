@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {StreamState} from '../../interfaces/stream-state';
 import {FirebaseService} from '../../firebase.service';
 import {PlayerService} from '../../services/player.service';
 import {UiService} from '../../shared/ui.service';
-import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
 import {AudioService} from '../../services/audio.service';
 import {User} from '../../auth/user.model';
 import firebase from 'firebase';
-import {Subject} from 'rxjs';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {NavItem} from '../../shared/nav-item';
 
 @Component({
   selector: 'app-lib-liked-songs',
@@ -34,6 +34,14 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
 
   isPlaylist = false;
   playlistImagePath: string;
+
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+  navItems: NavItem[] = [
+    {
+      title: "Remove this track"
+    }
+  ];
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -194,6 +202,14 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
       return this.album.author.slice(0, 64);
     } else {
       return "Description: N/A";
+    }
+  }
+
+  onSelectItem(item: NavItem, index: number){
+    if(this.isPlaylist){
+      this.firebaseService.removeTrackFromPlaylist(this.authService.getUser(), this.album, this.tracks[index]);
+    } else {
+      this.firebaseService.removeTrackFromFavouriteTracks(this.tracks[index], this.authService.getUser());
     }
   }
 }

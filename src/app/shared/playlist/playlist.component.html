@@ -90,7 +90,7 @@
                   </ng-container>
                   <!-- Handle leaf node menu items -->
                   <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
-                    <button mat-menu-item (click)="onSelectItem(child)">{{ child.title }}</button>
+                    <button mat-menu-item (click)="onSelectItem(child, i)">{{ child.title }}</button>
                   </ng-container>
                 </ng-container>
               </mat-menu>

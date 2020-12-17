@@ -198,7 +198,17 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
-  onSelectItem(item: NavItem){
+  onSelectItem(item: NavItem, index: number){
+    if(item.title === "New playlist"){
+      if(this.isAuth){
+        this.firebaseService.onCreatePlaylist();
+      } else {
+        this.uiService.loginAlertChanged.next(true);
+      }
+    } else if(item.title === 'Save to liked songs'){
+      // console.log("Add to liked songs");
+      this.firebaseService.addFavouriteTrack(this.tracks[index], this.authService.getUser());
+    }
   }
 
   selectSubItem(item: Album, track: Track){
