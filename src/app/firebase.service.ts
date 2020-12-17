@@ -11,6 +11,7 @@ import {User} from './auth/user.model';
 import {AuthService} from './auth/auth.service';
 import {Router} from '@angular/router';
 import {AuthData} from './auth/auth-data.model';
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
   providedIn: 'root'

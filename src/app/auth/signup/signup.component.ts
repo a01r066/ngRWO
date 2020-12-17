@@ -40,14 +40,14 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onRegister(){
-    const authData = {
+    const registerData = {
       name: this.signupForm.value.name,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password,
     };
 
     if(this.signupForm.valid){
-      this.authService.registerUser(authData);
+      this.authService.registerUser(registerData);
     }
   }
 }

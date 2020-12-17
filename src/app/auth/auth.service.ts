@@ -19,6 +19,7 @@ export class AuthService {
   authChangeSub = new Subject<boolean>();
   auth = firebase.auth();
   isAuthenticated: boolean = false;
+  database = firebase.database();
 
   constructor(private router: Router,
               private snackBar: MatSnackBar,
@@ -43,13 +44,37 @@ export class AuthService {
     });
   }
 
-  registerUser(authData: AuthData){
+  updateGoogleUserToDB(userData: UserCredential){
+    const user = userData.user;
+    const value = {
+      name: user.displayName,
+      email: user.email,
+      imagePath: user.photoURL
+    };
+    this.database.ref('Users').child(user.uid).update(value).then(() => {
+      // console.log(user.displayName + " added to firebase db");
+    });
+  }
+
+  updateUserToDB(userData: UserCredential, name: string){
+    const user = userData.user;
+    const value = {
+      name: name,
+      email: user.email
+    };
+    this.database.ref('Users').child(user.uid).update(value).then(() => {
+      // console.log(name + " added to firebase db");
+    });
+  }
+
+  registerUser(registerData: any){
     // sign up with firebase
-    const email = authData.email;
-    const password = authData.password;
+    const name = registerData.name;
+    const email = registerData.email;
+    const password = registerData.password;
     this.uiService.loadingStateChanged.next(true);
     this.auth.createUserWithEmailAndPassword(email, password).then(result => {
-      // this.user = result.user;
+      this.updateUserToDB(result, name);
       this.uiService.loadingStateChanged.next(false);
       this.router.navigate(['/library']);
     })
@@ -68,7 +93,8 @@ export class AuthService {
     this.auth.signInWithPopup(new GoogleAuthProvider()).then(res => {
         const name = res.user.displayName;
         const email = res.user.email;
-        console.log(name + ": " + email);
+        // console.log(res);
+        this.updateGoogleUserToDB(res);
         this.uiService.loadingStateChanged.next(false);
         this.router.navigate(['/library']);
     }). catch(error => {
