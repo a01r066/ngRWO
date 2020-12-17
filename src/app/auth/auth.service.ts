@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
 import {AuthData} from './auth-data.model';
 import {User} from './user.model';
-import {Subject} from 'rxjs';
+import {from, Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import firebase from 'firebase';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {UiService} from '../shared/ui.service';
+import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+import UserCredential = firebase.auth.UserCredential;
+import {catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +66,22 @@ export class AuthService {
         this.snackBar.open(error.message, null, {
           duration: 3000
         });
+    });
+  }
+
+  loginViaGmail(){
+    this.uiService.loadingStateChanged.next(true);
+    this.auth.signInWithPopup(new GoogleAuthProvider()).then(res => {
+        const name = res.user.displayName;
+        const email = res.user.email;
+        console.log(name + ": " + email);
+        this.uiService.loadingStateChanged.next(false);
+        this.router.navigate(['/library']);
+    }). catch(error => {
+      this.uiService.loadingStateChanged.next(false);
+      this.snackBar.open(error.message, null, {
+        duration: 3000
+      });
     });
   }
 

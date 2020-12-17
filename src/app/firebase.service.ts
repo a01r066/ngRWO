@@ -196,7 +196,6 @@ export class FirebaseService {
 
   removeTrackFromPlaylist(user: User, playlist: Album, track: Track){
     this.database.ref('Tracks-Playlist').child(user.uid).child(playlist.id).child(track.genreID).child(track.albumID).child(track.id).remove(() => {
-      // refresh tracks in playlist
       this.getTracksByPlaylist(user);
     });
   }

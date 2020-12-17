@@ -5,6 +5,16 @@
             fxLayoutAlign="center center"
             fxLayoutGap="8px"
             [formGroup]="signupForm" (ngSubmit)="onRegister()">
+        <div>
+          <mat-label class="continue-label">To continue, log in to RelaxingWorld</mat-label>
+        </div>
+        <div fxFlexFill fxLayoutGap="12px" fxLayout="column">
+          <div><button mat-raised-button color="primary" class="fb-button"><mat-icon>facebook</mat-icon>  CONTINUE WITH FACEBOOK</button></div>
+          <div><button mat-raised-button color="warn" class="fb-button"><mat-icon style="font-weight: bold; font-family: Arial">G</mat-icon>  CONTINUE WITH GOOGLE</button></div>
+        </div>
+        <div>
+          <mat-label STYLE="color: white; font-size: 0.75rem">OR</mat-label>
+        </div>
         <mat-form-field>
           <input type="email" placeholder="Your email"
                  matInput
@@ -21,7 +31,7 @@
           <mat-error>Missing password.</mat-error>
         </mat-form-field>
 <!--        <button type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Login</button>-->
-        <button type="submit" mat-raised-button color="primary" *ngIf="!isLoadingStateChanged">Register</button>
+        <button type="submit" mat-raised-button color="primary" *ngIf="!isLoadingStateChanged">REGISTER</button>
         <div *ngIf="isLoadingStateChanged" class="spinner-stroke-color">
           <mat-spinner [diameter]="36"></mat-spinner>
         </div>

@@ -118,13 +118,21 @@ export class SearchItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelectItem(item: NavItem){
-    console.log("Selected: " + item.title);
+  onSelectItem(item: NavItem, track: Track){
+    if(item.title === "New playlist"){
+      if(this.isAuth){
+        this.firebaseService.onCreatePlaylist();
+      } else {
+        this.uiService.loginAlertChanged.next(true);
+      }
+    } else if(item.title === 'Save to liked songs'){
+      // console.log("Add to liked songs");
+      this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
+    }
   }
 
   selectSubItem(item: Album, track: Track){
     // console.log("SubItem: " + item.title);
     this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
   }
-
 }

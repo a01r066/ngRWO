@@ -3,6 +3,7 @@ import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service';
 import {UiService} from '../../shared/ui.service';
 import {Subscription} from 'rxjs';
+import {catchError, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -52,5 +53,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(this.loginForm.valid){
       this.authService.login(authData);
     }
+  }
+
+  onGmailSignIn(){
+    this.authService.loginViaGmail();
   }
 }

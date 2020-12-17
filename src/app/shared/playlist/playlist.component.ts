@@ -101,6 +101,30 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
+  getTrackTitle(album: Album){
+    if(typeof album.title !== 'undefined' || album.title === ''){
+      let titleStr = album.title;
+      if(titleStr.length > 96){
+        titleStr = titleStr.slice(0, 92) + "...";
+      }
+      return titleStr;
+    } else {
+      return "My Playlist";
+    }
+  }
+
+  getTrackSubTitle(album: Album){
+    if(typeof album.author !== 'undefined' || album.author === ''){
+      let subTitleStr = album.author;
+      if(subTitleStr.length > 96){
+        subTitleStr = subTitleStr.slice(0, 92) + " ...";
+      }
+      return subTitleStr;
+    } else {
+      return "Optional description";
+    }
+  }
+
   getImagePath(){
     if(typeof this.album.imagePath !== 'undefined' || this.album.imagePath === ''){
       return this.album.imagePath;

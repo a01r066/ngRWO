@@ -1,7 +1,11 @@
+.form-container {
+  margin-top: 160px;
+}
+
 .fields-container {
   background-color: transparent;
   width: 320px;
-  margin-top: 32px;
+  /*margin-top: 32px;*/
   /*border: solid 5px #1DB954;*/
   border-radius: 4px;
   height: 248px;
@@ -10,6 +14,16 @@
   width: 300px;
   background-color: transparent;
   color: white;
+}
+
+.continue-label {
+  color: #B3B3A2;
+  font-size: 0.8rem;
+}
+.fb-button {
+  width: 300px;
+  height: 40px;
+  border-radius: 20px;
 }
 
 ::ng-deep.mat-error .mat-warn {
@@ -37,4 +51,9 @@
 
 .spinner-stroke-color ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #1DB954;
+}
+
+.mat-divider {
+  background: #5A5A5A;
+  width: 300px;
 }

@@ -8,8 +8,8 @@
             <div class="card">
               <img class="card-img-top" [src]="[item.imagePath]">
               <div class="card-body">
-                <p class="card-title">{{ item.title.substring(0, 34)}}</p>
-                <p class="card-subtitle">{{ item.author.substring(0, 24) }}</p>
+                <p class="card-title">{{ getTitle(item) }}</p>
+                <p class="card-subtitle">{{ getSubTitle(item) }}</p>
               </div>
             </div>
           </li>

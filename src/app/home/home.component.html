@@ -9,8 +9,8 @@
           <div class="card">
             <img class="card-img-top" [src]="[album.imagePath]">
             <div class="card-body">
-              <p class="card-title">{{ album.title.substring(0, 34) }}</p>
-              <p class="card-subtitle">{{ album.author.substring(0, 24)}}</p>
+              <p class="card-title">{{ getTitle(album) }}</p>
+              <p class="card-subtitle">{{ getSubTitle(album) }}</p>
             </div>
           </div>
         </li>

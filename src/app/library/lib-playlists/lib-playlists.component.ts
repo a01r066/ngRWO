@@ -82,8 +82,8 @@ export class LibPlaylistsComponent implements OnInit {
   getTitle(album: Album){
     if(typeof album.title !== 'undefined' || album.title === ''){
       let titleStr = album.title;
-      if(titleStr.length > 18){
-        titleStr = titleStr.slice(0, 18) + "...";
+      if(titleStr.length > 44){
+        titleStr = titleStr.slice(0, 40) + "...";
       }
       return titleStr;
     } else {
@@ -93,7 +93,11 @@ export class LibPlaylistsComponent implements OnInit {
 
   getSubTitle(album: Album){
     if(typeof album.author !== 'undefined' || album.author === ''){
-      return album.author.slice(0, 24);
+      let subTitleStr = album.author;
+      if(subTitleStr.length > 24){
+        subTitleStr = subTitleStr.slice(0, 20) + " ...";
+      }
+      return subTitleStr;
     } else {
       return "Optional description";
     }
