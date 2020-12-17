@@ -19,11 +19,14 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
+      name: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(3)]
+      }),
       email: new FormControl('', {
         validators: [Validators.required, Validators.email]
       }),
       password: new FormControl('', {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.minLength(6)]
       })
     });
 
@@ -38,8 +41,9 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onRegister(){
     const authData = {
+      name: this.signupForm.value.name,
       email: this.signupForm.value.email,
-      password: this.signupForm.value.password
+      password: this.signupForm.value.password,
     };
 
     if(this.signupForm.valid){

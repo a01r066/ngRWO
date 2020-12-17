@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onLogin(){
     const authData = {
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password
+      password: this.loginForm.value.password,
     };
 
     if(this.loginForm.valid){

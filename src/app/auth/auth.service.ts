@@ -9,6 +9,7 @@ import {UiService} from '../shared/ui.service';
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 import UserCredential = firebase.auth.UserCredential;
 import {catchError} from 'rxjs/operators';
+import {FirebaseService} from '../firebase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,13 +44,6 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData){
-    // this.user = {
-    //   email: authData.email,
-    //   userID: Math.round(Math.random() * 10000).toString()
-    // };
-    // this.authChangeSub.next(true);
-    // this.router.navigate(['/library']);
-
     // sign up with firebase
     const email = authData.email;
     const password = authData.password;

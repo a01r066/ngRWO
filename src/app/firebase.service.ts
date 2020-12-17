@@ -10,6 +10,7 @@ import {UiService} from './shared/ui.service';
 import {User} from './auth/user.model';
 import {AuthService} from './auth/auth.service';
 import {Router} from '@angular/router';
+import {AuthData} from './auth/auth-data.model';
 
 @Injectable({
   providedIn: 'root'
