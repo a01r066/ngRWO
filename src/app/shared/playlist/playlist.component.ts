@@ -122,7 +122,7 @@ export class PlaylistComponent implements OnInit {
       }
       return subTitleStr;
     } else {
-      return "Optional description";
+      return "";
     }
   }
 

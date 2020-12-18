@@ -52,12 +52,13 @@ mat-toolbar {
 
 .mat-icon {
   color: #B3B3A2;
-  font-size: 36px;
+  font-size: 1.5rem;
 }
 
 .play {
   color: #1DB954;
-  font-size: 72px;
+  transform: scale(2.75);
+  margin-left: 32px;
 }
 
 .playlistTbl {
@@ -263,7 +264,7 @@ table {
 
 .option-buttons {
   cursor: pointer;
-  font-size: 24px;
+  font-size: 1.2rem;
   color: #5A5A5A;
 }
 

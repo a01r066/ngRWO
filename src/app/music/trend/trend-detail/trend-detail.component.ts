@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../models/album.model';
 import {FirebaseService} from '../../../firebase.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NavItem} from '../../../shared/nav-item';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-trend-detail',
@@ -11,6 +13,20 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class TrendDetailComponent implements OnInit {
   items: Album[];
   title: string;
+
+  navItems: NavItem[] = [
+    {
+      title: "Sort by A->Z"
+    },
+    {
+      title: "Sort by Z->A"
+    }
+    // {
+    //   title: "Sort by Top Listen"
+    // }
+  ];
+
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -49,5 +65,24 @@ export class TrendDetailComponent implements OnInit {
     } else {
       return "Optional description";
     }
+  }
+
+  onSelecSort(index){
+    if(index === 0 || index === 1){
+      this.sortByName(index);
+    }
+  }
+
+  sortByName(index){
+    this.items.sort((s1, s2) => {
+      if(s1 === s2){
+        return -1;
+      }
+      if(index === 0){
+        return s1.title.toLowerCase().localeCompare(s2.title.toLowerCase());
+      } else {
+        return s2.title.toLowerCase().localeCompare(s1.title.toLowerCase());
+      }
+    });
   }
 }
