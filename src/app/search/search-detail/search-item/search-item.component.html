@@ -34,8 +34,8 @@
 <!--    </div>-->
 <!--  </div>-->
   <img style="border-radius: 0; width: 40px; height: 40px" matListAvatar src="{{ selectedAlbum?.imagePath }}" alt="">
-  <h3 matLine class="mat-title"> {{ track.title }} </h3>
+  <h3 matLine class="mat-title"> {{ getTitle() }} </h3>
   <p matLine class="mat-card-subtitle" style="color: #B3B3A2">
-    <span> {{ track.author }} </span>
+    <span> {{ getSubTitle() }} </span>
   </p>
 </mat-list-item>

@@ -191,22 +191,26 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
   }
 
   getTitle(){
-    if(typeof this.track.title !== 'undefined' || this.track.title !== ''){
+    if(typeof this.track !== 'undefined'){
       let titleStr = this.track.title;
       if(titleStr.length > 64){
         titleStr = titleStr.slice(0, 60) + "...";
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return "";
     }
   }
 
   getSubTitle(){
-    if(typeof this.track.author !== 'undefined' || this.track.author === ''){
-      return this.track.author.slice(0, 32);
+    if(typeof this.track !== 'undefined'){
+      let subTitleStr = this.track.title;
+      if(subTitleStr.length > 24){
+        subTitleStr = subTitleStr.slice(0, 20) + "...";
+      }
+      return subTitleStr;
     } else {
-      return "Description: N/A";
+      return "";
     }
   }
 }

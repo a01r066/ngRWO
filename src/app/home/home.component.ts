@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
   }
 
   getTitle(album: Album){
-    if(typeof album.title !== 'undefined' || album.title === ''){
+    if(typeof album !== 'undefined'){
       let titleStr = album.title;
       if(titleStr.length > 44){
         titleStr = titleStr.slice(0, 40) + "...";
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
   }
 
   getSubTitle(album: Album){
-    if(typeof album.author !== 'undefined' || album.author === ''){
+    if(typeof album !== 'undefined'){
       let subTitleStr = album.author;
       if(subTitleStr.length > 24){
         subTitleStr = subTitleStr.slice(0, 20) + " ...";

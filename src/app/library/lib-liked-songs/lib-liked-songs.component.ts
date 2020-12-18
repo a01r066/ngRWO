@@ -198,8 +198,12 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
   }
 
   getSubTitle(){
-    if(typeof this.album.author !== 'undefined' || this.album.author === ''){
-      return this.album.author.slice(0, 64);
+    if(typeof this.album.author !== 'undefined'){
+      let subTitleStr = this.album.author;
+      if(subTitleStr.length > 36){
+        subTitleStr = subTitleStr.slice(0, 32) + "...";
+      }
+      return subTitleStr;
     } else {
       return "Description: N/A";
     }

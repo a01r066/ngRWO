@@ -10,6 +10,7 @@ import {UiService} from '../ui.service';
 import {ActivatedRoute} from '@angular/router';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NavItem} from '../nav-item';
+import {Sort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-playlist',
@@ -134,7 +135,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   getTitle(){
-    if(typeof this.album.title !== 'undefined' || this.album.title !== ''){
+    if(typeof this.album.title !== 'undefined'){
       let titleStr = this.album.title;
       if(titleStr.length > 36){
         titleStr = titleStr.slice(0, 32) + "...";
@@ -146,8 +147,12 @@ export class PlaylistComponent implements OnInit {
   }
 
   getSubTitle(){
-    if(typeof this.album.author !== 'undefined' || this.album.author === ''){
-      return this.album.author.slice(0, 64);
+    if(typeof this.album.author !== 'undefined'){
+      let subTitleStr = this.album.author;
+      if(subTitleStr.length > 64){
+        subTitleStr = subTitleStr.slice(0, 60) + "...";
+      }
+      return subTitleStr;
     } else {
       return "Description: N/A";
     }
@@ -237,5 +242,9 @@ export class PlaylistComponent implements OnInit {
 
   selectSubItem(item: Album, track: Track){
     this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
+  }
+
+  sortData(sort: Sort){
+
   }
 }
