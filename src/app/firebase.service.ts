@@ -280,22 +280,24 @@ export class FirebaseService {
     this.database.ref('Tracks').once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
         const genreID = genreSnapshot.key;
-        genreSnapshot.forEach(albumSnapshot => {
-          const albumID = albumSnapshot.key;
-          albumSnapshot.forEach(trackSnapshot => {
-            const trackID = trackSnapshot.key;
-            const dataObj = {
-              title: trackSnapshot.val().title,
-              author: trackSnapshot.val().author,
-              filePath: trackSnapshot.val().filePath,
-              index: trackSnapshot.val().index,
-              tags: trackSnapshot.val().tags,
-              duration: 0
-            };
-            const track = new Track(trackID, albumID, genreID, dataObj);
-            tracks.push(track);
+        if(genreID !== '-MOoSXRlWkDrdSHyNKT5'){
+          genreSnapshot.forEach(albumSnapshot => {
+            const albumID = albumSnapshot.key;
+            albumSnapshot.forEach(trackSnapshot => {
+              const trackID = trackSnapshot.key;
+              const dataObj = {
+                title: trackSnapshot.val().title,
+                author: trackSnapshot.val().author,
+                filePath: trackSnapshot.val().filePath,
+                index: trackSnapshot.val().index,
+                tags: trackSnapshot.val().tags,
+                duration: 0
+              };
+              const track = new Track(trackID, albumID, genreID, dataObj);
+              tracks.push(track);
+            });
           });
-        });
+        }
       });
       this.allTracks = tracks;
       this.isAllTracksLoaded = true;

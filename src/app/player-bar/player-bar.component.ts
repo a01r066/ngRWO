@@ -62,7 +62,11 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
       // Ended play next
       if (state.currentTime >= state.duration) {
         if (!this.playerService.isLastPlaying()) {
-          this.playerService.next();
+          if(this.playerService.files.length > 1){
+            this.playerService.next();
+          } else {
+            this.playerService.pause();
+          }
         } else {
           if(this.isRepeat){
             this.playerService.repeat();
@@ -193,8 +197,10 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
   getTitle(){
     if(typeof this.track !== 'undefined'){
       let titleStr = this.track.title;
-      if(titleStr.length > 64){
-        titleStr = titleStr.slice(0, 60) + "...";
+      if(typeof titleStr !== 'undefined'){
+        if(titleStr.length > 64){
+          titleStr = titleStr.slice(0, 60) + "...";
+        }
       }
       return titleStr;
     } else {
@@ -205,8 +211,10 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
   getSubTitle(){
     if(typeof this.track !== 'undefined'){
       let subTitleStr = this.track.title;
-      if(subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + "...";
+      if(typeof subTitleStr !== 'undefined'){
+        if(subTitleStr.length > 24){
+          subTitleStr = subTitleStr.slice(0, 20) + "...";
+        }
       }
       return subTitleStr;
     } else {

@@ -138,27 +138,31 @@ export class SearchItemComponent implements OnInit, OnDestroy {
 
   getTitle(){
     if(typeof this.track !== 'undefined'){
-      let titleStr = this.track.title;
-      if(titleStr.length > 128){
-        titleStr = titleStr.slice(0, 124) + "...";
+      let titleStr = '';
+      if(this.track.title !== ''){
+        titleStr = this.track.title;
+        if(titleStr.length > 128){
+          titleStr = titleStr.slice(0, 124) + "...";
+        }
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return "N/A";
     }
   }
 
   getSubTitle(){
     if(typeof this.track !== 'undefined'){
-      let subTitleStr = this.track.author;
-      if(subTitleStr !== ''){
-        if(subTitleStr.length > 128){
-          subTitleStr = subTitleStr.slice(0, 124) + "...";
+      let titleStr = '';
+      if(this.track.author !== ''){
+        titleStr = this.track.title;
+        if(titleStr.length > 128){
+          titleStr = titleStr.slice(0, 124) + "...";
         }
       }
-      return subTitleStr;
+      return titleStr;
     } else {
-      return "";
+      return "N/A";
     }
   }
 }

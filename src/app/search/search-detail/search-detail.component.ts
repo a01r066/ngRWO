@@ -5,6 +5,9 @@ import {Album} from '../../music/models/album.model';
 import {PlayerService} from '../../services/player.service';
 import firebase from 'firebase';
 import {UiService} from '../../shared/ui.service';
+import {AudioService} from '../../services/audio.service';
+import {StreamState} from '../../interfaces/stream-state';
+import {Subscription} from 'rxjs';
 
 export interface Section {
   name: string;
@@ -22,6 +25,7 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   searchText: string;
   selectedRowIndex: number;
   database = firebase.database();
+  state: StreamState;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
