@@ -7,10 +7,10 @@
       <mat-list-item class="track-info" (click)="openPlaylist(track)" style="cursor: pointer">
         <div fxFlowLayout="column" style="width: 100%">
           <div>
-            <mat-label class="mat-title" style="color: white; font-size: 14px">{{ track?.title.substring(0, 44) }}</mat-label>
+            <mat-label class="mat-title" style="color: white; font-size: 14px">{{ getTitle() }}</mat-label>
           </div>
           <div>
-            <mat-label class="mat-card-subtitle" style="color: #B3B3A2; font-size: 12px">{{ track?.author.substring(0, 24) }}</mat-label>
+            <mat-label class="mat-card-subtitle" style="color: #B3B3A2; font-size: 12px">{{ getSubTitle() }}</mat-label>
           </div>
         </div>
       </mat-list-item>

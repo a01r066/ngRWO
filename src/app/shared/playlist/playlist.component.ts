@@ -137,7 +137,7 @@ export class PlaylistComponent implements OnInit {
     if(typeof this.album.title !== 'undefined' || this.album.title !== ''){
       let titleStr = this.album.title;
       if(titleStr.length > 36){
-        titleStr = titleStr.slice(0, 36) + "...";
+        titleStr = titleStr.slice(0, 32) + "...";
       }
       return titleStr;
     } else {
