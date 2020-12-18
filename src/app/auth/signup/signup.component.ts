@@ -50,4 +50,12 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.authService.registerUser(registerData);
     }
   }
+
+  onGmailRegister(){
+    this.authService.loginViaGmail();
+  }
+
+  onFbRegister(){
+    this.authService.loginViaFb();
+  }
 }

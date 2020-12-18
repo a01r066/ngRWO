@@ -10,6 +10,7 @@ import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 import UserCredential = firebase.auth.UserCredential;
 import {catchError} from 'rxjs/operators';
 import {FirebaseService} from '../firebase.service';
+import FacebookAuthProvider = firebase.auth.FacebookAuthProvider;
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +86,26 @@ export class AuthService {
         this.snackBar.open(error.message, null, {
           duration: 3000
         });
+    });
+  }
+
+  loginViaFb(){
+    this.uiService.loadingStateChanged.next(true);
+    let provider = new FacebookAuthProvider();
+    // provider.addScope('user_photos');
+    this.auth.signInWithPopup(provider).then(res => {
+      // console.log(res);
+      const name = res.user.displayName;
+      const email = res.user.email;
+      // console.log(name + ": " +email);
+      this.updateGoogleUserToDB(res);
+      this.uiService.loadingStateChanged.next(false);
+      this.router.navigate(['/library']);
+    }). catch(error => {
+      this.uiService.loadingStateChanged.next(false);
+      this.snackBar.open(error.message, null, {
+        duration: 3000
+      });
     });
   }
 

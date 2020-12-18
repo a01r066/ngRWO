@@ -58,4 +58,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   onGmailSignIn(){
     this.authService.loginViaGmail();
   }
+
+  onFbLogin(){
+    this.authService.loginViaFb();
+  }
 }

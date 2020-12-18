@@ -9,7 +9,7 @@
           <mat-label class="continue-label">To continue, log in to RelaxingWorld</mat-label>
         </div>
         <div fxFlexFill fxLayoutGap="12px" fxLayout="column">
-          <div><button mat-raised-button color="primary" class="fb-button"><mat-icon>facebook</mat-icon>  CONTINUE WITH FACEBOOK</button></div>
+          <div><button mat-raised-button color="primary" class="fb-button" (click)="onFbLogin()"><mat-icon>facebook</mat-icon>  CONTINUE WITH FACEBOOK</button></div>
           <div><button mat-raised-button color="warn" class="fb-button" (click)="onGmailSignIn()"><mat-icon style="font-weight: bold; font-family: Arial">G</mat-icon>  CONTINUE WITH GOOGLE</button></div>
         </div>
         <div>
@@ -22,7 +22,7 @@
           <input type="email" placeholder="Your email"
                  matInput
                  formControlName="email">
-          <mat-hint>Please enter a valid email.</mat-hint>
+<!--          <mat-hint>Please enter a valid email.</mat-hint>-->
           <mat-error>Invalid or missing email.</mat-error>
         </mat-form-field>
         <mat-form-field>
@@ -30,7 +30,7 @@
                  autocomplete="on"
                  matInput
                  formControlName="password">
-          <mat-hint>Please enter your password.</mat-hint>
+<!--          <mat-hint>Please enter your password.</mat-hint>-->
           <mat-error>Missing password.</mat-error>
         </mat-form-field>
 <!--        <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>-->
