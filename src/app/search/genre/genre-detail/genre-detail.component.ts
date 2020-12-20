@@ -39,6 +39,7 @@ export class GenreDetailComponent implements OnInit{
 
   ngOnInit(): void {
     this.genre = this.firebaseService.selectedGenre;
+    this.albums = this.firebaseService.albums;
     this.uiService.isLoadedAll.subscribe(isLoaded => {
       this.isLoadedAll = isLoaded;
     });

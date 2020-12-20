@@ -107,21 +107,21 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
-  getTrackTitle(album: Album){
-    if(typeof album.title !== 'undefined' || album.title === ''){
-      let titleStr = album.title;
+  getTrackTitle(track: Track){
+    if(typeof track.title !== 'undefined' || track.title === ''){
+      let titleStr = track.title;
       if(titleStr.length > 96){
         titleStr = titleStr.slice(0, 92) + "...";
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return "";
     }
   }
 
-  getTrackSubTitle(album: Album){
-    if(typeof album.author !== 'undefined' || album.author === ''){
-      let subTitleStr = album.author;
+  getTrackSubTitle(track: Track){
+    if(typeof track.author !== 'undefined' || track.author === ''){
+      let subTitleStr = track.author;
       if(subTitleStr.length > 96){
         subTitleStr = subTitleStr.slice(0, 92) + " ...";
       }
