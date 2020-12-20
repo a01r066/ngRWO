@@ -6,13 +6,14 @@ import {Router} from '@angular/router';
 import {NavItem} from '../../../shared/nav-item';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {UiService} from '../../../shared/ui.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-genre-detail',
   templateUrl: './genre-detail.component.html',
   styleUrls: ['./genre-detail.component.css']
 })
-export class GenreDetailComponent {
+export class GenreDetailComponent implements OnInit{
   navItems: NavItem[] = [
     {
       title: "Sort by A->Z"
@@ -25,12 +26,32 @@ export class GenreDetailComponent {
     // }
   ];
 
+  genre: Genre;
+
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
-  @Input() albums: Album[] = [];
+  albums: Album[] = [];
+  isLoadedAll: boolean;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
               private uiService: UiService) {
+  }
+
+  ngOnInit(): void {
+    this.genre = this.firebaseService.selectedGenre;
+    this.uiService.isLoadedAll.subscribe(isLoaded => {
+      this.isLoadedAll = isLoaded;
+    });
+    this.firebaseService.allAlbumsSub.subscribe(allAlbums => {
+      this.firebaseService.allAlbums = allAlbums;
+      this.firebaseService.getNextItems();
+      this.firebaseService.albumsSubject.next(this.firebaseService.albums);
+      this.albums = this.firebaseService.albums;
+    });
+  }
+
+  loadMore(){
+    this.firebaseService.loadMore();
   }
 
   onSelectItem(album: Album){

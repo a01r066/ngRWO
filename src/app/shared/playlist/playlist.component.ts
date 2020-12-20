@@ -11,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NavItem} from '../nav-item';
 import {Sort} from '@angular/material/sort';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-playlist',
@@ -39,6 +40,8 @@ export class PlaylistComponent implements OnInit {
     }
   ];
 
+  durations: Array<string> = [];
+
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
               private audioService: AudioService,
@@ -60,6 +63,8 @@ export class PlaylistComponent implements OnInit {
       // favourite list
       tracks.forEach(track => {
         this.favouriteList.push(false);
+        // get mp3 duration
+        // this.getMp3Duration(track);
       });
     });
     this.playerService.selectedRowIndexSub.subscribe(index => {
@@ -245,6 +250,33 @@ export class PlaylistComponent implements OnInit {
   }
 
   sortData(sort: Sort){
+  }
 
+  getMp3Duration(track: Track){
+    // Create a non-dom allocated Audio element
+    const au = document.createElement('audio');
+
+// Define the URL of the MP3 audio file
+    au.src = track.filePath;
+
+// Once the metadata has been loaded, display the duration in the console
+    au.addEventListener('loadedmetadata', () => {
+      // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
+      const duration = au.duration;
+      console.log("The duration of the song is of: " + duration + " seconds");
+      const durationStr = this.formatTime(duration, 'mm:ss');
+      this.durations.push(durationStr);
+
+      // example 12.3234 seconds
+      // console.log("The duration of the song is of: " + duration + " seconds");
+      // Alternatively, just display the integer value with
+      // parseInt(duration)
+      // 12 seconds
+    });
+  }
+
+  formatTime(time: number, format: string = 'HH:mm:ss') {
+    const momentTime = time * 1000;
+    return moment.utc(momentTime).format(format);
   }
 }

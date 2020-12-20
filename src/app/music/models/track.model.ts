@@ -7,10 +7,10 @@ export class Track {
   filePath: string;
   index?: number;
   tags?: string;
-  duration?: number;
+  duration?: string;
 
   constructor(id: string, albumID: string, genreID: string,
-              dataObj: { title: string, author: string, filePath: string, index: number, tags: string, duration: number}) {
+              dataObj: { title: string, author: string, filePath: string, index: number, tags: string, duration: string}) {
     this.id = id;
     this.albumID = albumID;
     this.genreID = genreID;

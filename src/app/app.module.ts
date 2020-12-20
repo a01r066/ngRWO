@@ -41,7 +41,6 @@ import { PlaylistEmptyComponent } from './library/lib-playlists/playlist-empty/p
 import { MenuItemComponent } from './shared/playlist/menu-item/menu-item.component';
 import { EditPlaylistComponent } from './shared/playlist/edit-playlist/edit-playlist.component';
 import {ScrollTrackerDirective} from './scroll-tracker.directive';
-import { GenreDetailContainerComponent } from './search/genre/genre-detail-container/genre-detail-container.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -75,7 +74,6 @@ firebase.initializeApp(environment.firebase);
         MenuItemComponent,
         EditPlaylistComponent,
         ScrollTrackerDirective,
-        GenreDetailContainerComponent,
     ],
   imports: [
     SharedModule,

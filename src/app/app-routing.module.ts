@@ -10,7 +10,6 @@ import {PlaylistComponent} from './shared/playlist/playlist.component';
 import {SearchDetailComponent} from './search/search-detail/search-detail.component';
 import {AuthGuard} from './auth/auth.guard';
 import {LibLikedSongsComponent} from './library/lib-liked-songs/lib-liked-songs.component';
-import {GenreDetailContainerComponent} from './search/genre/genre-detail-container/genre-detail-container.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,8 +18,8 @@ const routes: Routes = [
       { path: ':id', component: SearchDetailComponent }
     ] },
   { path: 'genre', component: GenreComponent, children: [
-      // { path: ':id', component: GenreDetailComponent }
-      { path: ':id', component: GenreDetailContainerComponent}
+      { path: ':id', component: GenreDetailComponent }
+      // { path: ':id', component: GenreDetailContainerComponent}
     ]},
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'album/:id', component: PlaylistComponent },

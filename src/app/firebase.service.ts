@@ -312,7 +312,7 @@ export class FirebaseService {
                 filePath: trackSnapshot.val().filePath,
                 index: trackSnapshot.val().index,
                 tags: trackSnapshot.val().tags,
-                duration: 0
+                duration: trackSnapshot.val().duration
               };
               const track = new Track(trackID, albumID, genreID, dataObj);
               tracks.push(track);
@@ -339,7 +339,7 @@ export class FirebaseService {
           filePath: itemSnapshot.val().filePath,
           tags: itemSnapshot.val().filePath,
           index: itemSnapshot.val().index,
-          duration: 0
+          duration: itemSnapshot.val().duration
         };
         const track = new Track(id, this.selectedAlbum.id, this.selectedAlbum.genreID, dataObj);
         tracks.push(track);

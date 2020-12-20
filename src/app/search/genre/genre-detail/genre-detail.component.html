@@ -39,7 +39,7 @@
 <!--    </div>-->
 <!--  </ng-template>-->
   <div class="trending">
-    <h1>Trending
+    <h1>{{ genre.title }}
       <span style="float: right; margin-right: 48px">
           <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">filter_list</mat-icon>
           <mat-menu #menu="matMenu" [overlapTrigger]="false">
@@ -69,5 +69,8 @@
         </li>
       </ul>
     </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!isLoadedAll">
+    <button mat-icon-button (click)="loadMore()"><mat-icon style="color: gray; font-size: 2.5rem; margin-bottom: 16px; margin-top: 16px">arrow_circle_down</mat-icon></button>
   </div>
 </section>
