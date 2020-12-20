@@ -1,16 +1,54 @@
 <section id="music">
-  <ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">
-    <div class="trending">
-      <h1>Trending
-        <span style="float: right; margin-right: 48px">
+<!--  <ng-template [ngIf]="isDataLoaded"; [ngIfElse]="loading">-->
+<!--    <div class="trending">-->
+<!--      <h1>Trending-->
+<!--        <span style="float: right; margin-right: 48px">-->
+<!--          <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">filter_list</mat-icon>-->
+<!--          <mat-menu #menu="matMenu" [overlapTrigger]="false">-->
+<!--          <ng-container *ngFor="let child of navItems; let i = index">-->
+<!--            &lt;!&ndash; Handle branch node menu items &ndash;&gt;-->
+<!--&lt;!&ndash;            <ng-container *ngIf="child.subItems && child.subItems.length > 0">&ndash;&gt;-->
+<!--&lt;!&ndash;              <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>&ndash;&gt;-->
+<!--&lt;!&ndash;              <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, track)"></app-menu-item>&ndash;&gt;-->
+<!--&lt;!&ndash;            </ng-container>&ndash;&gt;-->
+<!--            &lt;!&ndash; Handle leaf node menu items &ndash;&gt;-->
+<!--            <ng-container *ngIf="!child.subItems || child.subItems.length === 0">-->
+<!--              <button mat-menu-item (click)="onSelecSort(i)">{{ child.title }}</button>-->
+<!--            </ng-container>-->
+<!--          </ng-container>-->
+<!--        </mat-menu>-->
+<!--      </span></h1>-->
+<!--      <div>-->
+<!--        <ul class="flex-container">-->
+<!--          <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">-->
+<!--            <div class="card">-->
+<!--              <img class="card-img-top" [src]="[item.imagePath]">-->
+<!--              <div class="card-body">-->
+<!--                <p class="card-title">{{ getTitle(item) }}</p>-->
+<!--                <p class="card-subtitle">{{ getSubTitle(item) }}</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </ng-template>-->
+<!--  <ng-template #loading>-->
+<!--    <div class="spinner-stroke-color">-->
+<!--      <div class="center"><mat-spinner [diameter]="68"></mat-spinner></div>-->
+<!--    </div>-->
+<!--  </ng-template>-->
+  <div class="trending">
+    <h1>Trending
+      <span style="float: right; margin-right: 48px">
           <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">filter_list</mat-icon>
           <mat-menu #menu="matMenu" [overlapTrigger]="false">
           <ng-container *ngFor="let child of navItems; let i = index">
             <!-- Handle branch node menu items -->
-<!--            <ng-container *ngIf="child.subItems && child.subItems.length > 0">-->
-<!--              <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>-->
-<!--              <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, track)"></app-menu-item>-->
-<!--            </ng-container>-->
+            <!--            <ng-container *ngIf="child.subItems && child.subItems.length > 0">-->
+            <!--              <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>-->
+            <!--              <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, track)"></app-menu-item>-->
+            <!--            </ng-container>-->
             <!-- Handle leaf node menu items -->
             <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
               <button mat-menu-item (click)="onSelecSort(i)">{{ child.title }}</button>
@@ -18,24 +56,18 @@
           </ng-container>
         </mat-menu>
       </span></h1>
-      <div>
-        <ul class="flex-container">
-          <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
-            <div class="card">
-              <img class="card-img-top" [src]="[item.imagePath]">
-              <div class="card-body">
-                <p class="card-title">{{ getTitle(item) }}</p>
-                <p class="card-subtitle">{{ getSubTitle(item) }}</p>
-              </div>
+    <div>
+      <ul class="flex-container">
+        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let album of albums" (click)="onSelectItem(album)">
+          <div class="card">
+            <img class="card-img-top" [src]="[album.imagePath]">
+            <div class="card-body">
+              <p class="card-title">{{ getTitle(album) }}</p>
+              <p class="card-subtitle">{{ getSubTitle(album) }}</p>
             </div>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </li>
+      </ul>
     </div>
-  </ng-template>
-  <ng-template #loading>
-    <div class="spinner-stroke-color">
-      <div class="center"><mat-spinner [diameter]="68"></mat-spinner></div>
-    </div>
-  </ng-template>
+  </div>
 </section>

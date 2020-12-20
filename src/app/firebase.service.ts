@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Genre} from './music/models/genre.model';
 import {HttpClient} from '@angular/common/http';
-import {of, Subject} from 'rxjs';
+import {BehaviorSubject, of, Subject} from 'rxjs';
 import {Album} from './music/models/album.model';
 import firebase from 'firebase';
 import {Track} from './music/models/track.model';
@@ -10,8 +10,6 @@ import {UiService} from './shared/ui.service';
 import {User} from './auth/user.model';
 import {AuthService} from './auth/auth.service';
 import {Router} from '@angular/router';
-import {AuthData} from './auth/auth-data.model';
-import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +51,34 @@ export class FirebaseService {
   allTracksSub = new Subject<Track[]>();
   isAllTracksLoaded: boolean = false;
 
+  // refactor scroll to load more items
+  albumsSubject = new BehaviorSubject<Album[]>([]);
+  albums$ = this.albumsSubject.asObservable();
+  albums: Album[] = [];
+  allAlbums: Album[] = [];
+  allAlbumsSub = new Subject<Album[]>();
+
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient,
               private uiService: UiService,
               private authService: AuthService,
               private router: Router) {
+  }
+
+  loadMore(): void {
+    if(this.getNextItems()){
+      this.albumsSubject.next(this.albums);
+    }
+  }
+
+  getNextItems(): boolean {
+    if(this.albums.length >= this.allAlbums.length){
+      this.uiService.isLoadedAll.next(true);
+      return false;
+    }
+    const remainingLength = Math.min(24, this.allAlbums.length - this.albums.length);
+    this.albums.push(...this.allAlbums.slice(this.albums.length, this.albums.length + remainingLength));
+    return true;
   }
 
   getPlaylists(user: User){
@@ -400,8 +421,16 @@ export class FirebaseService {
     return Math.floor(Math.random() * end);
   }
 
+  resetAlbums(){
+    this.albumsSubject = new BehaviorSubject<Album[]>([]);
+    this.albums$ = this.albumsSubject.asObservable();
+    this.allAlbums = [];
+    this.albums = [];
+    this.allAlbumsSub = new Subject<Album[]>();
+  }
+
   getAlbumsByGenre(genre: Genre){
-    // console.log("GenreID: " + genre.id);
+    this.resetAlbums();
     const albums: Album[] = [];
     this.httpClient.get(this.apiURL+'Albums/'+genre.id+'.json').subscribe(jsonData => {
       const keys = Object.keys(jsonData);
@@ -417,6 +446,8 @@ export class FirebaseService {
         albums.push(album);
         this.isDataLoadedSub.next(true);
       }
+      // return albums
+      this.allAlbumsSub.next(albums);
     });
     return albums;
   }

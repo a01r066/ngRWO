@@ -80,7 +80,7 @@ h1 {
 ::ng-deep.mat-menu-panel {
   background-color: #282828;
   width: 180px;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .mat-menu-item {

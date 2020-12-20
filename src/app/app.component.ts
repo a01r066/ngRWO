@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirebaseService} from './firebase.service';
 import {AuthService} from './auth/auth.service';
 import {UiService} from './shared/ui.service';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ export class AppComponent implements OnInit{
   isAlertShow = false;
   isEditPlaylistShow = false;
 
+  isGenreSelect = false;
+
   constructor(private authService: AuthService,
               private uiService: UiService) {
   }
@@ -27,6 +30,10 @@ export class AppComponent implements OnInit{
     });
     this.uiService.editPlaylistChanged.subscribe(isEdit => {
       this.isEditPlaylistShow = isEdit;
+    });
+
+    this.uiService.isGenreSelectSub.subscribe(isGenreSelect => {
+      this.isGenreSelect = isGenreSelect;
     });
   }
 }

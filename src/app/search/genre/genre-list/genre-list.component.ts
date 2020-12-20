@@ -3,6 +3,7 @@ import {Genre} from '../../../music/models/genre.model';
 import {FirebaseService} from '../../../firebase.service';
 import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {UiService} from '../../../shared/ui.service';
 
 @Component({
   selector: 'app-genre-list',
@@ -38,6 +39,8 @@ export class GenreListComponent implements OnInit, OnDestroy {
 
   onSelectGenre(genre: Genre){
     this.firebaseService.selectedGenre = genre;
+    // refactor scroll to load more items
+    this.firebaseService.getAlbumsByGenre(genre);
     this.router.navigate(['genre', genre.title]);
   }
 

@@ -1,21 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../../music/models/album.model';
 import {FirebaseService} from '../../../firebase.service';
 import {Genre} from '../../../music/models/genre.model';
 import {Router} from '@angular/router';
 import {NavItem} from '../../../shared/nav-item';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {UiService} from '../../../shared/ui.service';
 
 @Component({
   selector: 'app-genre-detail',
   templateUrl: './genre-detail.component.html',
   styleUrls: ['./genre-detail.component.css']
 })
-export class GenreDetailComponent implements OnInit {
-  genre: Genre;
-  items: Album[] = [];
-  isDataLoaded: boolean = false;
-
+export class GenreDetailComponent {
   navItems: NavItem[] = [
     {
       title: "Sort by A->Z"
@@ -29,16 +26,11 @@ export class GenreDetailComponent implements OnInit {
   ];
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+  @Input() albums: Album[] = [];
 
   constructor(private firebaseService: FirebaseService,
-              private router: Router) { }
-
-  ngOnInit(): void {
-    this.genre = this.firebaseService.selectedGenre;
-    this.items = this.firebaseService.getAlbumsByGenre(this.genre);
-    this.firebaseService.isDataLoadedSub.subscribe(isLoaded => {
-      this.isDataLoaded = isLoaded;
-    });
+              private router: Router,
+              private uiService: UiService) {
   }
 
   onSelectItem(album: Album){
@@ -54,7 +46,7 @@ export class GenreDetailComponent implements OnInit {
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return "Playlist";
     }
   }
 
@@ -66,7 +58,7 @@ export class GenreDetailComponent implements OnInit {
       }
       return subTitleStr;
     } else {
-      return "Optional description";
+      return "";
     }
   }
 
@@ -77,7 +69,7 @@ export class GenreDetailComponent implements OnInit {
   }
 
   sortByName(index){
-    this.items.sort((s1, s2) => {
+    this.albums.sort((s1, s2) => {
       if(s1 === s2){
         return -1;
       }
@@ -87,9 +79,5 @@ export class GenreDetailComponent implements OnInit {
         return s2.title.toLowerCase().localeCompare(s1.title.toLowerCase());
       }
     });
-  }
-
-  sortByTopListen(){
-
   }
 }
