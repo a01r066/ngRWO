@@ -16,9 +16,10 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search', component: SearchComponent, children: [
       { path: '', component: GenreListComponent },
-      { path: ':id', component: SearchDetailComponent },
-      { path: ':text/albums', component: TrendDetailComponent }
+      { path: ':id', component: SearchDetailComponent }
     ] },
+  { path: 'search/:text/albums', component: TrendDetailComponent },
+  { path: 'search/:text/tracks', component: SearchDetailComponent },
   { path: 'genre', component: GenreComponent, children: [
       { path: ':id', component: GenreDetailComponent }
       // { path: ':id', component: GenreDetailContainerComponent}

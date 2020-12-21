@@ -23,12 +23,14 @@ export interface Section {
 export class SearchDetailComponent implements OnInit, OnDestroy {
   isAllTracksLoaded: boolean;
   tracks: Track[];
+  filteredTracks: Track[];
   searchText: string;
   selectedRowIndex: number;
   database = firebase.database();
   state: StreamState;
 
   albums: Album[] = [];
+  filteredAlbums: Album[];
   counter: number = 8;
   size: any;
 
@@ -42,16 +44,17 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isAllTracksLoaded = this.firebaseService.isAllTracksLoaded;
     this.isGlobalAlbumLoaded = this.firebaseService.isGlobalAlbumsLoaded;
+    // this.getCounter();
 
     // filter track
     this.firebaseService.searchTextSub.subscribe(searchText => {
       this.searchText = searchText;
       if(this.isAllTracksLoaded){
-        this.processSearch(searchText);
+        this.processSearch(this.searchText);
       }
       else {
         this.firebaseService.allTracksSub.subscribe(tracks => {
-          this.processSearch(searchText);
+          this.processSearch(this.searchText);
         });
       }
     });
@@ -60,10 +63,10 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
     this.firebaseService.searchTextSub.subscribe(searchText => {
       this.searchText = searchText;
       if(this.isGlobalAlbumLoaded){
-        this.processSearchAlbum(searchText);
+        this.processSearchAlbum(this.searchText);
       } else {
         this.firebaseService.globalAlbumsSub.subscribe(albums => {
-          this.processSearchAlbum(searchText);
+          this.processSearchAlbum(this.searchText);
         });
       }
     });
@@ -82,15 +85,17 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   }
 
   processSearchAlbum(searchText: string){
-    this.albums = this.firebaseService.globalAlbums.filter(album => {
+    this.filteredAlbums = this.firebaseService.globalAlbums.filter(album => {
       return album.title.toLowerCase().includes(searchText.toLowerCase());
-    }).slice(0, 8);
+    });
+    this.albums = this.filteredAlbums.slice(0, 8);
   }
 
   processSearch(searchText: string){
-    this.tracks = this.firebaseService.allTracks.filter(track => {
+    this.filteredTracks = this.firebaseService.allTracks.filter(track => {
       return track.title.toLowerCase().includes(searchText.toLowerCase());
-    }).slice(0, 4);
+    });
+    this.tracks = this.filteredTracks.slice(0, 6);
   }
 
   openFile(track: Track, i: number){
@@ -183,6 +188,10 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
 
   onClickViewAll(albums: Album[]){
     this.firebaseService.trendAlbums = albums;
-    this.router.navigate(['trend']);
+    this.router.navigate(['search', this.searchText, "albums"]);
+  }
+
+  onClickViewAllTracks(tracks: Track[]){
+
   }
 }

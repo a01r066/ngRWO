@@ -320,7 +320,6 @@ export class FirebaseService {
           });
         }
       });
-      console.log("Global albums: " + albums.length);
       this.globalAlbums = albums;
       this.isGlobalAlbumsLoaded = true;
       this.globalAlbumsSub.next(albums);

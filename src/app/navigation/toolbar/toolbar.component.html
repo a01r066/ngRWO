@@ -9,7 +9,7 @@
     <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
   </button>
   <div class="searchbar" *ngIf="!isSearchBarHidden">
-    <input matInput placeholder="search for song, artist" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup.enter)="processSearch()">
+    <input matInput placeholder="search for song, artist" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup)="processSearch()" (keyup.enter)="processSearch()">
     <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
       <mat-icon>close</mat-icon>
     </button>
