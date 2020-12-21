@@ -10,12 +10,14 @@ import {PlaylistComponent} from './shared/playlist/playlist.component';
 import {SearchDetailComponent} from './search/search-detail/search-detail.component';
 import {AuthGuard} from './auth/auth.guard';
 import {LibLikedSongsComponent} from './library/lib-liked-songs/lib-liked-songs.component';
+import {TrendDetailComponent} from './music/trend/trend-detail/trend-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search', component: SearchComponent, children: [
       { path: '', component: GenreListComponent },
-      { path: ':id', component: SearchDetailComponent }
+      { path: ':id', component: SearchDetailComponent },
+      { path: ':text/albums', component: TrendDetailComponent }
     ] },
   { path: 'genre', component: GenreComponent, children: [
       { path: ':id', component: GenreDetailComponent }

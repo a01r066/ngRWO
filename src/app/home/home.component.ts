@@ -16,19 +16,12 @@ import {Subscription} from 'rxjs';
 export class HomeComponent implements OnInit {
   counter: number = 8;
   size: any;
-
   trendingAlbumsList: Album[][];
   trends: Genre[];
-
-  trendingAudiobooksList: Audiobook[][];
-  categorys: Category[];
-
   isDataLoaded: boolean = false;
-  loadingSub: Subscription;
 
   constructor(private firebaseService: FirebaseService,
-              private router: Router,
-              private uiService: UiService) {
+              private router: Router) {
   }
 
   onSelectItem(album: Album){

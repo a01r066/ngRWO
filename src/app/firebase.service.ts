@@ -51,6 +51,10 @@ export class FirebaseService {
   allTracksSub = new Subject<Track[]>();
   isAllTracksLoaded: boolean = false;
 
+  globalAlbums: Album[];
+  isGlobalAlbumsLoaded: boolean = false;
+  globalAlbumsSub = new Subject<Album[]>();
+
   // refactor scroll to load more items
   albumsSubject = new BehaviorSubject<Album[]>([]);
   albums$ = this.albumsSubject.asObservable();
@@ -296,6 +300,33 @@ export class FirebaseService {
     });
   }
 
+  fetchAllAlbums(){
+    let albums: Album[] = [];
+    this.database.ref('Albums').once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        if(genreID !== '-MOoSXRlWkDrdSHyNKT5'){
+          genreSnapshot.forEach(albumSnapshot => {
+            const albumID = albumSnapshot.key;
+            const trendID = "";
+            const dataObj = {
+              title: albumSnapshot.val().title,
+              author: albumSnapshot.val().author,
+              imagePath: albumSnapshot.val().imagePath,
+              tags: albumSnapshot.val().tags
+            };
+            const album = new Album(albumID, genreID, trendID, dataObj);
+            albums.push(album);
+          });
+        }
+      });
+      console.log("Global albums: " + albums.length);
+      this.globalAlbums = albums;
+      this.isGlobalAlbumsLoaded = true;
+      this.globalAlbumsSub.next(albums);
+    });
+  }
+
   fetchAllTracks(){
     let tracks: Track[] = [];
     this.database.ref('Tracks').once('value').then(snapshot => {
@@ -323,7 +354,7 @@ export class FirebaseService {
       this.allTracks = tracks;
       this.isAllTracksLoaded = true;
       this.allTracksSub.next(tracks);
-      this.isDataLoadedSub.next(true);
+      // this.isDataLoadedSub.next(true);
     });
   }
 

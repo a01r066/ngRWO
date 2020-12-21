@@ -6,3 +6,19 @@
     </div>
   </mat-list>
 </section>
+<section class="albums">
+  <div>
+    <div class="trending">Albums<span class="see-all" (click)="onClickViewAll(albums)">SEE ALL</span></div>
+    <ul class="flex-container">
+      <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">
+        <div class="card">
+          <img class="card-img-top" [src]="[album.imagePath]">
+          <div class="card-body">
+            <p class="card-title">{{ getTitle(album) }}</p>
+            <p class="card-subtitle">{{ getSubTitle(album) }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
