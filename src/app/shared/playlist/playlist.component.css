@@ -334,6 +334,10 @@ thead {
   max-height: 232px;
 }
 
+.title {
+  color: white;
+}
+
 .table tr.active td {
   background-color:#58595A !important;
   /*color: white;*/

@@ -1,7 +1,7 @@
 <mat-toolbar>
   <div class="container">
     <div class="item1">
-      <img mat-card-image src="{{ getImagePath() }}" alt="">
+      <img mat-card-image src="{{ getImagePath() }}" alt="" (click)="onSelectTitle()" style="cursor: pointer">
     </div>
     <div class="item2">
       <div class="mat-caption">PLAYLIST</div>

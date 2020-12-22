@@ -25,7 +25,7 @@ export class PlaylistAlertComponent implements OnInit {
     this.uiService.isPlaylistEdit = true;
     const user = this.authService.getUser();
     const data = {
-      title: "My Playlist",
+      title: "My Playlist #" + this.firebaseService.playlistCounter,
       author: user.email,
       imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf",
       tags: ""

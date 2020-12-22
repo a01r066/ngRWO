@@ -40,7 +40,7 @@ export class SidebarComponent implements OnInit {
     this.uiService.isPlaylistEdit = true;
     const user = this.authService.getUser();
     const data = {
-      title: "My Playlist",
+      title: "My Playlist #" + this.firebaseService.playlistCounter,
       author: user.email,
       imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf",
       tags: ""
@@ -52,6 +52,7 @@ export class SidebarComponent implements OnInit {
     this.firebaseService.selectedAlbum = album;
     this.uiService.isPlaylist = true;
     this.firebaseService.createPlaylist(user, playlistID, data);
+    this.firebaseService.getPlaylists(user);
     // this.router.navigate(['playlist', playlistID]);
     this.router.navigate(['/library/playlist', album.id]);
   }
