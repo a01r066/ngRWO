@@ -27,6 +27,8 @@ mat-icon:hover, mat-icon:active {
 .copyright {
   /*margin-top: -16px;*/
   margin-left: -24px;
+  position: absolute;
+  bottom: 0;
 }
 
 .copyright-list {
@@ -64,4 +66,27 @@ a:hover, a:active {
   height: 48px;
   margin-top: -16px;
   margin-left: 25px;
+}
+
+.nav-item {
+  height: 40px !important;
+}
+
+.playlist-item {
+  height: 28px !important;
+  font-size: 0.9rem;
+}
+
+::ng-deep.mat-menu-panel {
+  background-color: #282828;
+  width: 162px;
+}
+
+.mat-menu-item {
+  color: #B3B3A2;
+}
+
+.mat-menu-item:hover {
+  background-color: #333333;
+  color: white;
 }

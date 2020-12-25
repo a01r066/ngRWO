@@ -4,6 +4,7 @@ import {FirebaseService} from './firebase.service';
 import {AuthService} from './auth/auth.service';
 import {UiService} from './shared/ui.service';
 import { EventEmitter } from '@angular/core';
+import {Album} from './music/models/album.model';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,11 @@ export class AppComponent implements OnInit{
 
   isGenreSelect = false;
 
+  playlists: Album[] = [];
+
   constructor(private authService: AuthService,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private firebaseService: FirebaseService) {
   }
 
   ngOnInit(): void {
@@ -34,6 +38,16 @@ export class AppComponent implements OnInit{
 
     this.uiService.isGenreSelectSub.subscribe(isGenreSelect => {
       this.isGenreSelect = isGenreSelect;
+    });
+
+    this.authService.authChangeSub.subscribe(authStatus => {
+      if(authStatus){
+        this.firebaseService.getPlaylists(this.authService.getUser());
+      }
+    });
+
+    this.uiService.favouritePlaylistsSub.subscribe(playlists => {
+      this.playlists = playlists.slice(0, 9);
     });
   }
 }

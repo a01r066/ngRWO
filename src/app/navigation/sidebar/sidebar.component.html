@@ -34,7 +34,7 @@
           <mat-icon>add</mat-icon>
         </button>
         Create playlist</mat-list-item>
-      <mat-list-item class="nav-item" [routerLink]="['library/liked-songs']">
+      <mat-list-item class="nav-item" [routerLink]="['library/liked-songs']" [routerLinkActive]="['is-active']">
         <button mat-icon-button>
           <mat-icon>favorite</mat-icon>
         </button>
@@ -42,11 +42,16 @@
     </mat-list>
   </div>
   <mat-divider style="background-color: #282828; width: 80%; margin-left: 16px"></mat-divider>
-  <div class="copyright">
+  <div class="playlist" *ngIf="isAuth" style="margin-top: 16px">
+    <mat-list *ngFor="let playlist of playlists">
+      <mat-list-item class="playlist-item" (click)="onSelectItem(playlist)" (contextmenu)="onRightClick($event, playlist)">{{ getTitle(playlist) }}</mat-list-item>
+    </mat-list>
+  </div>
+  <div class="copyright" *ngIf="isShow">
     <ul class="copyright-list">
       <li class="copyright-item">
         <button mat-icon-button>
-          <mat-icon>copyright</mat-icon>2020 RelaxingWorld.Online
+          <mat-icon>copyright</mat-icon> RelaxingWorld.Online 2020
         </button>
       </li>
 <!--      <li class="copyright-item"><a href="https://apps.apple.com/vn/app/kho-ebooks-audiobooks/id1366613779" target="_blank"><img class="appstore" src="../assets/appstore.png"></a></li>-->
@@ -54,3 +59,18 @@
     </ul>
   </div>
 </div>
+<!-- an hidden div is created to set the position of appearance of the menu-->
+<div style="visibility: hidden; position: fixed;"
+     [style.left]="menuTopLeftPosition.x"
+     [style.top]="menuTopLeftPosition.y"
+     [matMenuTriggerFor]="rightMenu"></div>
+<!-- standard material menu -->
+<mat-menu #rightMenu="matMenu" style="background-color: #5A5A5A">
+  <ng-template matMenuContent let-item="item">
+    <span (mouseleave)="matMenuTrigger.closeMenu()">
+      <div style="margin: 0 8px 0 8px" *ngFor="let option of options">
+        <button mat-menu-item (click)="onClickOption(option)">{{ option }}</button>
+      </div>
+    </span>
+  </ng-template>
+</mat-menu>

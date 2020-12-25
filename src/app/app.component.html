@@ -2,7 +2,7 @@
   <mat-sidenav-container>
     <!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
     <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
-      <app-sidebar></app-sidebar>
+      <app-sidebar [playlists]="playlists"></app-sidebar>
     </mat-sidenav>
     <mat-sidenav-content>
       <app-toolbar></app-toolbar>
