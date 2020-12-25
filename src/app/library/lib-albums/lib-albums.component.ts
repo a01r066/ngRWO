@@ -5,11 +5,23 @@ import {FirebaseService} from '../../firebase.service';
 import {Router} from '@angular/router';
 import {UiService} from '../../shared/ui.service';
 import {AuthService} from '../../auth/auth.service';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-lib-albums',
   templateUrl: './lib-albums.component.html',
-  styleUrls: ['./lib-albums.component.css']
+  styleUrls: ['./lib-albums.component.css'],
+  animations: [
+    trigger('fadeSlideInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('500ms', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0, transform: 'translateY(10px)' })),
+      ]),
+    ])
+  ]
 })
 export class LibAlbumsComponent implements OnInit {
   genre: Genre;

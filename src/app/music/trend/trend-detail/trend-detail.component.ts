@@ -4,11 +4,23 @@ import {FirebaseService} from '../../../firebase.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NavItem} from '../../../shared/nav-item';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-trend-detail',
   templateUrl: './trend-detail.component.html',
-  styleUrls: ['./trend-detail.component.css']
+  styleUrls: ['./trend-detail.component.css'],
+  animations: [
+    trigger('fadeSlideInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('500ms', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0, transform: 'translateY(10px)' })),
+      ]),
+    ])
+  ]
 })
 export class TrendDetailComponent implements OnInit {
   items: Album[];

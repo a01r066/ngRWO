@@ -1,20 +1,28 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Album} from '../music/models/album.model';
 import {FirebaseService} from '../firebase.service';
 import {Genre} from '../music/models/genre.model';
 import {Router} from '@angular/router';
-import {Audiobook} from '../book/models/audiobook.model';
-import {Category} from '../book/models/category.model';
-import {UiService} from '../shared/ui.service';
-import {Subscription} from 'rxjs';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  animations: [
+    trigger('fadeSlideInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('500ms', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0, transform: 'translateY(10px)' })),
+      ]),
+    ])
+  ]
 })
 export class HomeComponent implements OnInit {
-  counter: number = 8;
+  counter: number = 8;f
   size: any;
   trendingAlbumsList: Album[][];
   trends: Genre[];

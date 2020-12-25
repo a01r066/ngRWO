@@ -108,6 +108,10 @@ export class FirebaseService {
     });
   }
 
+  getRandomPlayed(min, max){
+    return Math.round(Math.random() * (max - min) + min);
+  }
+
   getTracksByPlaylist(user: User){
     // console.log(this.selectedAlbum.id);
     const tracks: Track[] = [];
@@ -124,7 +128,8 @@ export class FirebaseService {
               filePath: trackSnapshot.val().filePath,
               index: trackSnapshot.val().index,
               tags: trackSnapshot.val().tags,
-              duration: trackSnapshot.val().duration
+              duration: trackSnapshot.val().duration,
+              played: this.getRandomPlayed(149, 10499)
             };
             const track = new Track(trackID, albumID, genreID, dataObj);
             tracks.push(track);
@@ -211,7 +216,8 @@ export class FirebaseService {
               filePath: trackSnapshot.val().filePath,
               index: trackSnapshot.val().index,
               duration: trackSnapshot.val().duration,
-              tags: trackSnapshot.val().tags
+              tags: trackSnapshot.val().tags,
+              played: this.getRandomPlayed(149, 10499)
             };
             const track = new Track(trackID, albumID, genreID, dataObj);
             tracks.push(track);
@@ -246,7 +252,8 @@ export class FirebaseService {
     const dataObj = {
       title: track.title,
       author: track.author,
-      filePath: track.filePath
+      filePath: track.filePath,
+      played: this.getRandomPlayed(149, 10499)
     };
 
     this.database.ref('Favourite-Tracks').child(user.uid).child(genreID).child(albumID).child(trackID).update(dataObj).then(() => {
@@ -344,7 +351,8 @@ export class FirebaseService {
                 filePath: trackSnapshot.val().filePath,
                 index: trackSnapshot.val().index,
                 tags: trackSnapshot.val().tags,
-                duration: trackSnapshot.val().duration
+                duration: trackSnapshot.val().duration,
+                played: this.getRandomPlayed(149, 10499)
               };
               const track = new Track(trackID, albumID, genreID, dataObj);
               tracks.push(track);
@@ -371,7 +379,8 @@ export class FirebaseService {
           filePath: itemSnapshot.val().filePath,
           tags: itemSnapshot.val().filePath,
           index: itemSnapshot.val().index,
-          duration: itemSnapshot.val().duration
+          duration: itemSnapshot.val().duration,
+          played: this.getRandomPlayed(149, 44149)
         };
         const track = new Track(id, this.selectedAlbum.id, this.selectedAlbum.genreID, dataObj);
         tracks.push(track);

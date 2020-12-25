@@ -9,6 +9,7 @@ import {AudioService} from '../../services/audio.service';
 import {StreamState} from '../../interfaces/stream-state';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 
 export interface Section {
   name: string;
@@ -18,7 +19,37 @@ export interface Section {
 @Component({
   selector: 'app-search-detail',
   templateUrl: './search-detail.component.html',
-  styleUrls: ['./search-detail.component.css']
+  styleUrls: ['./search-detail.component.css'],
+  animations: [
+    trigger('pageAnimations', [
+      transition(':enter', [
+        query('.hero, form', [
+          style({opacity: 0, transform: 'translateY(-100px)'}),
+          stagger(-30, [
+            animate('500ms cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
+          ])
+        ])
+      ])
+    ]),
+    trigger('filterAnimation', [
+      transition(':enter, * => 0, * => -1', []),
+      transition(':increment', [
+        query(':enter', [
+          style({ opacity: 0, width: '0px' }),
+          stagger(50, [
+            animate('300ms ease-out', style({ opacity: 1, width: '*' })),
+          ]),
+        ], { optional: true })
+      ]),
+      transition(':decrement', [
+        query(':leave', [
+          stagger(50, [
+            animate('300ms ease-out', style({ opacity: 0, width: '0px' })),
+          ]),
+        ])
+      ]),
+    ]),
+  ]
 })
 export class SearchDetailComponent implements OnInit, OnDestroy {
   isAllTracksLoaded: boolean;

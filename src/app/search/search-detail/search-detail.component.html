@@ -1,7 +1,7 @@
 <section class="songs">
 <!--  <div class="trending">Songs<span class="see-all" (click)="onClickViewAllTracks(filteredTracks)">SEE ALL</span></div>-->
   <div class="trending">Songs</div>
-  <mat-list>
+  <mat-list [@filterAnimation]="tracks.length">
     <div *ngFor="let track of tracks; let i = index" class="song-list">
       <app-search-item [track]="track" (onOpenFile)="openFile(track, i)"></app-search-item>
     </div>
@@ -10,7 +10,7 @@
 <section class="albums">
   <div>
     <div class="trending">Albums<span class="see-all" (click)="onClickViewAll(filteredAlbums)" *ngIf="filteredAlbums.length > 8">SEE ALL</span></div>
-    <ul class="flex-container">
+    <ul class="flex-container" [@filterAnimation]="albums.length">
       <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let album of albums | slice:0:counter" (click)="onSelectItem(album)">
         <div class="card">
           <img class="card-img-top" [src]="[album.imagePath]">

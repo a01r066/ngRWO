@@ -1,19 +1,29 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Genre} from '../../../music/models/genre.model';
 import {FirebaseService} from '../../../firebase.service';
-import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {UiService} from '../../../shared/ui.service';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-genre-list',
   templateUrl: './genre-list.component.html',
-  styleUrls: ['./genre-list.component.css']
+  styleUrls: ['./genre-list.component.css'],
+  animations: [
+    trigger('fadeSlideInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('500ms', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0, transform: 'translateY(10px)' })),
+      ]),
+    ])
+  ]
 })
 export class GenreListComponent implements OnInit, OnDestroy {
   genres: Genre[];
   items: any;
-  isDataLoaded: boolean = false;
+  isDataLoaded = false;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router) { }

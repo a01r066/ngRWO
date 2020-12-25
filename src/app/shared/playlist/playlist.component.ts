@@ -279,4 +279,8 @@ export class PlaylistComponent implements OnInit {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
   }
+
+  formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  }
 }

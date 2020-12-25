@@ -46,7 +46,7 @@
           <!-- Weight Column -->
           <ng-container matColumnDef="played">
             <th mat-header-cell *matHeaderCellDef> PLAYED </th>
-            <td mat-cell *matCellDef="let element"> N/A </td>
+            <td mat-cell *matCellDef="let element"> {{ formatNumber(element.played) }} </td>
           </ng-container>
 
           <!-- Symbol Column -->

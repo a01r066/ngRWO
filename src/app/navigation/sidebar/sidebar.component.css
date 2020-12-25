@@ -53,9 +53,10 @@ a:hover, a:active {
 }
 
 .logo {
-  width: 80%;
+  width: 65%;
   /*height: 72px;*/
   margin-top: 16px;
+  margin-bottom: 16px;
   outline: none;
 }
 

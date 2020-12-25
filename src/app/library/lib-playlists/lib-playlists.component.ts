@@ -6,11 +6,23 @@ import {Router} from '@angular/router';
 import {UiService} from '../../shared/ui.service';
 import {AuthService} from '../../auth/auth.service';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-lib-playlists',
   templateUrl: './lib-playlists.component.html',
-  styleUrls: ['./lib-playlists.component.css']
+  styleUrls: ['./lib-playlists.component.css'],
+  animations: [
+    trigger('fadeSlideInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('500ms', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0, transform: 'translateY(10px)' })),
+      ]),
+    ])
+  ]
 })
 export class LibPlaylistsComponent implements OnInit {
   genre: Genre;
