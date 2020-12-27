@@ -5,6 +5,7 @@ import {AuthService} from './auth/auth.service';
 import {UiService} from './shared/ui.service';
 import { EventEmitter } from '@angular/core';
 import {Album} from './music/models/album.model';
+import {Track} from './music/models/track.model';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit{
   isGenreSelect = false;
 
   playlists: Album[] = [];
+  currentTrack: Track;
 
   constructor(private authService: AuthService,
               private uiService: UiService,

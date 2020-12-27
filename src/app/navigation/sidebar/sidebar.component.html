@@ -47,6 +47,9 @@
       <mat-list-item class="playlist-item" (click)="onSelectItem(playlist)" (contextmenu)="onRightClick($event, playlist)">{{ getTitle(playlist) }}</mat-list-item>
     </mat-list>
   </div>
+  <div class="donate">
+    <button mat-icon-button class="donate-btn" (click)="donate()"><mat-icon>emoji_food_beverage</mat-icon><span> Buy me a coffee</span></button>
+  </div>
   <div class="copyright" *ngIf="isShow">
     <ul class="copyright-list">
       <li class="copyright-item">

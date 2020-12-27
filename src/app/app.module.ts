@@ -41,6 +41,8 @@ import { PlaylistEmptyComponent } from './library/lib-playlists/playlist-empty/p
 import { MenuItemComponent } from './shared/playlist/menu-item/menu-item.component';
 import { EditPlaylistComponent } from './shared/playlist/edit-playlist/edit-playlist.component';
 import {ScrollTrackerDirective} from './scroll-tracker.directive';
+import { DonateComponent } from './donate/donate.component';
+import {NgxPayPalModule} from 'ngx-paypal';
 
 firebase.initializeApp(environment.firebase);
 
@@ -74,6 +76,7 @@ firebase.initializeApp(environment.firebase);
         MenuItemComponent,
         EditPlaylistComponent,
         ScrollTrackerDirective,
+        DonateComponent,
     ],
   imports: [
     SharedModule,
@@ -88,6 +91,7 @@ firebase.initializeApp(environment.firebase);
     AngularFireStorageModule,
     AuthModule,
     MusicModule,
+    NgxPayPalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

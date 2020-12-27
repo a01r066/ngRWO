@@ -6,7 +6,7 @@
         <ul class="flex-container">
           <li [ngStyle]="{background: 'url(' + genre.imagePath + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}"
                class="flex-item" appHighlightDirective="#DF1C2F" defaultColor="#5E1122" *ngFor="let genre of genres" (click)="onSelectGenre(genre)">
-            <div style="background-color: rgba(0,0,0,0.65);height: 100%" @fadeSlideInOut>
+            <div class="bghover" @fadeSlideInOut>
               <h3 class="title">{{ genre.title }}</h3>
             </div>
           </li>

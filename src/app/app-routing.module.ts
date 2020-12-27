@@ -11,6 +11,7 @@ import {SearchDetailComponent} from './search/search-detail/search-detail.compon
 import {AuthGuard} from './auth/auth.guard';
 import {LibLikedSongsComponent} from './library/lib-liked-songs/lib-liked-songs.component';
 import {TrendDetailComponent} from './music/trend/trend-detail/trend-detail.component';
+import {DonateComponent} from './donate/donate.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,7 +32,8 @@ const routes: Routes = [
       // { path: ':index', component: LibLikedSongsComponent }
     ] },
   { path: 'library/liked-songs', component: LibLikedSongsComponent },
-  { path: 'library/playlist/:id', component: LibLikedSongsComponent }
+  { path: 'library/playlist/:id', component: LibLikedSongsComponent },
+  { path: 'donate', component: DonateComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

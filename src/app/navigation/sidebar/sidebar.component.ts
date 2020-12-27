@@ -111,4 +111,8 @@ export class SidebarComponent implements OnInit {
       this.firebaseService.deletePlaylist(this.authService.getUser(), this.selectedPlaylist);
     }
   }
+
+  donate(){
+    this.router.navigate(['donate']);
+  }
 }

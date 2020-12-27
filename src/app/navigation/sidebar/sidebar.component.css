@@ -24,6 +24,22 @@ mat-icon:hover, mat-icon:active {
   color: white;
 }
 
+.donate {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+}
+
+.donate-btn {
+  height: 40px;
+  width: 164px;
+  border-radius: 20px;
+  color: #1DB954;
+  border: 1px solid #1DB954;
+}
+
 .copyright {
   /*margin-top: -16px;*/
   margin-left: -24px;

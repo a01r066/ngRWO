@@ -63,3 +63,7 @@ mat-icon:hover, mat-icon:active {
 .tab-label {
   color: #B3B3A2;
 }
+
+#visualizer_wrapper{
+  text-align: center;
+}

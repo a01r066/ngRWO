@@ -1,9 +1,11 @@
-import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FirebaseService} from '../../firebase.service';
 import {AuthService} from '../../auth/auth.service';
 import {Subscription} from 'rxjs';
 import {ThemePalette} from '@angular/material/core';
 import {UiService} from '../../shared/ui.service';
+import Wave from '@foobar404/wave';
+import {Track} from '../../music/models/track.model';
 
 @Component({
   selector: 'app-toolbar',
