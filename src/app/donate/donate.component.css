@@ -1,9 +1,10 @@
 .donate-container {
   position: fixed;
   top: 20vh;
-  left: 45vw;
+  left: 40vw;
   width: 30vw;
   z-index: 100;
+  margin-left: 64px;
 }
 
 .form-container {
@@ -33,8 +34,6 @@
 
 .donate {
   display: block;
-  justify-content: center;
-  margin-left: 120px;
 }
 
 .donate-btn {
