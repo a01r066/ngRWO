@@ -11,6 +11,9 @@ export class DonateComponent implements OnInit {
 
   public payPalConfig?: IPayPalConfig;
 
+  amounts = [5, 10, 25, 50, 100, 500, 1000];
+  selectedValue: number = 10;
+
   ngOnInit(): void {
     this.initConfig();
   }
@@ -25,22 +28,22 @@ export class DonateComponent implements OnInit {
           {
             amount: {
               currency_code: 'USD',
-              value: '9.99',
+              value: this.selectedValue + '',
               breakdown: {
                 item_total: {
                   currency_code: 'USD',
-                  value: '9.99'
+                  value: this.selectedValue + ''
                 }
               }
             },
             items: [
               {
-                name: 'Enterprise Subscription',
+                name: 'Donate Monthly Subscription',
                 quantity: '1',
                 category: 'DIGITAL_GOODS',
                 unit_amount: {
                   currency_code: 'USD',
-                  value: '9.99',
+                  value: this.selectedValue + '',
                 },
               }
             ]
@@ -74,5 +77,10 @@ export class DonateComponent implements OnInit {
         console.log('onClick', data, actions);
       },
     };
+  }
+
+  onSelectAmount(amount: number){
+    console.log("Donate: " +amount);
+    this.selectedValue = amount;
   }
 }

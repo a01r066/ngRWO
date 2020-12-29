@@ -97,7 +97,8 @@ export class FirebaseService {
           title: playlistSnapshot.val().title,
           author: playlistSnapshot.val().author,
           imagePath: playlistSnapshot.val().imagePath,
-          tags: playlistSnapshot.val().tags
+          tags: playlistSnapshot.val().tags,
+          filePath: playlistSnapshot.val().filePath
         };
         const playlist = new Album(playlistID, genreID, trendID, dataObj);
         playlists.push(playlist);
@@ -173,7 +174,8 @@ export class FirebaseService {
       title: "My Playlist #" + this.playlistCounter,
       author: user.email,
       imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf",
-      tags: ""
+      tags: "",
+      filePath: ""
     };
 
     const genreID = "";
@@ -274,7 +276,8 @@ export class FirebaseService {
             title: albumSnapshot.val().title,
             author: albumSnapshot.val().author,
             imagePath: albumSnapshot.val().imagePath,
-            tags: albumSnapshot.val().tags
+            tags: albumSnapshot.val().tags,
+            filePath: albumSnapshot.val().filePath
           };
           const album = new Album(albumID, genreID, trendID, dataObj);
           albums.push(album);
@@ -322,7 +325,8 @@ export class FirebaseService {
               title: albumSnapshot.val().title,
               author: albumSnapshot.val().author,
               imagePath: albumSnapshot.val().imagePath,
-              tags: albumSnapshot.val().tags
+              tags: albumSnapshot.val().tags,
+              filePath: albumSnapshot.val().filePath
             };
             const album = new Album(albumID, genreID, trendID, dataObj);
             albums.push(album);
@@ -427,8 +431,9 @@ export class FirebaseService {
               title: albumSnapshot.val().title,
               author: albumSnapshot.val().author,
               imagePath: albumSnapshot.val().imagePath,
-              tags: albumSnapshot.val().tags
-            }
+              tags: albumSnapshot.val().tags,
+              filePath: albumSnapshot.val().filePath
+            };
             const album = new Album(albumID, genreID, trendID, dataObj);
             albums.push(album);
           });
@@ -481,7 +486,8 @@ export class FirebaseService {
           title: values[i]['title'],
           author: values[i]['author'],
           imagePath: values[i]['imagePath'],
-          tags: values[i]['tags']
+          tags: values[i]['tags'],
+          filePath: values[i]['filePath']
         };
         const album = new Album(keys[i], genre.id, '', dataObj);
         albums.push(album);

@@ -92,8 +92,9 @@ export class SearchItemComponent implements OnInit, OnDestroy {
         title: snapshot.val().title,
         author: snapshot.val().author,
         imagePath: snapshot.val().imagePath,
-        tags: snapshot.val().tags
-      }
+        tags: snapshot.val().tags,
+        filePath: snapshot.val().filePath
+      };
       this.selectedAlbum  = new Album(albumID, genreID, trendID, dataObj);
     });
   }

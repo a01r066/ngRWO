@@ -1,7 +1,7 @@
 <div class="donate-container">
 <!--  <div class="form-container">-->
 <!--    <a href="https://paypal.me/a01r066?locale.x=en_US" target="_blank"><button mat-raised-button color="primary">Donate with paypal</button></a>-->
-<!--&lt;!&ndash;    <ngx-paypal [config]="payPalConfig"></ngx-paypal>&ndash;&gt;-->
+<!--    <ngx-paypal [config]="payPalConfig"></ngx-paypal>-->
 <!--    <img src="../../assets/donate.png" alt="">-->
 <!--    <div class="desc">-->
 <!--      Donation depends on your ability, donate & non-donate members are the same, the website data is free for everyone, and the website will never have ads-->
@@ -18,8 +18,28 @@
       </div>
       <div fxLayoutAlign="center">
         <a href="https://paypal.me/a01r066?locale.x=en_US" target="_blank">
-          <button mat-raised-button color="primary" style="width: 180px; height: 44px; border-radius: 22px; font-size: 1.1rem; font-weight: 500">Donate with paypal</button>
+          <button mat-raised-button color="primary" style="width: 180px; height: 44px; border-radius: 22px; font-size: 1.1rem; font-weight: 500">paypal.me</button>
         </a>
+      </div>
+      <div>
+        <mat-label STYLE="color: white; font-size: 0.75rem">OR</mat-label>
+      </div>
+      <div class="step1">
+        <h3 class="sentence"><span matBadge="1" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose a frequency</h3>
+        <div fxLayoutGap="16px">
+          <button mat-raised-button>One time</button>
+          <button mat-raised-button>Monthly</button>
+        </div>
+      </div>
+      <div class="step2">
+        <h3 class="sentence"><span matBadge="2" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose an amount (USD)</h3>
+        <button (click)="onSelectAmount(i)" *ngFor="let i of amounts" mat-raised-button style="margin: 8px">{{ i | currency: 'USD' :true: '.0'}}</button>
+      </div>
+      <div class="step3">
+        <h3 class="sentence"><span matBadge="3" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose a payment method</h3>
+      </div>
+      <div class="card-input-container">
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
       </div>
     </div>
   </div>

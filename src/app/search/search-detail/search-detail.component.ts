@@ -147,8 +147,9 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
         title: snapshot.val().title,
         author: snapshot.val().author,
         imagePath: snapshot.val().imagePath,
-        tags: snapshot.val().tags
-      }
+        tags: snapshot.val().tags,
+        filePath: snapshot.val().filePath
+      };
       const album  = new Album(albumID, genreID, trendID, dataObj);
       this.uiService.selectedAlbumSub.next(album);
     });

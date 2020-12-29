@@ -12,12 +12,14 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {NavItem} from '../nav-item';
 import {Sort} from '@angular/material/sort';
 import * as moment from 'moment';
+import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
+
 export class PlaylistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   isDataLoaded: boolean = false;
@@ -31,6 +33,7 @@ export class PlaylistComponent implements OnInit {
   favouriteList: boolean[] = [];
   playingTrack: Track;
   playlist: Album;
+  isFileExisted = false;
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
@@ -51,6 +54,9 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit(): void {
     this.album = this.firebaseService.selectedAlbum;
+    if(typeof this.album.filePath !== 'undefined'){
+      this.isFileExisted = true;
+    }
     this.firebaseService.favouristAlbums.find(album => {
       if(album.id === this.album.id){
         this.isLikedAlbum = true;
@@ -282,5 +288,13 @@ export class PlaylistComponent implements OnInit {
 
   formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  }
+
+  openPdf(){
+    if(this.isAuth){
+      window.open(this.album.filePath, '_blank');
+    } else {
+      this.uiService.loginAlertChanged.next(true);
+    }
   }
 }

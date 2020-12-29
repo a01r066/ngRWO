@@ -82,7 +82,8 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
         title: "Liked Songs",
         author: this.user.email,
         imagePath: this.playlistImagePath,
-        tags: ""
+        tags: "",
+        filePath: ""
       };
       this.album = new Album(albumID, genreID, trendID, dataObj);
       this.firebaseService.fetchFavouriteTracks(this.user);
@@ -137,8 +138,9 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
         title: snapshot.val().title,
         author: snapshot.val().author,
         imagePath: snapshot.val().imagePath,
-        tags: snapshot.val().tags
-      }
+        tags: snapshot.val().tags,
+        filePath: snapshot.val().filePath
+      };
       const album  = new Album(albumID, genreID, trendID, dataObj);
       this.uiService.selectedAlbumSub.next(album);
     });

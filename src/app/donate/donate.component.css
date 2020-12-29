@@ -1,6 +1,6 @@
 .donate-container {
   position: fixed;
-  top: 20vh;
+  top: 10vh;
   left: 40vw;
   width: 30vw;
   z-index: 100;
@@ -8,8 +8,8 @@
 }
 
 .form-container {
-  /*height: 75vh;*/
-  /*overflow-y: scroll;*/
+  height: 80vh;
+  overflow-y: scroll;
 }
 
 /* width */
@@ -46,6 +46,17 @@
 }
 
 .donate-desc {
-  color: #85F489;
+  color: #B3B3A2;
+  font-size: 0.9rem;
+  font-weight: 200;
   text-align: justify-all;
 }
+
+.sentence {
+  color: #1DB954;
+}
+
+/*.card-input-container {*/
+/*  height: 75vh;*/
+/*  overflow-y: scroll;*/
+/*}*/
