@@ -1,15 +1,16 @@
 .donate-container {
   position: fixed;
   top: 10vh;
-  left: 40vw;
-  width: 30vw;
+  left: 37vw;
+  width: 37vw;
   z-index: 100;
   margin-left: 64px;
 }
 
 .form-container {
-  height: 85vh;
+  height: 75vh;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 /* width */
@@ -63,5 +64,6 @@
 
 .mat-radio-button{
   margin-left: 20px;
+  margin-top: 16px;
   color: #B3B3A2;
 }
