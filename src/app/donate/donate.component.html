@@ -24,19 +24,24 @@
       <div>
         <mat-label STYLE="color: white; font-size: 0.75rem">OR</mat-label>
       </div>
+<!--      <div class="step1">-->
+<!--        <h3 class="sentence"><span matBadge="1" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose a frequency</h3>-->
+<!--        <div fxLayoutGap="16px">-->
+<!--          <button mat-raised-button>One time</button>-->
+<!--          <button mat-raised-button>Monthly</button>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="step1">
-        <h3 class="sentence"><span matBadge="1" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose a frequency</h3>
-        <div fxLayoutGap="16px">
-          <button mat-raised-button>One time</button>
-          <button mat-raised-button>Monthly</button>
-        </div>
+        <h3 class="sentence"><span matBadge="1" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose an amount (USD)</h3>
+<!--        <button (click)="onSelectAmount(i)" *ngFor="let i of amounts" mat-raised-button style="margin: 8px">{{ i | currency: 'USD' :true: '.0'}}</button>-->
+<!--        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedValue" (change)="onValueChange(group.value)"></mat-button-toggle-group>-->
+<!--        <mat-button-toggle *ngFor="let i of amounts" value="{{ i }}" style="margin: 8px">{{ i | currency: 'USD' : true: '.0' }}</mat-button-toggle>-->
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button *ngFor="let i of amounts" value="{{ i }}" (click)="onSelectAmount(i)">{{ i | currency: 'USD' :true: '.0'}}</mat-radio-button>
+        </mat-radio-group>
       </div>
       <div class="step2">
-        <h3 class="sentence"><span matBadge="2" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose an amount (USD)</h3>
-        <button (click)="onSelectAmount(i)" *ngFor="let i of amounts" mat-raised-button style="margin: 8px">{{ i | currency: 'USD' :true: '.0'}}</button>
-      </div>
-      <div class="step3">
-        <h3 class="sentence"><span matBadge="3" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose a payment method</h3>
+        <h3 class="sentence"><span matBadge="2" matBadgeSize="large" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" style="margin-right: 8px; margin-left: 32px"></span>Choose a payment method</h3>
       </div>
       <div class="card-input-container">
         <ngx-paypal [config]="payPalConfig"></ngx-paypal>

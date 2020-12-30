@@ -8,7 +8,7 @@
 }
 
 .form-container {
-  height: 80vh;
+  height: 85vh;
   overflow-y: scroll;
 }
 
@@ -60,3 +60,8 @@
 /*  height: 75vh;*/
 /*  overflow-y: scroll;*/
 /*}*/
+
+.mat-radio-button{
+  margin-left: 20px;
+  color: #B3B3A2;
+}

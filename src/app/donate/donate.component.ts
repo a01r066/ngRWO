@@ -21,7 +21,7 @@ export class DonateComponent implements OnInit {
   private initConfig(): void {
     this.payPalConfig = {
       currency: 'USD',
-      clientId: 'AbWoheokPXUGZch3t-Ig2lwbQb8lTvj5-OnJp6ShTpUFBpRDHuhZZjo9xQPkeCCApO4gMYv0cpOq5QBR',
+      clientId: 'AQAN9djYVJl71fGqx2F0gfe34mhxcQswLaOfvZViTEydr4h-TMGgd35TU2QK_A623PSToxpK3uwVXcKt',
       createOrderOnClient: (data) => <ICreateOrderRequest>{
         intent: 'CAPTURE',
         purchase_units: [
@@ -38,7 +38,7 @@ export class DonateComponent implements OnInit {
             },
             items: [
               {
-                name: 'Donate Monthly Subscription',
+                name: 'Donate For Hosting',
                 quantity: '1',
                 category: 'DIGITAL_GOODS',
                 unit_amount: {
@@ -82,5 +82,9 @@ export class DonateComponent implements OnInit {
   onSelectAmount(amount: number){
     console.log("Donate: " +amount);
     this.selectedValue = amount;
+  }
+
+  onValueChange(value: number){
+    this.selectedValue = value;
   }
 }

@@ -21,6 +21,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   imports: [
@@ -45,7 +47,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatTooltipModule,
     MatMenuModule,
     MatDialogModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatButtonToggleModule,
+    MatRadioModule
   ],
   exports: [
     MatButtonModule,
@@ -69,7 +73,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatTooltipModule,
     MatMenuModule,
     MatDialogModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatButtonToggleModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule {
