@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "rxrelaxingworld"
+  },
+  "targets": {
+    "rxrelaxingworld": {
+      "hosting": {
+        "ngRWO": [
+          "rxrelaxingworld"
+        ]
+      }
+    }
   }
 }

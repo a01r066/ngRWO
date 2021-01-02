@@ -255,7 +255,8 @@ export class FirebaseService {
       title: track.title,
       author: track.author,
       filePath: track.filePath,
-      played: this.getRandomPlayed(149, 10499)
+      played: this.getRandomPlayed(149, 10499),
+      duration: track.duration
     };
 
     this.database.ref('Favourite-Tracks').child(user.uid).child(genreID).child(albumID).child(trackID).update(dataObj).then(() => {
