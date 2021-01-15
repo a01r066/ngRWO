@@ -43,6 +43,8 @@ import { EditPlaylistComponent } from './shared/playlist/edit-playlist/edit-play
 import {ScrollTrackerDirective} from './scroll-tracker.directive';
 import { DonateComponent } from './donate/donate.component';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {AuthRoutingModule} from './auth/auth-routing.module';
+import {AuthGuard} from './auth/auth.guard';
 
 firebase.initializeApp(environment.firebase);
 

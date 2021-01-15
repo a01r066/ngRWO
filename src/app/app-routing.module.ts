@@ -34,6 +34,7 @@ const routes: Routes = [
   { path: 'library/liked-songs', component: LibLikedSongsComponent },
   { path: 'library/playlist/:id', component: LibLikedSongsComponent },
   { path: 'donate', component: DonateComponent }
+  // { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
