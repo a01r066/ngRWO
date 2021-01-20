@@ -26,5 +26,6 @@ export class UiService {
   playlistImagePathSub = new Subject<string>();
   isLoadedAll = new Subject<boolean>();
   isGenreSelectSub = new Subject<boolean>();
-  waveSub = new Subject<Track>();
+  // waveSub = new Subject<Track>();
+  waveStatus = new Subject<boolean>();
 }

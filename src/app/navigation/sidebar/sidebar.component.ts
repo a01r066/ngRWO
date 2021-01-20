@@ -116,4 +116,9 @@ export class SidebarComponent implements OnInit {
   donate(){
     this.router.navigate(['donate']);
   }
+
+  sendTo(){
+    const subject = "An inquiry about web service.";
+    window.open('mailto:vodachung2k12@gmail.com?subject=' + subject);
+  }
 }

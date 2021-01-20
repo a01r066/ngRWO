@@ -48,7 +48,10 @@
     </mat-list>
   </div>
 <!--  <mat-divider style="background-color: #282828; width: 80%; margin-left: 16px"></mat-divider>-->
-  <div><p style="color: #666666; font-size: 0.7rem; font-weight: 200; text-align: center">Developed by: Thanh Minh</p></div>
+  <div><p style="color: #666666; font-size: 0.7rem; font-weight: 200; text-align: center; cursor: pointer" (click)="sendTo()">Developed by: Thanh Minh</p></div>
+<!--  <div class="visualizer">-->
+<!--    <canvas id="output" height="320px" width="160px"></canvas>-->
+<!--  </div>-->
   <div class="donate">
     <button mat-icon-button class="donate-btn" (click)="donate()"><mat-icon>emoji_food_beverage</mat-icon><span> Buy me a coffee</span></button>
   </div>

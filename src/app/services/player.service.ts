@@ -38,7 +38,6 @@ export class PlayerService {
   }
 
   openFile(file, index) {
-    this.uiService.waveSub.next(file);
     this.currentFile = { index, file };
     this.stop();
     // this.playStream(file.url);
@@ -47,14 +46,17 @@ export class PlayerService {
   }
 
   pause() {
+    this.uiService.waveStatus.next(false);
     this.audioService.pause();
   }
 
   play() {
+    this.uiService.waveStatus.next(true);
     this.audioService.play();
   }
 
   stop() {
+    this.uiService.waveStatus.next(false);
     this.audioService.stop();
   }
 
