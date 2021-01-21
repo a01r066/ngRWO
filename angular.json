@@ -27,7 +27,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/@foobar404/wave/dist/bundle.cjs.js"
             ]
           },
           "configurations": {

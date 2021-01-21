@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
-import { LibraryComponent } from './library/library.component';
 import { GenreComponent } from './search/genre/genre.component';
 import { GenreListComponent } from './search/genre/genre-list/genre-list.component';
 import { GenreDetailComponent } from './search/genre/genre-detail/genre-detail.component';
@@ -24,25 +23,17 @@ import { SearchDetailComponent } from './search/search-detail/search-detail.comp
 import { SearchItemComponent } from './search/search-detail/search-item/search-item.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
-import { CategoryComponent } from './book/category/category.component';
-import { CategoryListComponent } from './book/category/category-list/category-list.component';
-import { CategoryDetailComponent } from './book/category/category-detail/category-detail.component';
-import { CategoryItemComponent } from './book/category/category-list/category-item/category-item.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { AuthAlertComponent } from './shared/auth-alert/auth-alert.component';
-import { LibPlaylistsComponent } from './library/lib-playlists/lib-playlists.component';
-import { LibLikedSongsComponent } from './library/lib-liked-songs/lib-liked-songs.component';
 import {AuthModule} from './auth/auth.module';
 import {MusicModule} from './music/music.module';
 import {SharedModule} from './shared/shared.module';
-import { LibAlbumsComponent } from './library/lib-albums/lib-albums.component';
-import {PlaylistAlertComponent} from './library/lib-playlists/playlist-alert/playlist-alert.component';
-import { PlaylistEmptyComponent } from './library/lib-playlists/playlist-empty/playlist-empty.component';
 import { MenuItemComponent } from './shared/playlist/menu-item/menu-item.component';
 import { EditPlaylistComponent } from './shared/playlist/edit-playlist/edit-playlist.component';
 import {ScrollTrackerDirective} from './scroll-tracker.directive';
 import { DonateComponent } from './donate/donate.component';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {LibraryModule} from './library/library.module';
 
 firebase.initializeApp(environment.firebase);
 
@@ -51,7 +42,6 @@ firebase.initializeApp(environment.firebase);
         AppComponent,
         HomeComponent,
         SearchComponent,
-        LibraryComponent,
         GenreComponent,
         GenreListComponent,
         GenreDetailComponent,
@@ -62,17 +52,8 @@ firebase.initializeApp(environment.firebase);
         SearchItemComponent,
         ToolbarComponent,
         SidebarComponent,
-        CategoryComponent,
-        CategoryListComponent,
-        CategoryDetailComponent,
-        CategoryItemComponent,
         AlertComponent,
         AuthAlertComponent,
-        LibPlaylistsComponent,
-        LibLikedSongsComponent,
-        LibAlbumsComponent,
-        PlaylistAlertComponent,
-        PlaylistEmptyComponent,
         MenuItemComponent,
         EditPlaylistComponent,
         ScrollTrackerDirective,
@@ -91,6 +72,7 @@ firebase.initializeApp(environment.firebase);
     AngularFireStorageModule,
     AuthModule,
     MusicModule,
+    LibraryModule,
     NgxPayPalModule
   ],
   providers: [],
