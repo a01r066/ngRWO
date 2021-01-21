@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FirebaseService} from '../../../firebase.service';
 import {UiService} from '../../../shared/ui.service';
 import {AuthService} from '../../../auth/auth.service';
@@ -25,18 +25,19 @@ export class PlaylistAlertComponent implements OnInit {
     this.uiService.isPlaylistEdit = true;
     const user = this.authService.getUser();
     const data = {
-      title: "My Playlist #" + this.firebaseService.playlistCounter,
+      title: 'My Playlist #' + this.firebaseService.playlistCounter,
       author: user.email,
-      imagePath: "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf",
-      tags: "",
-      filePath: ""
+      imagePath: 'https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf',
+      tags: '',
+      filePath: ''
     };
-    const genreID = "";
-    const trendID = "";
-    let playlist = new Album(playlistID, genreID, trendID, data);
-    this.firebaseService.selectedAlbum = playlist;
+    const genreID = '';
+    const trendID = '';
+    const newPlaylist = new Album(playlistID, genreID, trendID, data);
+    this.firebaseService.selectedAlbum = newPlaylist;
     this.uiService.isPlaylist = true;
     this.firebaseService.createPlaylist(user, playlistID, data);
+    // this.router.navigate(['library/playlist', playlistID]);
     this.router.navigate(['library/playlist', playlistID]);
   }
 }

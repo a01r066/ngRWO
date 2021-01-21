@@ -114,7 +114,6 @@ export class FirebaseService {
   }
 
   getTracksByPlaylist(user: User){
-    // console.log(this.selectedAlbum.id);
     const tracks: Track[] = [];
     this.database.ref('Tracks-Playlist').child(user.uid).child(this.selectedAlbum.id).once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
@@ -184,17 +183,17 @@ export class FirebaseService {
     this.selectedAlbum = album;
     this.uiService.isPlaylist = true;
     this.createPlaylist(user, playlistID, data);
-    // this.router.navigate(['playlist', playlistID]);
-    this.router.navigate(['/library/playlist', album.id]);
+    this.router.navigate(['playlist', playlistID]);
   }
 
   createPlaylist(user: User, playlistID: string, data: any){
-    const databObj = {
-      title: data.title,
-      author: data.author,
-      imagePath: data.imagePath
-    };
-    this.database.ref('Playlists').child(user.uid).child(playlistID).update(databObj).then(() => {
+    // console.log("PlaylistID: " + playlistID);
+    // const databObj = {
+    //   title: data.title,
+    //   author: data.author,
+    //   imagePath: data.imagePath
+    // };
+    this.database.ref('Playlists').child(user.uid).child(playlistID).update(data).then(() => {
       // refresh playlists
     });
   }
@@ -318,10 +317,10 @@ export class FirebaseService {
     this.database.ref('Albums').once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
         const genreID = genreSnapshot.key;
-        if(genreID !== '-MOoSXRlWkDrdSHyNKT5'){
+        if(genreID !== '-MOoSXRlWkDrdSHyNKT5' && genreID !== '-MRIZIZ-wo9AnsJVy_EH'){
           genreSnapshot.forEach(albumSnapshot => {
             const albumID = albumSnapshot.key;
-            const trendID = "";
+            const trendID = '';
             const dataObj = {
               title: albumSnapshot.val().title,
               author: albumSnapshot.val().author,
@@ -345,7 +344,7 @@ export class FirebaseService {
     this.database.ref('Tracks').once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
         const genreID = genreSnapshot.key;
-        if(genreID !== '-MOoSXRlWkDrdSHyNKT5'){
+        if(genreID !== '-MOoSXRlWkDrdSHyNKT5' && genreID !== '-MRIZIZ-wo9AnsJVy_EH'){
           genreSnapshot.forEach(albumSnapshot => {
             const albumID = albumSnapshot.key;
             albumSnapshot.forEach(trackSnapshot => {

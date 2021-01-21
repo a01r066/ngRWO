@@ -72,7 +72,7 @@ firebase.initializeApp(environment.firebase);
     AngularFireStorageModule,
     AuthModule,
     MusicModule,
-    LibraryModule,
+    // LibraryModule,
     NgxPayPalModule
   ],
   providers: [],

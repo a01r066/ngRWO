@@ -5,12 +5,12 @@ import {AuthGuard} from '../auth/auth.guard';
 import {LibLikedSongsComponent} from './lib-liked-songs/lib-liked-songs.component';
 
 const routes: Routes = [
-  { path: 'library', component: LibraryComponent, canActivate: [AuthGuard], children: [
+  { path: '', component: LibraryComponent, canActivate: [AuthGuard], children: [
       // { path: '', component: LibPlaylistsComponent },
-      // { path: ':index', component: LibLikedSongsComponent }
+      // { path: 'playlist/:id', component: LibLikedSongsComponent }
     ] },
-  { path: 'library/liked-songs', component: LibLikedSongsComponent },
-  { path: 'library/playlist/:id', component: LibLikedSongsComponent }
+  { path: 'liked-songs', component: LibLikedSongsComponent },
+  { path: 'playlist/:id', component: LibLikedSongsComponent }
 ];
 
 @NgModule({

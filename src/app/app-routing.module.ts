@@ -24,7 +24,8 @@ const routes: Routes = [
     ]},
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'album/:id', component: PlaylistComponent },
-  { path: 'donate', component: DonateComponent }
+  { path: 'donate', component: DonateComponent },
+  { path: 'library', loadChildren: () => import('./library/library.module').then(m => m.LibraryModule) }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

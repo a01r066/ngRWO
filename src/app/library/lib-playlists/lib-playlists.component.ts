@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Genre} from '../../music/models/genre.model';
 import {Album} from '../../music/models/album.model';
 import {FirebaseService} from '../../firebase.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UiService} from '../../shared/ui.service';
 import {AuthService} from '../../auth/auth.service';
 import {MatMenuTrigger} from '@angular/material/menu';
