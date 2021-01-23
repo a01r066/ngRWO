@@ -187,7 +187,7 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
           this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
         }
       } else {
-        console.log("Empty track");
+        console.log('Empty track');
       }
     } else {
       this.uiService.loginAlertChanged.next(true);
@@ -199,26 +199,26 @@ export class PlayerBarComponent implements OnInit, OnDestroy {
       let titleStr = this.track.title;
       if(typeof titleStr !== 'undefined'){
         if(titleStr.length > 64){
-          titleStr = titleStr.slice(0, 60) + "...";
+          titleStr = titleStr.slice(0, 60) + '...';
         }
       }
       return titleStr;
     } else {
-      return "";
+      return '';
     }
   }
 
   getSubTitle(){
     if(typeof this.track !== 'undefined'){
-      let subTitleStr = this.track.title;
+      let subTitleStr = this.track.author;
       if(typeof subTitleStr !== 'undefined'){
         if(subTitleStr.length > 24){
-          subTitleStr = subTitleStr.slice(0, 20) + "...";
+          subTitleStr = subTitleStr.slice(0, 20) + '...';
         }
       }
       return subTitleStr;
     } else {
-      return "";
+      return '';
     }
   }
 }

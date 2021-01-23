@@ -22,7 +22,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
   ]
 })
 export class HomeComponent implements OnInit {
-  counter: number = 8;f
+  counter: number = 8;
   size: any;
   trendingAlbumsList: Album[][];
   trends: Genre[];

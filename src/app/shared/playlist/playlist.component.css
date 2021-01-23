@@ -344,3 +344,12 @@ thead {
   color: #1DB954;
   /*border-radius: 6px;*/
 }
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: #E0E0E0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 24px;
+}
