@@ -5,9 +5,7 @@ import {Album} from '../../music/models/album.model';
 import {PlayerService} from '../../services/player.service';
 import firebase from 'firebase';
 import {UiService} from '../../shared/ui.service';
-import {AudioService} from '../../services/audio.service';
 import {StreamState} from '../../interfaces/stream-state';
-import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 
@@ -101,7 +99,6 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
         });
       }
     });
-
     this.firebaseService.isSearchBarHiddenSub.next(false);
   }
 
@@ -117,7 +114,11 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
 
   processSearchAlbum(searchText: string){
     this.filteredAlbums = this.firebaseService.globalAlbums.filter(album => {
-      return album.title.toLowerCase().includes(searchText.toLowerCase());
+      // tslint:disable-next-line:max-line-length
+      if(album.title !== null){
+        // tslint:disable-next-line:max-line-length
+        return (album.title.toLowerCase().includes(searchText.toLowerCase()) || album.author.toLowerCase().includes(searchText.toLowerCase()));
+      }
     });
     this.albums = this.filteredAlbums.slice(0, 8);
   }

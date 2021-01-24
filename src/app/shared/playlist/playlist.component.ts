@@ -7,12 +7,11 @@ import {StreamState} from '../../interfaces/stream-state';
 import {AudioService} from '../../services/audio.service';
 import {AuthService} from '../../auth/auth.service';
 import {UiService} from '../ui.service';
-import {ActivatedRoute} from '@angular/router';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NavItem} from '../nav-item';
 import {Sort} from '@angular/material/sort';
 import * as moment from 'moment';
-import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
+import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
 
 @Component({
   selector: 'app-playlist',
@@ -50,7 +49,7 @@ export class PlaylistComponent implements OnInit {
               private audioService: AudioService,
               private authService: AuthService,
               private uiService: UiService,
-              private route: ActivatedRoute) { }
+              private fb: FacebookService) { }
 
   ngOnInit(): void {
     this.album = this.firebaseService.selectedAlbum;
@@ -296,5 +295,17 @@ export class PlaylistComponent implements OnInit {
     } else {
       this.uiService.loginAlertChanged.next(true);
     }
+  }
+
+  share() {
+    const filePath = 'https://www.relaxingworld.online/';
+    const params: UIParams = {
+      href: filePath,
+      method: 'share'
+    };
+
+    this.fb.ui(params)
+      .then((res: UIResponse) => console.log(res))
+      .catch((e: any) => console.error(e));
   }
 }

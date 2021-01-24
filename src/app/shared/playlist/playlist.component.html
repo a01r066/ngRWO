@@ -94,7 +94,8 @@
                     <button mat-menu-item (click)="onSelectItem(child, i)">{{ child.title }}</button>
                   </ng-container>
                 </ng-container>
-                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.relaxingworld.online%2F&amp;src=sdkpreparse"><button mat-menu-item>Share to Facebook</button></a>
+                <button class="mat-menu-item" (click)="share()">Share to Facebook</button>
+<!--                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.relaxingworld.online%2F&amp;src=sdkpreparse"><button mat-menu-item>Share to Facebook</button></a>-->
               </mat-menu>
             </div>
           </td>

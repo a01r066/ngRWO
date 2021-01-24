@@ -40,6 +40,15 @@
 <!--  </ng-template>-->
   <div class="trending">
     <h1>{{ genre.title }}
+      <span class="searchbar">
+         <input matInput placeholder="Filter item" class="search-input" #searchText (keypress)="filterItem()" (keydown.backspace)="filterItem()" (keyup)="filterItem()" (keyup.enter)="filterItem()">
+         <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
+           <mat-icon>close</mat-icon>
+         </button>
+          <button mat-icon-button class="close" *ngIf="searchText.value === ''" [disabled]="true">
+         <mat-icon>search</mat-icon>
+    </button>
+      </span>
       <span style="float: right; margin-right: 48px">
           <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">filter_list</mat-icon>
           <mat-menu #menu="matMenu" [overlapTrigger]="false">
@@ -58,7 +67,7 @@
       </span></h1>
     <div>
       <ul class="flex-container">
-        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let album of albums" (click)="onSelectItem(album)">
+        <li class="flex-item" appHighlightDirective="#282828" defaultColor="#181818" style="cursor: pointer" *ngFor="let album of filteredAlbums" (click)="onSelectItem(album)">
           <div class="card" @fadeSlideInOut>
             <img class="card-img-top" [src]="[album.imagePath]">
             <div class="card-body">

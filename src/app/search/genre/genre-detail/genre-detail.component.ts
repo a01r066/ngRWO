@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../../music/models/album.model';
 import {FirebaseService} from '../../../firebase.service';
 import {Genre} from '../../../music/models/genre.model';
@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {NavItem} from '../../../shared/nav-item';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {UiService} from '../../../shared/ui.service';
-import {Observable} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -42,7 +41,9 @@ export class GenreDetailComponent implements OnInit{
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
   albums: Album[] = [];
+  filteredAlbums: Album[] = [];
   isLoadedAll: boolean;
+  @ViewChild('searchText') searchTextRef: ElementRef;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -52,6 +53,7 @@ export class GenreDetailComponent implements OnInit{
   ngOnInit(): void {
     this.genre = this.firebaseService.selectedGenre;
     this.albums = this.firebaseService.albums;
+    this.filteredAlbums = this.albums;
     this.uiService.isLoadedAll.subscribe(isLoaded => {
       this.isLoadedAll = isLoaded;
     });
@@ -60,6 +62,7 @@ export class GenreDetailComponent implements OnInit{
       this.firebaseService.getNextItems();
       this.firebaseService.albumsSubject.next(this.firebaseService.albums);
       this.albums = this.firebaseService.albums;
+      this.filteredAlbums = this.albums;
     });
   }
 
@@ -76,11 +79,11 @@ export class GenreDetailComponent implements OnInit{
     if(typeof album.title !== 'undefined' || album.title === ''){
       let titleStr = album.title;
       if(titleStr.length > 44){
-        titleStr = titleStr.slice(0, 40) + "...";
+        titleStr = titleStr.slice(0, 40) + '...';
       }
       return titleStr;
     } else {
-      return "Playlist";
+      return 'Playlist';
     }
   }
 
@@ -88,11 +91,11 @@ export class GenreDetailComponent implements OnInit{
     if(typeof album.author !== 'undefined' || album.author === ''){
       let subTitleStr = album.author;
       if(subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + " ...";
+        subTitleStr = subTitleStr.slice(0, 20) + ' ...';
       }
       return subTitleStr;
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -103,7 +106,7 @@ export class GenreDetailComponent implements OnInit{
   }
 
   sortByName(index){
-    this.albums.sort((s1, s2) => {
+    this.filteredAlbums.sort((s1, s2) => {
       if(s1 === s2){
         return -1;
       }
@@ -113,5 +116,17 @@ export class GenreDetailComponent implements OnInit{
         return s2.title.toLowerCase().localeCompare(s1.title.toLowerCase());
       }
     });
+  }
+
+  filterItem(){
+    const searchText = this.searchTextRef.nativeElement.value.toLowerCase();
+    this.filteredAlbums = this.albums.filter(album => {
+      return (album.title.toLowerCase().includes(searchText) || album.author.toLowerCase().includes(searchText));
+    });
+  }
+
+  clearText(){
+    this.searchTextRef.nativeElement.value = '';
+    this.filteredAlbums = this.albums;
   }
 }

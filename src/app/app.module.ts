@@ -33,6 +33,7 @@ import { EditPlaylistComponent } from './shared/playlist/edit-playlist/edit-play
 import {ScrollTrackerDirective} from './scroll-tracker.directive';
 import { DonateComponent } from './donate/donate.component';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {FacebookModule} from 'ngx-facebook';
 
 firebase.initializeApp(environment.firebase);
 
@@ -71,7 +72,8 @@ firebase.initializeApp(environment.firebase);
     AngularFireStorageModule,
     AuthModule,
     MusicModule,
-    NgxPayPalModule
+    NgxPayPalModule,
+    FacebookModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

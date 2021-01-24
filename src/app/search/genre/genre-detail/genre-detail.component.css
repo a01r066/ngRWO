@@ -91,6 +91,42 @@ h1 {
 }
 
 .mat-menu-item:hover {
-  /*color: #FFD740;*/
   background: #5A5A5A;
+}
+
+.searchbar {
+  /*display: flex;*/
+  width: 320px;
+  margin-top: 8px;
+  margin-left: 24px;
+  margin-right: 16px;
+}
+
+.search-label {
+  color: #B3B3A2;
+  padding-left: 16px;
+  font-size: 1rem;
+}
+
+.search-input {
+  color: black;
+  background-color: white;
+  width: 320px;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 16px;
+  padding-right: 36px;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+.close {
+  margin-left: -40px;
+  color: #2F302F;
+}
+
+.close:hover {
+  color: #2F302F;
 }

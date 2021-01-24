@@ -3,7 +3,7 @@ mat-toolbar {
 }
 
 mat-icon:hover, mat-icon:active {
-  color: white;
+  color: #2F302F;
 }
 
 .backnext {
@@ -41,6 +41,10 @@ mat-icon:hover, mat-icon:active {
 
 .close {
   margin-left: -40px;
+}
+
+.close:hover {
+  color: #2F302F;
 }
 
 .nav-items {
