@@ -6,8 +6,8 @@
     <div class="item2">
       <div class="mat-caption">PLAYLIST</div>
       <div class="mat-title">{{ getTitle() }}</div>
-      <div class="mat-card-subtitle">{{ getSubTitle() }}</div>
-      <div class="mat-card-subtitle">RelaxingWorld * 71,766 likes, {{ tracks?.length }} songs, 3 hr 19 min</div>
+      <div class="mat-card-subtitle" style="font-style: italic">{{ getSubTitle() }}</div>
+      <div class="mat-card-subtitle">MyTunes.Top * {{ totalLiked | number }} likes, {{ tracks?.length }} songs, length: {{ totalDuration }}</div>
     </div>
   </div>
 </mat-toolbar>
@@ -39,9 +39,14 @@
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> # </th>
-          <td mat-cell *matCellDef="let element; let i = index"> {{ i+1 }} </td>
+<!--          <td mat-cell *matCellDef="let element; let i = index">{{ i+1 }}</td>-->
+<!--          <td mat-cell *matCellDef="let element; let i = index"><div *ngIf="selectedRowIndex !== i">{{ i+1 }}</div></td>-->
+          <td mat-cell *matCellDef="let element; let i = index">
+            <div *ngIf="selectedRowIndex !== i">{{ i + 1 }}</div>
+            <div class="loader09" *ngIf="selectedRowIndex === i && state?.playing" style="margin: auto 4px"></div>
+            <div class="loader10" *ngIf="selectedRowIndex === i && !state?.playing" style="margin: auto 4px"></div>
+          </td>
         </ng-container>
-
         <!-- Name Column -->
         <ng-container matColumnDef="title">
 <!--          <th mat-header-cell *matHeaderCellDef> TITLE </th>-->
@@ -95,7 +100,7 @@
                   </ng-container>
                 </ng-container>
                 <button class="mat-menu-item" (click)="share()">Share to Facebook</button>
-<!--                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.relaxingworld.online%2F&amp;src=sdkpreparse"><button mat-menu-item>Share to Facebook</button></a>-->
+<!--                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmytunes.top%2F&amp;src=sdkpreparse"><button mat-menu-item>Share to Facebook</button></a>-->
               </mat-menu>
             </div>
           </td>

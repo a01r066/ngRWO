@@ -218,6 +218,25 @@ table {
     box-shadow: 0 -8px 0 #1DB954, 0 8px 0 #1DB954; }
 }
 
+.loader10 {
+  width: 4px;
+  height: 16px;
+  background: #1DB954;
+  position: relative;
+  animation: loader10-u3e967ec0 1s ease-in-out infinite;
+  top: 50%;
+}
+
+.loader10::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 16px;
+  background: #1DB954; }
+.loader10::before {
+  right: 6px;
+}
+
 /* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
 @media screen and (max-width: 1910px) {
   .mat-title {

@@ -21,24 +21,29 @@ import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
 
 export class PlaylistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
-  isDataLoaded: boolean = false;
+  isDataLoaded = false;
   album: Album;
   tracks: Track[];
   state: StreamState;
   selectedRowIndex = -1;
-  isFirstLoad: boolean = true;
-  isLikedAlbum: boolean = false;
-  isAuth: boolean = false;
+  isFirstLoad = true;
+  isLikedAlbum = false;
+  isAuth = false;
   favouriteList: boolean[] = [];
   playingTrack: Track;
   playlist: Album;
   isFileExisted = false;
 
+  totalMins = 0;
+  totalSecs = 0;
+  totalDuration = 'N/A';
+  totalLiked = 0;
+
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
   navItems: NavItem[] = [
     {
-      title: "New playlist"
+      title: 'New playlist'
     }
   ];
 
@@ -52,12 +57,13 @@ export class PlaylistComponent implements OnInit {
               private fb: FacebookService) { }
 
   ngOnInit(): void {
+    this.totalLiked = this.firebaseService.getRandomPlayed(99, 9999);
     this.album = this.firebaseService.selectedAlbum;
-    if(typeof this.album.filePath !== 'undefined'){
+    if (typeof this.album.filePath !== 'undefined'){
       this.isFileExisted = true;
     }
     this.firebaseService.favouristAlbums.find(album => {
-      if(album.id === this.album.id){
+      if (album.id === this.album.id){
         this.isLikedAlbum = true;
       }
     });
@@ -70,7 +76,11 @@ export class PlaylistComponent implements OnInit {
         this.favouriteList.push(false);
         // get mp3 duration
         // this.getMp3Duration(track);
+        if (typeof track.duration !== 'undefined'){
+          this.analyzeDuration(track);
+        }
       });
+      this.getTotalDurations();
     });
     this.playerService.selectedRowIndexSub.subscribe(index => {
       this.selectedRowIndex = index;
@@ -97,81 +107,102 @@ export class PlaylistComponent implements OnInit {
       this.playingTrack = track;
     });
 
-    if(this.isAuth){
+    if (this.isAuth){
       this.firebaseService.getPlaylists(this.authService.getUser());
       this.uiService.favouritePlaylistsSub.subscribe(playlists => {
         // this.favouritePlaylists = playlists;
         this.navItems.push({
-          title: "Add to playlist",
+          title: 'Add to playlist',
           subItems: playlists
         });
         this.navItems.push({
-          title: "Save to liked songs"
+          title: 'Save to liked songs'
         });
       });
     }
   }
 
+  getTotalDurations(){
+    const totalSecs = this.totalMins * 60 + this.totalSecs;
+    if(totalSecs > 0){
+      this.totalDuration = this.formatTime(totalSecs, 'HH:mm:ss');
+    }
+  }
+
+  analyzeDuration(track: Track){
+    const durationStr = track.duration;
+    const minStr = durationStr.slice(0, 2);
+    const secondStr = durationStr.slice(3, 5);
+
+    // tslint:disable-next-line:radix
+    const min = parseInt(minStr);
+    // tslint:disable-next-line:radix
+    const sec = parseInt(secondStr);
+
+    this.totalMins += min;
+    this.totalSecs += sec;
+  }
+
   getTrackTitle(track: Track){
-    if(typeof track.title !== 'undefined' || track.title === ''){
+    if (typeof track.title !== 'undefined' || track.title === ''){
       let titleStr = track.title;
-      if(titleStr.length > 96){
-        titleStr = titleStr.slice(0, 92) + "...";
+      if (titleStr.length > 96){
+        titleStr = titleStr.slice(0, 92) + '...';
       }
       return titleStr;
     } else {
-      return "";
+      return '';
     }
   }
 
   getTrackSubTitle(track: Track){
-    if(typeof track.author !== 'undefined' || track.author === ''){
+    if (typeof track.author !== 'undefined' || track.author === ''){
       let subTitleStr = track.author;
-      if(subTitleStr.length > 96){
-        subTitleStr = subTitleStr.slice(0, 92) + " ...";
+      if (subTitleStr.length > 96){
+        subTitleStr = subTitleStr.slice(0, 92) + ' ...';
       }
       return subTitleStr;
     } else {
-      return "";
+      return '';
     }
   }
 
   getImagePath(){
-    if(typeof this.album.imagePath !== 'undefined' || this.album.imagePath === ''){
+    if (typeof this.album.imagePath !== 'undefined' || this.album.imagePath === ''){
       return this.album.imagePath;
     } else {
-      return "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf";
+      return 'https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf';
     }
   }
 
   getTitle(){
-    if(typeof this.album.title !== 'undefined'){
+    if (typeof this.album.title !== 'undefined'){
       let titleStr = this.album.title;
-      if(titleStr.length > 36){
-        titleStr = titleStr.slice(0, 32) + "...";
+      if (titleStr.length > 36){
+        titleStr = titleStr.slice(0, 32) + '...';
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return 'My Playlist';
     }
   }
 
   getSubTitle(){
-    if(typeof this.album.author !== 'undefined'){
+    if (typeof this.album.author !== 'undefined'){
       let subTitleStr = this.album.author;
-      if(subTitleStr.length > 64){
-        subTitleStr = subTitleStr.slice(0, 60) + "...";
+      if (subTitleStr.length > 64){
+        subTitleStr = subTitleStr.slice(0, 60) + '...';
       }
       return subTitleStr;
     } else {
-      return "Description: N/A";
+      return 'Description: N/A';
     }
   }
 
   openFile(track: Track, index: number){
     this.selectedRowIndex = index;
-    if(typeof this.playingTrack !== 'undefined'){
-      if(this.playingTrack.id === track.id || this.favouriteList[index] === true){
+    if (typeof this.playingTrack !== 'undefined'){
+      if (this.playingTrack.id === track.id || this.favouriteList[index] === true){
         this.uiService.isLikedTrackSub.next(true);
       } else {
         this.uiService.isLikedTrackSub.next(false);
@@ -184,7 +215,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   handlePlay(){
-    if(this.isFirstLoad){
+    if (this.isFirstLoad){
       this.openFile(this.tracks[0], 0);
       this.isFirstLoad = false;
     } else {
@@ -201,10 +232,10 @@ export class PlaylistComponent implements OnInit {
   }
 
   onHandleLikeAlbum(album: Album){
-    if(this.isAuth){
+    if (this.isAuth){
       this.isLikedAlbum = !this.isLikedAlbum;
       this.uiService.isLikedAlbumSub.next(this.isLikedAlbum);
-      if(this.isLikedAlbum){
+      if (this.isLikedAlbum){
         // add to favourite
         this.firebaseService.addFavouriteAlbum(album, this.authService.getUser());
       } else {
@@ -217,18 +248,18 @@ export class PlaylistComponent implements OnInit {
   }
 
   onHandleLikeTrack(track: Track, index: number){
-    if(this.isAuth){
+    if (this.isAuth){
       this.favouriteList[index] = !this.favouriteList[index];
       this.uiService.favouriteListSub.next(this.favouriteList);
-      if(this.favouriteList[index]){
+      if (this.favouriteList[index]){
         // add to liked songs
         this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
       } else {
         // remove from liked songs
         this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
       }
-      if(typeof this.playingTrack !== 'undefined'){
-        if(this.playingTrack.id === track.id){
+      if (typeof this.playingTrack !== 'undefined'){
+        if (this.playingTrack.id === track.id){
           this.uiService.isLikedTrackSub.next(this.favouriteList[index]);
         }
       }
@@ -238,13 +269,13 @@ export class PlaylistComponent implements OnInit {
   }
 
   onSelectItem(item: NavItem, index: number){
-    if(item.title === "New playlist"){
-      if(this.isAuth){
+    if (item.title === 'New playlist'){
+      if (this.isAuth){
         this.firebaseService.onCreatePlaylist();
       } else {
         this.uiService.loginAlertChanged.next(true);
       }
-    } else if(item.title === 'Save to liked songs'){
+    } else if (item.title === 'Save to liked songs'){
       // console.log("Add to liked songs");
       this.firebaseService.addFavouriteTrack(this.tracks[index], this.authService.getUser());
     }
@@ -268,7 +299,7 @@ export class PlaylistComponent implements OnInit {
     au.addEventListener('loadedmetadata', () => {
       // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
       const duration = au.duration;
-      console.log("The duration of the song is of: " + duration + " seconds");
+      console.log('The duration of the song is of: ' + duration + ' seconds');
       const durationStr = this.formatTime(duration, 'mm:ss');
       this.durations.push(durationStr);
 
@@ -290,7 +321,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   openPdf(){
-    if(this.isAuth){
+    if (this.isAuth){
       window.open(this.album.filePath, '_blank');
     } else {
       this.uiService.loginAlertChanged.next(true);
@@ -298,7 +329,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   share() {
-    const filePath = 'https://www.relaxingworld.online/';
+    const filePath = 'https://mytunes.top/';
     const params: UIParams = {
       href: filePath,
       method: 'share'

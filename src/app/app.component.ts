@@ -5,7 +5,6 @@ import {AuthService} from './auth/auth.service';
 import {UiService} from './shared/ui.service';
 import {Album} from './music/models/album.model';
 import {Track} from './music/models/track.model';
-import Wave from 'wave-visualizer';
 import {AudioService} from './services/audio.service';
 
 @Component({
@@ -53,21 +52,5 @@ export class AppComponent implements OnInit{
     this.uiService.favouritePlaylistsSub.subscribe(playlists => {
       this.playlists = playlists.slice(0, 9);
     });
-
-    // Audio visualization
-    let wave = new Wave();
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: true,
-      })
-      .then(stream => {
-        wave.fromStream(stream, 'output', {
-          type: 'cubes',
-          colors: ['#411C76', '#FFD740', '#2D2D7B'],
-        });
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
   }
 }
