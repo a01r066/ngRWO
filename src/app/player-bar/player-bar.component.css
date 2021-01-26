@@ -92,4 +92,8 @@
   .volumn-control {
     display: none;
   }
+
+  .playlist {
+    display: none;
+  }
 }

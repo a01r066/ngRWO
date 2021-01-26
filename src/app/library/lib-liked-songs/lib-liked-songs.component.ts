@@ -211,6 +211,30 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
     }
   }
 
+  getTrackTitle(track: Track){
+    if (typeof track.title !== 'undefined' || track.title === ''){
+      let titleStr = track.title;
+      if (titleStr.length > 96){
+        titleStr = titleStr.slice(0, 92) + '...';
+      }
+      return titleStr;
+    } else {
+      return '';
+    }
+  }
+
+  getTrackSubTitle(track: Track){
+    if (typeof track.author !== 'undefined' || track.author === ''){
+      let subTitleStr = track.author;
+      if (subTitleStr.length > 96){
+        subTitleStr = subTitleStr.slice(0, 92) + ' ...';
+      }
+      return subTitleStr;
+    } else {
+      return '';
+    }
+  }
+
   onSelectItem(item: NavItem, index: number){
     if(this.isPlaylist){
       this.firebaseService.removeTrackFromPlaylist(this.authService.getUser(), this.album, this.tracks[index]);

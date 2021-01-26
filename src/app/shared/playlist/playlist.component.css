@@ -173,6 +173,14 @@ table {
   background: #282828; /* green */
 }
 
+.title-highlight {
+  color: #1ED760 !important;
+}
+
+.text-highlight {
+  color: white !important;
+}
+
 .like-Track {
   color: #1DB954;
 }
@@ -355,6 +363,8 @@ thead {
 
 .title {
   color: white;
+  font-size: 1rem;
+  font-weight: 300;
 }
 
 .table tr.active td {

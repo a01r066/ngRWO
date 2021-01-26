@@ -83,6 +83,11 @@
     </mat-toolbar>
   </div>
   <div class="right" fxLayout fxLayoutAlign="end center" style="margin-right: 16px">
+    <div class="playlist" style="margin-top: 16px">
+      <button class="mat-icon-button" (click)="openPlaylist(track)">
+        <mat-icon style="font-size: 1.75rem">playlist_play</mat-icon>
+      </button>
+    </div>
     <div class="volumn-control">
       <button mat-icon-button *ngIf="currentVolumn !== 0" (click)="onResetVolumn()">
         <mat-icon>volume_up</mat-icon>
