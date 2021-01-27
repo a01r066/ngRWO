@@ -94,8 +94,8 @@ export class LibPlaylistsComponent implements OnInit {
   getTitle(album: Album){
     if(typeof album.title !== 'undefined' || album.title === ''){
       let titleStr = album.title;
-      if(titleStr.length > 44){
-        titleStr = titleStr.slice(0, 40) + "...";
+      if(titleStr.length > 42){
+        titleStr = titleStr.slice(0, 38) + "...";
       }
       return titleStr;
     } else {

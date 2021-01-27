@@ -26,7 +26,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 export class LibAlbumsComponent implements OnInit {
   genre: Genre;
   items: Album[] = [];
-  isDataLoaded: boolean = false;
+  isDataLoaded = false;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -47,26 +47,26 @@ export class LibAlbumsComponent implements OnInit {
   }
 
   getTitle(album: Album){
-    if(typeof album !== 'undefined'){
+    if (typeof album !== 'undefined'){
       let titleStr = album.title;
-      if(titleStr.length > 44){
-        titleStr = titleStr.slice(0, 40) + "...";
+      if (titleStr.length > 42){
+        titleStr = titleStr.slice(0, 38) + '...';
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return 'My Playlist';
     }
   }
 
   getSubTitle(album: Album){
-    if(typeof album !== 'undefined'){
+    if (typeof album !== 'undefined'){
       let subTitleStr = album.author;
-      if(subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + " ...";
+      if (subTitleStr.length > 24){
+        subTitleStr = subTitleStr.slice(0, 20) + ' ...';
       }
       return subTitleStr;
     } else {
-      return "Optional description";
+      return 'Optional description';
     }
   }
 }

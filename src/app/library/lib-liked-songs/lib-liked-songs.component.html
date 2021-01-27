@@ -38,7 +38,7 @@
             <td mat-cell *matCellDef="let element; let i = index">
 <!--              <div *ngIf="selectedRowIndex !== i">{{ i + 1 }}</div>-->
               <div class="hover-index" *ngIf="selectedRowIndex !== i">
-                <button>{{ i + 1 }}</button>
+                <button (click)="openFile(element, i)">{{ i + 1 }}</button>
                 <span class="material-icons" style="font-size: 2rem" (click)="openFile(element, i)">play_arrow</span>
               </div>
               <div class="loader09" *ngIf="selectedRowIndex === i && state?.playing" style="margin: auto 4px"></div>

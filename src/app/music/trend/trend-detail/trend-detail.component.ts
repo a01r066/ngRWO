@@ -28,10 +28,10 @@ export class TrendDetailComponent implements OnInit {
 
   navItems: NavItem[] = [
     {
-      title: "Sort by A->Z"
+      title: 'Sort by A->Z'
     },
     {
-      title: "Sort by Z->A"
+      title: 'Sort by Z->A'
     }
     // {
     //   title: "Sort by Top Listen"
@@ -46,7 +46,7 @@ export class TrendDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const params = this.route.snapshot.params;
-    this.title = params['id'];
+    this.title = params.id;
     this.items = this.firebaseService.trendAlbums;
   }
 
@@ -56,41 +56,41 @@ export class TrendDetailComponent implements OnInit {
   }
 
   getTitle(album: Album){
-    if(typeof album.title !== 'undefined'){
+    if (typeof album.title !== 'undefined'){
       let titleStr = album.title;
-      if(titleStr.length > 44){
-        titleStr = titleStr.slice(0, 40) + "...";
+      if (titleStr.length > 42){
+        titleStr = titleStr.slice(0, 38) + '...';
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return 'My Playlist';
     }
   }
 
   getSubTitle(album: Album){
-    if(typeof album.author !== 'undefined'){
+    if (typeof album.author !== 'undefined'){
       let subTitleStr = album.author;
-      if(subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + " ...";
+      if (subTitleStr.length > 24){
+        subTitleStr = subTitleStr.slice(0, 20) + ' ...';
       }
       return subTitleStr;
     } else {
-      return "Optional description";
+      return 'Optional description';
     }
   }
 
   onSelecSort(index){
-    if(index === 0 || index === 1){
+    if (index === 0 || index === 1){
       this.sortByName(index);
     }
   }
 
   sortByName(index){
     this.items.sort((s1, s2) => {
-      if(s1 === s2){
+      if (s1 === s2){
         return -1;
       }
-      if(index === 0){
+      if (index === 0){
         return s1.title.toLowerCase().localeCompare(s2.title.toLowerCase());
       } else {
         return s2.title.toLowerCase().localeCompare(s1.title.toLowerCase());

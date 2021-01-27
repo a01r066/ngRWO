@@ -293,6 +293,24 @@ table {
   }
 }
 
+@media screen and (max-width: 800px) {
+  .mat-column-option {
+    display: none;
+  }
+
+  .like {
+    display: none;
+  }
+
+  .option-buttons {
+    display: none;
+  }
+
+  .mat-column-title {
+    width: 90% !important;
+  }
+}
+
 .spinner-stroke-color ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #1DB954;
 }
