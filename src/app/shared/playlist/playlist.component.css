@@ -181,6 +181,31 @@ table {
   color: white !important;
 }
 
+.hover-index {
+  display: block;
+}
+
+.hover-index button {
+  font-size: 1rem;
+  color: #B3B3A2;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.hover-index:hover button {
+  display: none;
+}
+
+.hover-index span {
+  display: none;
+}
+
+.hover-index:hover span {
+  display: block;
+  color: white;
+}
+
 .like-Track {
   color: #1DB954;
 }

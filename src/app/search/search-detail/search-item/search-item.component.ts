@@ -143,12 +143,12 @@ export class SearchItemComponent implements OnInit, OnDestroy {
       if(this.track.title !== ''){
         titleStr = this.track.title;
         if(titleStr.length > 128){
-          titleStr = titleStr.slice(0, 124) + "...";
+          titleStr = titleStr.slice(0, 124) + '...';
         }
       }
       return titleStr;
     } else {
-      return "N/A";
+      return 'N/A';
     }
   }
 
@@ -156,14 +156,14 @@ export class SearchItemComponent implements OnInit, OnDestroy {
     if(typeof this.track !== 'undefined'){
       let titleStr = '';
       if(this.track.author !== ''){
-        titleStr = this.track.title;
+        titleStr = this.track.author;
         if(titleStr.length > 128){
-          titleStr = titleStr.slice(0, 124) + "...";
+          titleStr = titleStr.slice(0, 124) + '...';
         }
       }
       return titleStr;
     } else {
-      return "N/A";
+      return 'N/A';
     }
   }
 }
