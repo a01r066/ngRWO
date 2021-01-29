@@ -8,9 +8,9 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {UiService} from '../shared/ui.service';
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 import UserCredential = firebase.auth.UserCredential;
-import {catchError} from 'rxjs/operators';
-import {FirebaseService} from '../firebase.service';
 import FacebookAuthProvider = firebase.auth.FacebookAuthProvider;
+import {Store} from '@ngrx/store';
+import * as fromApp from '../app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class AuthService {
 
   constructor(private router: Router,
               private snackBar: MatSnackBar,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private store: Store<{ui: fromApp.State}>) {
   }
 
   initAuthListener(){
@@ -73,16 +74,19 @@ export class AuthService {
     const name = registerData.name;
     const email = registerData.email;
     const password = registerData.password;
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: 'START_LOADING'});
     this.auth.createUserWithEmailAndPassword(email, password).then(result => {
       this.updateUserToDB(result, name);
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({type: 'STOP_LOADING'});
       this.router.navigate(['/library']);
     })
       .catch(error => {
         // const errorCode = error.code;
         // const errorMessage = error.message;
-        this.uiService.loadingStateChanged.next(false);
+        // this.uiService.loadingStateChanged.next(false);
+        this.store.dispatch({type: 'STOP_LOADING'});
         this.snackBar.open(error.message, null, {
           duration: 3000
         });
@@ -90,7 +94,8 @@ export class AuthService {
   }
 
   loginViaFb(){
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: 'START_LOADING'});
     let provider = new FacebookAuthProvider();
     // provider.addScope('user_photos');
     this.auth.signInWithPopup(provider).then(res => {
@@ -99,10 +104,12 @@ export class AuthService {
       const email = res.user.email;
       // console.log(name + ": " +email);
       this.updateGoogleUserToDB(res);
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({type: 'STOP_LOADING'});
       this.router.navigate(['/library']);
     }). catch(error => {
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({type: 'STOP_LOADING'});
       this.snackBar.open(error.message, null, {
         duration: 3000
       });
@@ -110,16 +117,19 @@ export class AuthService {
   }
 
   loginViaGmail(){
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: 'START_LOADING'});
     this.auth.signInWithPopup(new GoogleAuthProvider()).then(res => {
         const name = res.user.displayName;
         const email = res.user.email;
         // console.log(res);
         this.updateGoogleUserToDB(res);
-        this.uiService.loadingStateChanged.next(false);
+        // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({type: 'STOP_LOADING'});
         this.router.navigate(['/library']);
     }). catch(error => {
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({type: 'STOP_LOADING'});
       this.snackBar.open(error.message, null, {
         duration: 3000
       });
@@ -138,15 +148,18 @@ export class AuthService {
     const email = authData.email;
     const password = authData.password;
 
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: 'START_LOADING'});
     this.auth.signInWithEmailAndPassword(email, password).then(result => {
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({type: 'STOP_LOADING'});
       this.router.navigate(['/library']);
     })
       .catch(error => {
       // const errorCode = error.code;
       // const errorMessage = error.message;
-        this.uiService.loadingStateChanged.next(false);
+      //   this.uiService.loadingStateChanged.next(false);
+        this.store.dispatch({type: 'STOP_LOADING'});
         this.snackBar.open(error.message, null, {
           duration: 3000
         });

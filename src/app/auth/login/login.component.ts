@@ -1,16 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service';
 import {UiService} from '../../shared/ui.service';
-import {Subscription} from 'rxjs';
-import {catchError, take} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import * as fromApp from '../../app.reducer';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   // getErrorMessage() {
@@ -19,13 +21,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   //   }
   //   return this.email.hasError('email') ? 'Not a valid email' : '';
   // }
-  isLoadingStateChanged: boolean = false;
-  loadingSub: Subscription;
+
+  // isLoadingStateChanged: boolean = false;
+  // loadingSub: Subscription;
+  isLoading$: Observable<boolean>;
 
   constructor(private authService: AuthService,
-              private uiService: UiService) { }
+              private uiService: UiService,
+              private store: Store<{ui: fromApp.State}>) { }
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.pipe(map(state => state.ui.isLoading));
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email]
@@ -35,14 +41,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
     });
 
-    this.loadingSub = this.uiService.loadingStateChanged.subscribe(isStateChanged => {
-      this.isLoadingStateChanged = isStateChanged;
-    });
+    // this.loadingSub = this.uiService.loadingStateChanged.subscribe(isStateChanged => {
+    //   this.isLoadingStateChanged = isStateChanged;
+    // });
   }
 
-  ngOnDestroy(): void {
-    this.loadingSub.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.loadingSub.unsubscribe();
+  // }
 
   onLogin(){
     const authData = {

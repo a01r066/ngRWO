@@ -34,6 +34,8 @@ import {ScrollTrackerDirective} from './scroll-tracker.directive';
 import { DonateComponent } from './donate/donate.component';
 import {NgxPayPalModule} from 'ngx-paypal';
 import {FacebookModule} from 'ngx-facebook';
+import {StoreModule} from '@ngrx/store';
+import {appReducer} from './app.reducer';
 
 firebase.initializeApp(environment.firebase);
 
@@ -73,7 +75,8 @@ firebase.initializeApp(environment.firebase);
     AuthModule,
     MusicModule,
     NgxPayPalModule,
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    StoreModule.forRoot({ui: appReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
