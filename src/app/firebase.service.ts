@@ -49,10 +49,10 @@ export class FirebaseService {
 
   allTracks: Track[];
   allTracksSub = new Subject<Track[]>();
-  isAllTracksLoaded: boolean = false;
+  isAllTracksLoaded = false;
 
   globalAlbums: Album[];
-  isGlobalAlbumsLoaded: boolean = false;
+  isGlobalAlbumsLoaded = false;
   globalAlbumsSub = new Subject<Album[]>();
 
   // refactor scroll to load more items
@@ -62,6 +62,11 @@ export class FirebaseService {
   allAlbums: Album[] = [];
   allAlbumsSub = new Subject<Album[]>();
   playlistCounter = 1;
+
+  trends: Genre[] = [];
+  trendingList: Album[][] = [];
+  playedAlbums: Album[] = [];
+  genres: Genre[] = [];
 
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient,
@@ -87,12 +92,12 @@ export class FirebaseService {
   }
 
   getPlaylists(user: User){
-    let playlists: Album[] = [];
+    const playlists: Album[] = [];
     this.database.ref('Playlists').child(user.uid).once('value').then(snapshot => {
       snapshot.forEach(playlistSnapshot => {
         const playlistID = playlistSnapshot.key;
-        const genreID = "";
-        const trendID = "";
+        const genreID = '';
+        const trendID = '';
         const dataObj = {
           title: playlistSnapshot.val().title,
           author: playlistSnapshot.val().author,
@@ -163,6 +168,42 @@ export class FirebaseService {
     this.database.ref('Playlists').child(user.uid).child(playlist.id).update(data).then(() => {
       // refresh playlist
     });
+  }
+
+  getRecentPlayedAlbums(user: User){
+    const albums: Album[] = [];
+    this.database.ref('RecentPlayedAlbums').child(user.uid).once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          const albumID = albumSnapshot.key;
+          const trendID = '';
+          const dataObj = {
+            title: albumSnapshot.val().title,
+            author: albumSnapshot.val().author,
+            imagePath: albumSnapshot.val().imagePath,
+            filePath: albumSnapshot.val().filePath,
+            tags: albumSnapshot.val().tags
+          };
+          const album = new Album(albumID, genreID, trendID, dataObj);
+          albums.push(album);
+        });
+      });
+      console.log("playedalbums: " + albums.length);
+      this.playedAlbums = albums;
+      this.uiService.playedAlbumsSub.next(albums);
+    });
+  }
+
+  onAddRecentPlayedAlbum(user: User, album: Album){
+    const dataObj = {
+      title: album.title,
+      author: album.author,
+      imagePath: album.imagePath,
+      filePath: '',
+      tags: album.tags
+    };
+    this.database.ref('RecentPlayedAlbums').child(user.uid).child(album.genreID).child(album.id).update(dataObj).then();
   }
 
   onCreatePlaylist(){
@@ -412,12 +453,13 @@ export class FirebaseService {
         trends.push(genre);
       });
     });
+    this.trends = trends;
     return trends;
   }
 
   // End of music player controller
   getTrendingList(){
-    let trendingList: Album[][] = [];
+    const trendingList: Album[][] = [];
     this.database.ref('Trending-Albums').once('value').then(snapshot => {
       snapshot.forEach(trendSnapshot => {
         const trendID = trendSnapshot.key;
@@ -440,8 +482,9 @@ export class FirebaseService {
         });
         this.shuffleInPlace(albums);
         trendingList.push(albums);
-        this.trendingAlbumsListSub.next(trendingList);
       });
+      this.trendingList = trendingList;
+      this.trendingAlbumsListSub.next(trendingList);
     });
   }
 
@@ -514,6 +557,7 @@ export class FirebaseService {
         this.isDataLoadedSub.next(true);
       }
     });
+    this.genres = genres;
     return genres;
   }
 }

@@ -19,11 +19,12 @@ export class UiService {
   selectedAlbumSub = new Subject<Album>();
   favouriteListSub = new Subject<boolean[]>();
   currentIndexSub = new Subject<number>();
-  isPlaylistEdit: boolean = false;
-  isPlaylist: boolean = false;
+  isPlaylistEdit = false;
+  isPlaylist = false;
   favouritePlaylistsSub = new Subject<Album[]>();
   editPlaylistChanged = new Subject<boolean>();
   playlistImagePathSub = new Subject<string>();
   isLoadedAll = new Subject<boolean>();
   isGenreSelectSub = new Subject<boolean>();
+  playedAlbumsSub = new Subject<Album[]>();
 }

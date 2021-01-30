@@ -1,9 +1,15 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {
+  Component, DoCheck,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import {Album} from '../music/models/album.model';
 import {FirebaseService} from '../firebase.service';
 import {Genre} from '../music/models/genre.model';
 import {Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
+import {AuthService} from '../auth/auth.service';
+import {UiService} from '../shared/ui.service';
 
 @Component({
   selector: 'app-home',
@@ -22,14 +28,19 @@ import {animate, style, transition, trigger} from '@angular/animations';
   ]
 })
 export class HomeComponent implements OnInit {
-  counter: number = 8;
+  counter = 8;
   size: any;
   trendingAlbumsList: Album[][];
   trends: Genre[];
-  isDataLoaded: boolean = false;
+  isDataLoaded = false;
+  playedAlbums: Album[] = [];
+
+  isAuthenticated = false;
 
   constructor(private firebaseService: FirebaseService,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService,
+              private uiService: UiService) {
   }
 
   onSelectItem(album: Album){
@@ -43,10 +54,34 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAuthenticated = this.authService.isAuthenticated;
+
+    if (this.isAuthenticated){
+      if (this.firebaseService.playedAlbums.length > 0){
+        this.playedAlbums = this.firebaseService.playedAlbums;
+      } else {
+        this.firebaseService.getRecentPlayedAlbums(this.authService.getUser());
+      }
+    }
+    this.uiService.playedAlbumsSub.subscribe(albums => {
+      this.playedAlbums = albums;
+    });
+
     this.size = window.innerWidth;
     this.getCounter();
-    this.trends = this.firebaseService.getTrends();
-    this.firebaseService.getTrendingList();
+
+    if (this.firebaseService.trends.length > 0){
+      this.trends = this.firebaseService.trends;
+    } else {
+      this.trends = this.firebaseService.getTrends();
+    }
+
+    if (this.firebaseService.trendingList.length > 0){
+      this.trendingAlbumsList = this.firebaseService.trendingList;
+      this.isDataLoaded = true;
+    } else {
+      this.firebaseService.getTrendingList();
+    }
     this.firebaseService.trendingAlbumsListSub.subscribe(trendingList => {
       this.trendingAlbumsList = trendingList;
       this.isDataLoaded = true;
@@ -115,5 +150,9 @@ export class HomeComponent implements OnInit {
     } else {
       return 'Optional description';
     }
+  }
+
+  onClickViewRecentAlbums(albums: Album[]){
+
   }
 }

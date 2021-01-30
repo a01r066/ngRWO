@@ -212,6 +212,10 @@ export class PlaylistComponent implements OnInit {
     this.uiService.selectedAlbumSub.next(this.album);
     this.playerService.files = this.tracks;
     this.playerService.openFile(track, index);
+    if (this.isAuth){
+      // console.log("Add to recently played album");
+      this.firebaseService.onAddRecentPlayedAlbum(this.authService.getUser(), this.album);
+    }
   }
 
   handlePlay(){

@@ -17,9 +17,10 @@ import * as fromApp from '../app.reducer';
 })
 export class AuthService {
   private user: User;
+  loggedUser: any;
   authChangeSub = new Subject<boolean>();
   auth = firebase.auth();
-  isAuthenticated: boolean = false;
+  isAuthenticated = false;
   database = firebase.database();
 
   constructor(private router: Router,
@@ -30,7 +31,7 @@ export class AuthService {
 
   initAuthListener(){
     this.auth.onAuthStateChanged(user => {
-      if(user){
+      if (user){
         // this.user = user;
         this.user = {
           uid: user.uid,

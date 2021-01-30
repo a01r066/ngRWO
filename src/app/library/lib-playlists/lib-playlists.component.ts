@@ -29,11 +29,11 @@ export class LibPlaylistsComponent implements OnInit {
   items: Album[] = [];
   isDataLoaded: boolean;
 
-  options = ["Edit details", "Delete"];
+  options = ['Edit details', 'Delete'];
   selectedPlaylist: Album;
 
   // we create an object that contains coordinates
-  menuTopLeftPosition =  {x: '0', y: '0'}
+  menuTopLeftPosition =  {x: '0', y: '0'};
   // reference to the MatMenuTrigger in the DOM
   @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
 
@@ -75,7 +75,7 @@ export class LibPlaylistsComponent implements OnInit {
   }
 
   onClickOption(option: string){
-    if(option === "Edit details"){
+    if (option === 'Edit details'){
       this.uiService.editPlaylistChanged.next(true);
       this.firebaseService.selectedAlbum = this.selectedPlaylist;
     } else {
@@ -84,34 +84,34 @@ export class LibPlaylistsComponent implements OnInit {
   }
 
   getImagePath(album: Album){
-    if(typeof album.imagePath !== 'undefined' || album.imagePath === ''){
+    if (typeof album.imagePath !== 'undefined' || album.imagePath === ''){
       return album.imagePath;
     } else {
-      return "https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf";
+      return 'https://firebasestorage.googleapis.com/v0/b/rxrelaxingworld.appspot.com/o/Images%2FDefaults%2Fplaylist-empty.png?alt=media&token=6a8539e3-6337-4ec6-bec1-cbeea9cc0ebf';
     }
   }
 
   getTitle(album: Album){
-    if(typeof album.title !== 'undefined' || album.title === ''){
+    if (typeof album.title !== 'undefined' || album.title === ''){
       let titleStr = album.title;
-      if(titleStr.length > 42){
-        titleStr = titleStr.slice(0, 38) + "...";
+      if (titleStr.length > 42){
+        titleStr = titleStr.slice(0, 38) + '...';
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return 'My Playlist';
     }
   }
 
   getSubTitle(album: Album){
-    if(typeof album.author !== 'undefined' || album.author === ''){
+    if (typeof album.author !== 'undefined' || album.author === ''){
       let subTitleStr = album.author;
-      if(subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + " ...";
+      if (subTitleStr.length > 24){
+        subTitleStr = subTitleStr.slice(0, 20) + ' ...';
       }
       return subTitleStr;
     } else {
-      return "Optional description";
+      return 'Optional description';
     }
   }
 }

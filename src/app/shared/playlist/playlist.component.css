@@ -18,7 +18,8 @@ mat-toolbar {
 
 .mat-title {
   color: white;
-  font-size: 5rem;
+  /*font-size: 5rem;*/
+  font-size: 4vw;
   margin-top: 48px;
   margin-bottom: 16px;
   font-weight: bold;
@@ -266,23 +267,6 @@ table {
   background: #1DB954; }
 .loader10::before {
   right: 6px;
-}
-
-/* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
-@media screen and (max-width: 1910px) {
-  .mat-title {
-    font-size: 64px;
-  }
-}
-@media screen and (max-width: 1600px) {
-  .mat-title {
-    font-size: 56px;
-  }
-}
-@media screen and (max-width: 1400px) {
-  .mat-title {
-    font-size: 48px;
-  }
 }
 
 /*hide column*/

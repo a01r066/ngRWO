@@ -29,28 +29,30 @@ export class GenreListComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.loadGenres();
+    if(this.firebaseService.genres.length > 0){
+      this.genres = this.firebaseService.genres;
+      this.isDataLoaded = true;
+    } else {
+      this.genres = this.firebaseService.getGenres();
+    }
+
     this.firebaseService.isDataLoadedSub.subscribe(isLoaded => {
       this.isDataLoaded = isLoaded;
     });
 
-    if(!this.firebaseService.isAllTracksLoaded){
+    if (!this.firebaseService.isAllTracksLoaded){
       this.firebaseService.fetchAllTracks();
     } else {
       this.firebaseService.isAllTracksLoaded = true;
     }
 
-    if(!this.firebaseService.isGlobalAlbumsLoaded){
+    if (!this.firebaseService.isGlobalAlbumsLoaded){
       this.firebaseService.fetchAllAlbums();
     } else {
       this.firebaseService.isGlobalAlbumsLoaded = true;
     }
 
     this.firebaseService.isSearchBarHiddenSub.next(false);
-  }
-
-  loadGenres(){
-    this.genres = this.firebaseService.getGenres();
   }
 
   onSelectGenre(genre: Genre){

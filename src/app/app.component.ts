@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirebaseService} from './firebase.service';
 import {AuthService} from './auth/auth.service';
@@ -14,7 +14,7 @@ import {AudioService} from './services/audio.service';
 })
 export class AppComponent implements OnInit{
   title = 'Relaxing World Online';
-  opened: boolean = true;
+  opened = true;
   mode = new FormControl('side');
   isAlertShow = false;
   isEditPlaylistShow = false;
@@ -22,20 +22,18 @@ export class AppComponent implements OnInit{
   isGenreSelect = false;
 
   playlists: Album[] = [];
-  currentTrack: Track;
 
   constructor(private authService: AuthService,
               private uiService: UiService,
-              private firebaseService: FirebaseService,
-              private audioService: AudioService) {
+              private firebaseService: FirebaseService) {
   }
 
   ngOnInit(): void {
     // disable right-click
-    // window.addEventListener('contextmenu', (e) => {
-    //   // do something here...
-    //   e.preventDefault();
-    // }, false);
+    window.addEventListener('contextmenu', (e) => {
+      // do something here...
+      e.preventDefault();
+    }, false);
 
     this.authService.initAuthListener();
     this.uiService.loginAlertChanged.subscribe(isAlert => {
@@ -50,7 +48,7 @@ export class AppComponent implements OnInit{
     });
 
     this.authService.authChangeSub.subscribe(authStatus => {
-      if(authStatus){
+      if (authStatus){
         this.firebaseService.getPlaylists(this.authService.getUser());
       }
     });

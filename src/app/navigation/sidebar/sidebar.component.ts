@@ -13,7 +13,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  isAuth: boolean = false;
+  isAuth = false;
   @Input() playlists: Album[] = [];
   isShow = false;
 
