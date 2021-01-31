@@ -17,16 +17,48 @@ import * as fromApp from '../app.reducer';
 })
 export class AuthService {
   private user: User;
-  loggedUser: any;
   authChangeSub = new Subject<boolean>();
   auth = firebase.auth();
   isAuthenticated = false;
   database = firebase.database();
 
+  public loggedIn = false;
+
   constructor(private router: Router,
               private snackBar: MatSnackBar,
               private uiService: UiService,
               private store: Store<{ui: fromApp.State}>) {
+    this.loggedIn = !!sessionStorage.getItem('uid');
+    if (this.loggedIn){
+      this.user = this.getCurrentUser();
+    }
+  }
+
+  // Set current user in your session after a successful login
+  setCurrentUser(uid: string, email: string): void {
+    sessionStorage.setItem('uid', uid);
+    sessionStorage.setItem('email', email);
+    this.loggedIn = true;
+  }
+
+// Get currently logged in user from session
+//   getCurrentUser(): string | any {
+//     return sessionStorage.getItem('user') || undefined;
+//   }
+
+  getCurrentUser(): User {
+    const uid = sessionStorage.getItem('uid') || undefined;
+    const email = sessionStorage.getItem('email') || undefined;
+    this.user = {
+      uid: uid,
+      email: email
+    };
+    return this.user || undefined;
+  }
+
+  // The method to check whether user is logged in or not
+  isLoggedIn() {
+    return this.loggedIn;
   }
 
   initAuthListener(){
@@ -38,6 +70,7 @@ export class AuthService {
           email: user.email
         };
         this.isAuthenticated = true;
+        this.setCurrentUser(user.uid, user.email);
         this.authChangeSub.next(true);
       } else {
         this.user = null;
@@ -80,6 +113,7 @@ export class AuthService {
     this.auth.createUserWithEmailAndPassword(email, password).then(result => {
       this.updateUserToDB(result, name);
       // this.uiService.loadingStateChanged.next(false);
+      this.setCurrentUser(result.user.uid, email);
       this.store.dispatch({type: 'STOP_LOADING'});
       this.router.navigate(['/library']);
     })
@@ -105,6 +139,7 @@ export class AuthService {
       const email = res.user.email;
       // console.log(name + ": " +email);
       this.updateGoogleUserToDB(res);
+      this.setCurrentUser(res.user.uid, email);
       // this.uiService.loadingStateChanged.next(false);
       this.store.dispatch({type: 'STOP_LOADING'});
       this.router.navigate(['/library']);
@@ -125,6 +160,7 @@ export class AuthService {
         const email = res.user.email;
         // console.log(res);
         this.updateGoogleUserToDB(res);
+      this.setCurrentUser(res.user.uid, email);
         // this.uiService.loadingStateChanged.next(false);
       this.store.dispatch({type: 'STOP_LOADING'});
         this.router.navigate(['/library']);
@@ -153,6 +189,7 @@ export class AuthService {
     this.store.dispatch({type: 'START_LOADING'});
     this.auth.signInWithEmailAndPassword(email, password).then(result => {
       // this.uiService.loadingStateChanged.next(false);
+      this.setCurrentUser(result.user.uid, email);
       this.store.dispatch({type: 'STOP_LOADING'});
       this.router.navigate(['/library']);
     })
@@ -170,6 +207,9 @@ export class AuthService {
   logout(){
     this.auth.signOut().then(() => {
       this.router.navigate(['/login']);
+      sessionStorage.removeItem('uid');
+      sessionStorage.removeItem('email');
+      this.loggedIn = false;
     }).catch(error => {
     });
   }

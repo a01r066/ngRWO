@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnChanges, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirebaseService} from './firebase.service';
 import {AuthService} from './auth/auth.service';

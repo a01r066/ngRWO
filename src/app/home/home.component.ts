@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component, DoCheck,
   HostListener,
   OnInit,
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
   playedAlbums: Album[] = [];
 
   isAuthenticated = false;
+  loggedIn = false;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -54,13 +56,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated;
-
-    if (this.isAuthenticated){
+    this.loggedIn = this.authService.loggedIn;
+    if (this.loggedIn){
+      const user = this.authService.getCurrentUser();
       if (this.firebaseService.playedAlbums.length > 0){
         this.playedAlbums = this.firebaseService.playedAlbums;
       } else {
-        this.firebaseService.getRecentPlayedAlbums(this.authService.getUser());
+        this.firebaseService.getRecentPlayedAlbums(user);
       }
     }
     this.uiService.playedAlbumsSub.subscribe(albums => {
