@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Output, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -12,6 +12,7 @@ import {NavItem} from '../nav-item';
 import {Sort} from '@angular/material/sort';
 import * as moment from 'moment';
 import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
+import {Lightbox} from 'ngx-lightbox';
 
 @Component({
   selector: 'app-playlist',
@@ -54,11 +55,13 @@ export class PlaylistComponent implements OnInit {
               private audioService: AudioService,
               private authService: AuthService,
               private uiService: UiService,
-              private fb: FacebookService) { }
+              private fb: FacebookService,
+              private _lightbox: Lightbox) { }
 
   ngOnInit(): void {
     this.totalLiked = this.firebaseService.getRandomPlayed(99, 9999);
     this.album = this.firebaseService.selectedAlbum;
+    // load images
     if (typeof this.album.filePath !== 'undefined'){
       this.isFileExisted = true;
     }
@@ -175,11 +178,20 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
+  openGallery(){
+    const album = {
+      src: this.album.imagePath,
+      caption: '',
+      thumb: this.album.imagePath
+    };
+    this._lightbox.open([album], 0);
+  }
+
   getTitle(){
     if (typeof this.album.title !== 'undefined'){
       let titleStr = this.album.title;
-      if (titleStr.length > 36){
-        titleStr = titleStr.slice(0, 32) + '...';
+      if (titleStr.length > 42){
+        titleStr = titleStr.slice(0, 38) + '...';
       }
       return titleStr;
     } else {

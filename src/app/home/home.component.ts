@@ -59,11 +59,12 @@ export class HomeComponent implements OnInit {
     this.loggedIn = this.authService.loggedIn;
     if (this.loggedIn){
       const user = this.authService.getCurrentUser();
-      if (this.firebaseService.playedAlbums.length > 0){
-        this.playedAlbums = this.firebaseService.playedAlbums;
-      } else {
-        this.firebaseService.getRecentPlayedAlbums(user);
-      }
+      // if (this.firebaseService.playedAlbums.length > 0){
+      //   this.playedAlbums = this.firebaseService.playedAlbums;
+      // } else {
+      //   this.firebaseService.getRecentPlayedAlbums(user);
+      // }
+      this.firebaseService.getRecentPlayedAlbums(user);
     }
     this.uiService.playedAlbumsSub.subscribe(albums => {
       this.playedAlbums = albums;

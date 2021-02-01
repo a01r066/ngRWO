@@ -36,6 +36,7 @@ import {NgxPayPalModule} from 'ngx-paypal';
 import {FacebookModule} from 'ngx-facebook';
 import {StoreModule} from '@ngrx/store';
 import {appReducer} from './app.reducer';
+import {LightboxModule} from 'ngx-lightbox';
 
 firebase.initializeApp(environment.firebase);
 
@@ -76,7 +77,8 @@ firebase.initializeApp(environment.firebase);
     MusicModule,
     NgxPayPalModule,
     FacebookModule.forRoot(),
-    StoreModule.forRoot({ui: appReducer})
+    StoreModule.forRoot({ui: appReducer}),
+    LightboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
