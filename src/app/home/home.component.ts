@@ -59,11 +59,6 @@ export class HomeComponent implements OnInit {
     this.loggedIn = this.authService.loggedIn;
     if (this.loggedIn){
       const user = this.authService.getCurrentUser();
-      // if (this.firebaseService.playedAlbums.length > 0){
-      //   this.playedAlbums = this.firebaseService.playedAlbums;
-      // } else {
-      //   this.firebaseService.getRecentPlayedAlbums(user);
-      // }
       this.firebaseService.getRecentPlayedAlbums(user);
     }
     this.uiService.playedAlbumsSub.subscribe(albums => {
@@ -98,36 +93,33 @@ export class HomeComponent implements OnInit {
   }
 
   getCounter(){
-    if(this.size > 2520){
+    if (this.size > 2462){
       this.counter = 11;
     }
-    else if(this.size > 2315){
+    else if (this.size > 2262){
       this.counter = 10;
     }
-    else if(this.size > 2115) {
+    else if (this.size > 2062) {
       this.counter = 9;
-    } else if(this.size > 1910){
+    } else if (this.size > 1862){
       this.counter = 8;
-    } else if(this.size > 1700){
+    } else if (this.size > 1662){
       this.counter = 7;
     }
-    else if(this.size > 1500){
+    else if (this.size > 1462){
       this.counter = 6;
     }
-    else if(this.size > 1285){
+    else if (this.size > 1262){
       this.counter = 5;
-    } else if(this.size > 1100){
+    } else if (this.size > 1062){
       this.counter = 4;
-    }
-    else if(this.size > 960){
-      this.counter = 3;
-    } else if(this.size > 880){
+    } else if (this.size > 864){
       this.counter = 3;
     }
-    else if(this.size > 667){
+    else if (this.size > 666){
       this.counter = 2;
-    } else {
-      this.counter = 2;
+    } else if (this.size > 430) {
+      this.counter = 1;
     }
   }
 
