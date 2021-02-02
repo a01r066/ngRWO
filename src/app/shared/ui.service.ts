@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Album} from '../music/models/album.model';
 import {Track} from '../music/models/track.model';
+import {User} from '../auth/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +28,5 @@ export class UiService {
   isLoadedAll = new Subject<boolean>();
   isGenreSelectSub = new Subject<boolean>();
   playedAlbumsSub = new Subject<Album[]>();
+  dbUserSub = new Subject<User>();
 }

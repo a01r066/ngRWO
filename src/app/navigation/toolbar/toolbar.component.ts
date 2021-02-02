@@ -4,6 +4,9 @@ import {AuthService} from '../../auth/auth.service';
 import {Subscription} from 'rxjs';
 import {ThemePalette} from '@angular/material/core';
 import {UiService} from '../../shared/ui.service';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {NavItem} from '../../shared/nav-item';
+import {User} from '../../auth/user.model';
 
 @Component({
   selector: 'app-toolbar',
@@ -23,13 +26,23 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   isLibTabsShow = false;
   selectedIndex: number;
 
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+  navItems: NavItem[] = [
+    // {
+    //   title: 'Profile'
+    // },
+    {
+      title: 'Log out'
+    }
+  ];
+
+  dbUser: User;
+
   constructor(private firebaseService: FirebaseService,
               private authService: AuthService,
               private uiService: UiService) { }
 
   ngOnInit(): void {
-    // this.tabNav.selectedIndex = 1;
-
     this.firebaseService.isSearchBarHiddenSub.subscribe(isHidden => {
       this.isSearchBarHidden = isHidden;
     });
@@ -41,10 +54,21 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.uiService.isLibraryTabsShowSub.subscribe(isShow => {
       this.isLibTabsShow = isShow;
     });
+
+    this.uiService.dbUserSub.subscribe(user => {
+      this.dbUser = user;
+    });
   }
 
   ngOnDestroy(): void {
     this.authSubscription.unsubscribe();
+  }
+
+  onSelectItem(item){
+    // console.log("Selected: " + item.title);
+    if (item.title === 'Log out'){
+      this.authService.logout();
+    }
   }
 
   back(){

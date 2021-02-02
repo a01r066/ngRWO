@@ -30,12 +30,13 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     // disable right-click
-    // window.addEventListener('contextmenu', (e) => {
-    //   // do something here...
-    //   e.preventDefault();
-    // }, false);
+    window.addEventListener('contextmenu', (e) => {
+      // do something here...
+      e.preventDefault();
+    }, false);
 
     this.authService.initAuthListener();
+
     this.uiService.loginAlertChanged.subscribe(isAlert => {
       this.isAlertShow = isAlert;
     });

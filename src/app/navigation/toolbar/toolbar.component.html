@@ -27,9 +27,34 @@
   </div>
   <div fxFlex fxLayoutAlign="end">
     <ul fxLayout fxLayoutGap="12px" class="nav-items">
-      <li class="SignInOut" [routerLink]="['/signup']" *ngIf="!isAuth">Sign Up</li>
-      <li class="SignInOut" [routerLink]="['/login']" *ngIf="!isAuth">Login</li>
-      <li class="SignInOut" (click)="logout()" *ngIf="isAuth">Logout</li>
+      <li class="SignInOut" [routerLink]="['/signup']" *ngIf="!isAuth">
+        <button mat-raised-button class="login-button">SIGN UP</button>
+      </li>
+      <li class="SignInOut" [routerLink]="['/login']" *ngIf="!isAuth">
+        <button mat-raised-button class="login-button" style="background-color: white; color: black">LOG IN</button>
+      </li>
+      <li class="logout" *ngIf="isAuth">
+        <div *ngIf="!dbUser"><button mat-raised-button class="logout-button" [matMenuTriggerFor]="menu" #menuTrigger><mat-icon>account_circle</mat-icon>
+          Profile <mat-icon>keyboard_arrow_down</mat-icon></button></div>
+        <div *ngIf="dbUser"><button mat-raised-button class="logout-button" [matMenuTriggerFor]="menu" #menuTrigger>
+          <img style="width: 28px; height: 28px; border-radius: 14px; margin-left: -8px; margin-right: 4px" src="{{dbUser.imagePath}}" alt="">
+          {{  dbUser.name.slice(0, 10) }} <mat-icon>keyboard_arrow_down</mat-icon></button></div>
+      </li>
+      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <ng-container *ngFor="let child of navItems">
+          <!-- Handle branch node menu items -->
+<!--          <ng-container *ngIf="child.subItems && child.subItems.length > 0">-->
+<!--            <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>-->
+<!--            <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, element)"></app-menu-item>-->
+<!--          </ng-container>-->
+          <!-- Handle leaf node menu items -->
+          <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
+            <button mat-menu-item (click)="onSelectItem(child)">{{ child.title }}</button>
+<!--            <mat-divider></mat-divider>-->
+          </ng-container>
+        </ng-container>
+        <!--                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmytunes.top%2F&amp;src=sdkpreparse"><button mat-menu-item>Share to Facebook</button></a>-->
+      </mat-menu>
     </ul>
   </div>
 </mat-toolbar>

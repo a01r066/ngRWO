@@ -189,7 +189,6 @@ export class FirebaseService {
           albums.push(album);
         });
       });
-      console.log("playedalbums: " + albums.length);
       this.playedAlbums = albums;
       this.uiService.playedAlbumsSub.next(albums);
     });

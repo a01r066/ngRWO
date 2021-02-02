@@ -85,3 +85,43 @@ mat-icon:hover, mat-icon:active {
     display: none;
   }
 }
+
+.login-button {
+  color: white;
+  background-color: rgba(48,33,21,0.75);
+  width: 108px;
+  height: 36px;
+  border-radius: 18px;
+}
+
+.logout-button {
+  color: white;
+  background-color: rgba(89,13,20,0.75);
+  width: 148px;
+  height: 36px;
+  border-radius: 18px;
+}
+
+::ng-deep.mat-menu-panel {
+  background-color: #282828;
+  width: 164px;
+  overflow: hidden;
+}
+
+.mat-menu-item {
+  color: #E0E0E0;
+  margin: 0 8px 0 8px;
+  width: 90%;
+  border-radius: 4px;
+}
+
+.mat-menu-item:hover {
+  /*color: #FFD740;*/
+  background: #5A5A5A;
+}
+
+.mat-divider {
+  background: #5A5A5A;
+  width: 90%;
+  margin-left: 8px;
+}

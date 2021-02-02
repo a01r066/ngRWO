@@ -17,6 +17,8 @@ import * as fromApp from '../app.reducer';
 })
 export class AuthService {
   private user: User;
+  dbUser: User;
+
   authChangeSub = new Subject<boolean>();
   auth = firebase.auth();
   isAuthenticated = false;
@@ -32,6 +34,18 @@ export class AuthService {
     if (this.loggedIn){
       this.user = this.getCurrentUser();
     }
+  }
+
+  getDbUser(){
+    this.database.ref('Users').child(this.user.uid).once('value').then(snapshot => {
+      const dataObj = {
+        name: snapshot.val().name,
+        email: snapshot.val().email,
+        imagePath: snapshot.val().imagePath
+      };
+      this.dbUser = new User(this.user.uid, dataObj);
+      this.uiService.dbUserSub.next(this.dbUser);
+    });
   }
 
   // Set current user in your session after a successful login
@@ -53,6 +67,7 @@ export class AuthService {
       uid: uid,
       email: email
     };
+    this.getDbUser();
     return this.user || undefined;
   }
 
@@ -69,6 +84,7 @@ export class AuthService {
           uid: user.uid,
           email: user.email
         };
+        this.getDbUser();
         this.isAuthenticated = true;
         this.setCurrentUser(user.uid, user.email);
         this.authChangeSub.next(true);
