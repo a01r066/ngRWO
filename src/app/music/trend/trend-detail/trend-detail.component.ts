@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NavItem} from '../../../shared/nav-item';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {animate, style, transition, trigger} from '@angular/animations';
+import {AuthService} from '../../../auth/auth.service';
+import {UiService} from '../../../shared/ui.service';
 
 @Component({
   selector: 'app-trend-detail',
@@ -38,16 +40,38 @@ export class TrendDetailComponent implements OnInit {
     // }
   ];
 
-  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+  // we create an object that contains coordinates
+  menuTopLeftPosition =  {x: '0', y: '0'};
+  // reference to the MatMenuTrigger in the DOM
+  @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger, {static: true}) deleteMenuTrigger: MatMenuTrigger;
+
+  selectedAlbum: Album;
+  options = ['Add to Library'];
+
+  isAuth = false;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private authService: AuthService,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
     const params = this.route.snapshot.params;
     this.title = params.id;
+    if (this.title === 'Recently Played'){
+      this.options.push('Delete');
+    }
     this.items = this.firebaseService.trendAlbums;
+    this.uiService.playedAlbumsSub.subscribe(albums => {
+      this.items = albums;
+    });
+
+    this.isAuth = this.authService.isAuthenticated;
+    this.authService.authChangeSub.subscribe(authStatus => {
+      this.isAuth = authStatus;
+    });
   }
 
   onSelectItem(album: Album){
@@ -96,5 +120,38 @@ export class TrendDetailComponent implements OnInit {
         return s2.title.toLowerCase().localeCompare(s1.title.toLowerCase());
       }
     });
+  }
+
+  onRightClick(event: MouseEvent, item: Album){
+    // preventDefault avoids to show the visualization of the right-click menu of the browser
+    event.preventDefault();
+
+    // we record the mouse position in our object
+    this.menuTopLeftPosition.x = event.clientX - 16 + 'px';
+    this.menuTopLeftPosition.y = event.clientY - 48 + 'px';
+
+    // we open the menu
+    // we pass to the menu the information about our object
+    // this.matMenuTrigger.menuData = {item: item}
+    this.selectedAlbum = item;
+
+    // we open the menu
+    this.deleteMenuTrigger.openMenu();
+  }
+
+  onClickOption(index: number){
+    if (index === 0){
+      this.onHandleLikeAlbum(this.selectedAlbum);
+    } else {
+      this.firebaseService.deleteRecentAlbum(this.authService.getUser(), this.selectedAlbum);
+    }
+  }
+
+  onHandleLikeAlbum(album: Album){
+    if (this.isAuth){
+      this.firebaseService.addFavouriteAlbum(album, this.authService.getUser());
+    } else {
+      this.uiService.loginAlertChanged.next(true);
+    }
   }
 }

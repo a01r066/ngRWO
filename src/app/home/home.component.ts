@@ -1,6 +1,5 @@
 import {
-  AfterViewInit,
-  Component, DoCheck,
+  Component,
   HostListener,
   OnInit,
 } from '@angular/core';
@@ -35,8 +34,6 @@ export class HomeComponent implements OnInit {
   trends: Genre[];
   isDataLoaded = false;
   playedAlbums: Album[] = [];
-
-  isAuthenticated = false;
   loggedIn = false;
 
   constructor(private firebaseService: FirebaseService,
@@ -118,15 +115,15 @@ export class HomeComponent implements OnInit {
     }
     else if (this.size > 666){
       this.counter = 2;
-    } else if (this.size > 430) {
+    } else {
       this.counter = 1;
     }
   }
 
   getTitle(album: Album){
-    if(typeof album !== 'undefined'){
+    if (typeof album !== 'undefined'){
       let titleStr = album.title;
-      if(titleStr.length > 42){
+      if (titleStr.length > 42){
         titleStr = titleStr.slice(0, 38) + '...';
       }
       return titleStr;
@@ -136,18 +133,14 @@ export class HomeComponent implements OnInit {
   }
 
   getSubTitle(album: Album){
-    if(typeof album !== 'undefined'){
+    if (typeof album !== 'undefined'){
       let subTitleStr = album.author;
-      if(subTitleStr.length > 24){
+      if (subTitleStr.length > 24){
         subTitleStr = subTitleStr.slice(0, 20) + ' ...';
       }
       return subTitleStr;
     } else {
       return 'Optional description';
     }
-  }
-
-  onClickViewRecentAlbums(albums: Album[]){
-
   }
 }

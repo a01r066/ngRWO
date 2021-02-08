@@ -2,26 +2,27 @@
   <div class="trending">
 <!--    <h1>{{ title }}</h1>-->
     <h1>{{ title }}
-      <span style="float: right; margin-right: 48px">
-          <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">filter_list</mat-icon>
-          <mat-menu #menu="matMenu" [overlapTrigger]="false">
-          <ng-container *ngFor="let child of navItems; let i = index">
-            <!-- Handle branch node menu items -->
-            <!--            <ng-container *ngIf="child.subItems && child.subItems.length > 0">-->
-            <!--              <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>-->
-            <!--              <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, track)"></app-menu-item>-->
-            <!--            </ng-container>-->
-            <!-- Handle leaf node menu items -->
-            <ng-container *ngIf="!child.subItems || child.subItems.length === 0">
-              <button mat-menu-item (click)="onSelecSort(i)">{{ child.title }}</button>
-            </ng-container>
-          </ng-container>
-        </mat-menu>
-      </span></h1>
+<!--      <span style="float: right; margin-right: 48px">-->
+<!--          <mat-icon class="option-buttons" [matMenuTriggerFor]="menu" #menuTrigger style="transform: scale(1.5)">filter_list</mat-icon>-->
+<!--          <mat-menu #menu="matMenu" [overlapTrigger]="false">-->
+<!--          <ng-container *ngFor="let child of navItems; let i = index">-->
+<!--            &lt;!&ndash; Handle branch node menu items &ndash;&gt;-->
+<!--            &lt;!&ndash;            <ng-container *ngIf="child.subItems && child.subItems.length > 0">&ndash;&gt;-->
+<!--            &lt;!&ndash;              <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">{{ child.title }}</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;              <app-menu-item #menu [items]="child.subItems" (subMenuEvent)="selectSubItem($event, track)"></app-menu-item>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </ng-container>&ndash;&gt;-->
+<!--            &lt;!&ndash; Handle leaf node menu items &ndash;&gt;-->
+<!--            <ng-container *ngIf="!child.subItems || child.subItems.length === 0">-->
+<!--              <button mat-menu-item (click)="onSelecSort(i)">{{ child.title }}</button>-->
+<!--            </ng-container>-->
+<!--          </ng-container>-->
+<!--        </mat-menu>-->
+<!--      </span>-->
+    </h1>
     <div>
       <ul class="flex-container">
         <li class="flex-item" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
-          <div class="card" @fadeSlideInOut>
+          <div class="card" (contextmenu)="onRightClick($event, item)" @fadeSlideInOut>
             <img class="card-img-top" [src]="[item.imagePath]">
             <div class="card-body">
               <p class="card-title">{{ getTitle(item) }}</p>
@@ -33,3 +34,18 @@
     </div>
   </div>
 </section>
+<!-- an hidden div is created to set the position of appearance of the menu-->
+<div style="visibility: hidden; position: fixed;"
+     [style.left]="menuTopLeftPosition.x"
+     [style.top]="menuTopLeftPosition.y"
+     [matMenuTriggerFor]="rightMenu"></div>
+<!-- standard material menu -->
+<mat-menu #rightMenu="matMenu" style="background-color: #5A5A5A">
+  <ng-template matMenuContent let-item="item">
+    <span (mouseleave)="deleteMenuTrigger.closeMenu()">
+      <div style="margin: 0 8px 0 8px" *ngFor="let option of options; let i = index">
+        <button mat-menu-item (click)="onClickOption(i)">{{ option }}</button>
+      </div>
+    </span>
+  </ng-template>
+</mat-menu>

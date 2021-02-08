@@ -157,6 +157,13 @@ export class FirebaseService {
     });
   }
 
+  deleteRecentAlbum(user: User, album: Album){
+    this.database.ref('RecentPlayedAlbums').child(user.uid).child(album.genreID).child(album.id).remove(() => {
+      // refresh playlists
+      this.getRecentPlayedAlbums(user);
+    });
+  }
+
   deletePlaylist(user: User, playlist: Album){
     this.database.ref('Playlists').child(user.uid).child(playlist.id).remove(() => {
       // refresh playlists

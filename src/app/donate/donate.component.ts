@@ -12,7 +12,7 @@ export class DonateComponent implements OnInit {
   public payPalConfig?: IPayPalConfig;
 
   amounts = [5, 10, 25, 50, 100, 500, 1000];
-  selectedValue: number = 10;
+  selectedValue = 10;
 
   ngOnInit(): void {
     this.initConfig();
@@ -22,7 +22,7 @@ export class DonateComponent implements OnInit {
     this.payPalConfig = {
       currency: 'USD',
       clientId: 'AQAN9djYVJl71fGqx2F0gfe34mhxcQswLaOfvZViTEydr4h-TMGgd35TU2QK_A623PSToxpK3uwVXcKt',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
         intent: 'CAPTURE',
         purchase_units: [
           {
@@ -58,29 +58,29 @@ export class DonateComponent implements OnInit {
         layout: 'vertical'
       },
       onApprove: (data, actions) => {
-        console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        // console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then(details => {
-          console.log('onApprove - you can get full order details inside onApprove: ', details);
+          // console.log('onApprove - you can get full order details inside onApprove: ', details);
         });
       },
       onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+        // console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
         this.showSuccess = true;
       },
       onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
+        // console.log('OnCancel', data, actions);
       },
       onError: err => {
-        console.log('OnError', err);
+        // console.log('OnError', err);
       },
       onClick: (data, actions) => {
-        console.log('onClick', data, actions);
+        // console.log('onClick', data, actions);
       },
     };
   }
 
   onSelectAmount(amount: number){
-    console.log("Donate: " +amount);
+    // console.log("Donate: " +amount);
     this.selectedValue = amount;
   }
 

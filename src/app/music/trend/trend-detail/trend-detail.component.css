@@ -72,18 +72,14 @@ h1 {
 
 ::ng-deep.mat-menu-panel {
   background-color: #282828;
-  width: 180px;
-  overflow: hidden;
+  width: 162px;
 }
 
 .mat-menu-item {
-  color: #E0E0E0;
-  margin: 0 8px 0 8px;
-  width: 90%;
-  border-radius: 4px;
+  color: #B3B3A2;
 }
 
 .mat-menu-item:hover {
-  /*color: #FFD740;*/
-  background: #5A5A5A;
+  background-color: #333333;
+  color: white;
 }
