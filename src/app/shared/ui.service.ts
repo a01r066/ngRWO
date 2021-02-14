@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 import {Album} from '../music/models/album.model';
 import {Track} from '../music/models/track.model';
 import {User} from '../auth/user.model';
+import {Genre} from '../music/models/genre.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +30,5 @@ export class UiService {
   isGenreSelectSub = new Subject<boolean>();
   playedAlbumsSub = new Subject<Album[]>();
   dbUserSub = new Subject<User>();
+  selectedGenreSub = new Subject<Genre>();
 }

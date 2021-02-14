@@ -35,7 +35,6 @@ export class FirebaseService {
   selectedGenre: Genre;
   selectedAlbum: Album;
   trendAlbums: Album[];
-
   favouristAlbums: Album[] = [];
   favouritePlaylists: Album[] =[];
   favouristTracks: Track[] = [];
@@ -76,13 +75,13 @@ export class FirebaseService {
   }
 
   loadMore(): void {
-    if(this.getNextItems()){
+    if (this.getNextItems()){
       this.albumsSubject.next(this.albums);
     }
   }
 
   getNextItems(): boolean {
-    if(this.albums.length >= this.allAlbums.length){
+    if (this.albums.length >= this.allAlbums.length){
       this.uiService.isLoadedAll.next(true);
       return false;
     }
@@ -524,13 +523,15 @@ export class FirebaseService {
     this.allAlbumsSub = new Subject<Album[]>();
   }
 
-  getAlbumsByGenre(genre: Genre){
+  getAlbumsByGenre(genreID: string){
     this.resetAlbums();
     const albums: Album[] = [];
-    this.httpClient.get(this.apiURL+'Albums/'+genre.id+'.json').subscribe(jsonData => {
+    const apiString = this.apiURL + 'Albums/' + genreID + '.json';
+    // console.log(apiString);
+    this.httpClient.get(apiString).subscribe(jsonData => {
       const keys = Object.keys(jsonData);
       const values = Object.values(jsonData);
-      for(let i = 0; i < keys.length; i++){
+      for (let i = 0; i < keys.length; i++){
         const dataObj = {
           title: values[i]['title'],
           author: values[i]['author'],
@@ -538,14 +539,14 @@ export class FirebaseService {
           tags: values[i]['tags'],
           filePath: values[i]['filePath']
         };
-        const album = new Album(keys[i], genre.id, '', dataObj);
+        const album = new Album(keys[i], genreID, '', dataObj);
         albums.push(album);
         this.isDataLoadedSub.next(true);
       }
       // return albums
       this.allAlbumsSub.next(albums);
     });
-    return albums;
+    // return albums;
   }
 
   getGenres() {
@@ -553,7 +554,7 @@ export class FirebaseService {
     this.httpClient.get(this.apiURL + 'Genres.json').subscribe(jsonData => {
       const keys = Object.keys(jsonData);
       const values = Object.values(jsonData);
-      for(let i = 0; i < keys.length; i++){
+      for (let i = 0; i < keys.length; i++){
         const dataObj = {
           title: values[i]['title'],
           imagePath: values[i]['imagePath']
@@ -565,5 +566,22 @@ export class FirebaseService {
     });
     this.genres = genres;
     return genres;
+  }
+
+  // getGenreByID(genreID: string){
+  //   return this.genres.filter(genre => {
+  //     return genre.id === genreID;
+  //   });
+  // }
+
+  getGenreByID(genreID: string){
+    this.database.ref('Genres').child(genreID).once('value').then(snapshot => {
+      const dataObj = {
+        title: snapshot.val().title,
+        imagePath: snapshot.val().imagePath
+      };
+      const genre = new Genre(genreID, dataObj);
+      this.uiService.selectedGenreSub.next(genre);
+    });
   }
 }

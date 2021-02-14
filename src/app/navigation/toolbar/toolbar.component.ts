@@ -14,9 +14,9 @@ import {User} from '../../auth/user.model';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
-  isSearchBarHidden: boolean = true;
+  isSearchBarHidden = true;
   @ViewChild('searchText') searchTextRef: ElementRef;
-  isAuth: boolean = false;
+  isAuth = false;
   authSubscription: Subscription;
 
   links = ['Playlists', 'Liked Songs', 'Albums'];
@@ -65,7 +65,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   onSelectItem(item){
-    // console.log("Selected: " + item.title);
     if (item.title === 'Log out'){
       this.authService.logout();
     }
@@ -82,6 +81,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   clearText(){
     this.searchTextRef.nativeElement.value = '';
     this.firebaseService.searchTextSub.next('');
+    this.searchTextRef.nativeElement.focus();
   }
 
   onTextChange(){

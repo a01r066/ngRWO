@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angul
 import {Album} from '../../../music/models/album.model';
 import {FirebaseService} from '../../../firebase.service';
 import {Genre} from '../../../music/models/genre.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NavItem} from '../../../shared/nav-item';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {UiService} from '../../../shared/ui.service';
@@ -47,22 +47,28 @@ export class GenreDetailComponent implements OnInit{
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.genre = this.firebaseService.selectedGenre;
-    this.albums = this.firebaseService.albums;
-    this.filteredAlbums = this.albums;
-    this.uiService.isLoadedAll.subscribe(isLoaded => {
-      this.isLoadedAll = isLoaded;
+    const genreID = this.route.snapshot.params['id'];
+    this.firebaseService.getGenreByID(genreID);
+    this.uiService.selectedGenreSub.subscribe(genre => {
+      this.genre = genre;
     });
+    this.firebaseService.getAlbumsByGenre(genreID);
     this.firebaseService.allAlbumsSub.subscribe(allAlbums => {
       this.firebaseService.allAlbums = allAlbums;
+      // console.log("allAlbums: " + allAlbums.length);
       this.firebaseService.getNextItems();
-      this.firebaseService.albumsSubject.next(this.firebaseService.albums);
       this.albums = this.firebaseService.albums;
       this.filteredAlbums = this.albums;
+      this.firebaseService.albumsSubject.next(this.albums);
+    });
+
+    this.uiService.isLoadedAll.subscribe(isLoaded => {
+      this.isLoadedAll = isLoaded;
     });
   }
 
@@ -88,7 +94,7 @@ export class GenreDetailComponent implements OnInit{
   }
 
   getSubTitle(album: Album){
-    if(typeof album.author !== 'undefined' || album.author === ''){
+    if (typeof album.author !== 'undefined' || album.author === ''){
       let subTitleStr = album.author;
       if(subTitleStr.length > 24){
         subTitleStr = subTitleStr.slice(0, 20) + ' ...';
@@ -128,5 +134,6 @@ export class GenreDetailComponent implements OnInit{
   clearText(){
     this.searchTextRef.nativeElement.value = '';
     this.filteredAlbums = this.albums;
+    this.searchTextRef.nativeElement.focus();
   }
 }

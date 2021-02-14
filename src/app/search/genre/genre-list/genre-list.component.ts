@@ -56,10 +56,8 @@ export class GenreListComponent implements OnInit, OnDestroy {
   }
 
   onSelectGenre(genre: Genre){
-    this.firebaseService.selectedGenre = genre;
     // refactor scroll to load more items
-    this.firebaseService.getAlbumsByGenre(genre);
-    this.router.navigate(['genre', genre.title]);
+    this.router.navigate(['genre', genre.id]);
   }
 
   ngOnDestroy(): void {

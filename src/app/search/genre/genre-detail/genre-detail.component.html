@@ -39,7 +39,7 @@
 <!--    </div>-->
 <!--  </ng-template>-->
   <div class="trending">
-    <h1>{{ genre.title }}
+    <h1>{{ genre?.title }}
       <span class="searchbar">
          <input matInput placeholder="Filter item" class="search-input" #searchText (keypress)="filterItem()" (keydown.backspace)="filterItem()" (keyup)="filterItem()" (keyup.enter)="filterItem()">
          <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
