@@ -178,9 +178,9 @@ table {
   color: white !important;
 }
 
-.hover-index {
-  display: block;
-}
+/*.hover-index {*/
+/*  display: block;*/
+/*}*/
 
 .hover-index button {
   font-size: 1rem;
@@ -387,6 +387,7 @@ thead {
   color: white;
   font-size: 1rem;
   font-weight: 300;
+  padding-top: 16px;
 }
 
 .table tr.active td {
