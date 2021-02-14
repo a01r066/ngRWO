@@ -1,6 +1,6 @@
 <mat-toolbar>
   <div class="container">
-    <div class="item1">
+    <div class="item1" *ngIf="album">
       <img mat-card-image src="{{ getImagePath() }}" alt="">
     </div>
     <div class="item2">

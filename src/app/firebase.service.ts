@@ -417,11 +417,10 @@ export class FirebaseService {
     });
   }
 
-  getTracksByAlbum(){
+  getTracksByAlbum(album: Album){
     const tracks: Track[] = [];
-    this.database.ref('Tracks').child(this.selectedAlbum.genreID).child(this.selectedAlbum.id).once('value').then(snapshot => {
+    this.database.ref('Tracks').child(album.genreID).child(album.id).once('value').then(snapshot => {
       snapshot.forEach(itemSnapshot => {
-        // console.log(itemSnapshot.val().title);
         const id = itemSnapshot.key;
         const dataObj = {
           title: itemSnapshot.val().title,
@@ -432,13 +431,12 @@ export class FirebaseService {
           duration: itemSnapshot.val().duration,
           played: this.getRandomPlayed(149, 44149)
         };
-        const track = new Track(id, this.selectedAlbum.id, this.selectedAlbum.genreID, dataObj);
+        const track = new Track(id, album.id, album.genreID, dataObj);
         tracks.push(track);
       });
       tracks.sort((t1, t2) => {
         return t1.index - t2.index;
       });
-      // console.log("TracksCount: " + tracks.length);
       this.tracksSub.next(tracks);
     });
   }
@@ -496,7 +494,7 @@ export class FirebaseService {
   // The recommended (simple) algorithm is the Fisher–Yates shuffle
   shuffleInPlace(array: Album[]){
     // if it's 1 or 0 items, just return
-    if(array.length <= 1){
+    if (array.length <= 1){
       return array;
     }
     // For each index in array
@@ -523,11 +521,40 @@ export class FirebaseService {
     this.allAlbumsSub = new Subject<Album[]>();
   }
 
+  getAlbumByID(albumID: string){
+    let isFind = false;
+    const trendID = '';
+    this.database.ref('Albums').once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          if (!isFind){
+            const tmpAlbumID = albumSnapshot.key;
+            if (tmpAlbumID === albumID){
+              const dataObj = {
+                title: albumSnapshot.val().title,
+                author: albumSnapshot.val().author,
+                imagePath: albumSnapshot.val().imagePath,
+                tags: albumSnapshot.val().tags,
+                filePath: albumSnapshot.val().filePath
+              };
+              const album = new Album(tmpAlbumID, genreID, trendID, dataObj);
+              this.uiService.selectedAlbumSub.next(album);
+              isFind = true;
+              // console.log("break");
+            } else {
+              // console.log("continue");
+            }
+          }
+        });
+      });
+    });
+  }
+
   getAlbumsByGenre(genreID: string){
     this.resetAlbums();
     const albums: Album[] = [];
     const apiString = this.apiURL + 'Albums/' + genreID + '.json';
-    // console.log(apiString);
     this.httpClient.get(apiString).subscribe(jsonData => {
       const keys = Object.keys(jsonData);
       const values = Object.values(jsonData);
@@ -543,10 +570,8 @@ export class FirebaseService {
         albums.push(album);
         this.isDataLoadedSub.next(true);
       }
-      // return albums
       this.allAlbumsSub.next(albums);
     });
-    // return albums;
   }
 
   getGenres() {

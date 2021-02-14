@@ -13,6 +13,7 @@ import {Sort} from '@angular/material/sort';
 import * as moment from 'moment';
 import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
 import {Lightbox} from 'ngx-lightbox';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
@@ -56,21 +57,28 @@ export class PlaylistComponent implements OnInit {
               private authService: AuthService,
               private uiService: UiService,
               private fb: FacebookService,
-              private _lightbox: Lightbox) { }
+              private _lightbox: Lightbox,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.totalLiked = this.firebaseService.getRandomPlayed(99, 9999);
-    this.album = this.firebaseService.selectedAlbum;
-    // load images
-    if (typeof this.album.filePath !== 'undefined'){
-      this.isFileExisted = true;
-    }
-    this.firebaseService.favouristAlbums.find(album => {
-      if (album.id === this.album.id){
-        this.isLikedAlbum = true;
-      }
+    const albumID = this.route.snapshot.params['id'];
+    this.firebaseService.getAlbumByID(albumID);
+    this.uiService.selectedAlbumSub.subscribe(album => {
+      this.album = album;
+      this.firebaseService.getTracksByAlbum(album);
+      this.firebaseService.favouristAlbums.find(theAlbum => {
+        if (theAlbum.id === album.id){
+          this.isLikedAlbum = true;
+        }
+      });
     });
-    this.firebaseService.getTracksByAlbum();
+
+    // load images
+    // if (typeof this.album.filePath !== 'undefined'){
+    //   this.isFileExisted = true;
+    // }
+
     this.firebaseService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
       this.isDataLoaded = true;
@@ -188,19 +196,19 @@ export class PlaylistComponent implements OnInit {
   }
 
   getTitle(){
-    if (typeof this.album.title !== 'undefined'){
+    if (this.album){
       let titleStr = this.album.title;
       if (titleStr.length > 42){
         titleStr = titleStr.slice(0, 38) + '...';
       }
       return titleStr;
     } else {
-      return 'My Playlist';
+      return '';
     }
   }
 
   getSubTitle(){
-    if (typeof this.album.author !== 'undefined'){
+    if (this.album){
       let subTitleStr = this.album.author;
       if (subTitleStr.length > 64){
         subTitleStr = subTitleStr.slice(0, 60) + '...';
