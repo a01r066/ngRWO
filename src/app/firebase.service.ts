@@ -65,7 +65,9 @@ export class FirebaseService {
   trends: Genre[] = [];
   trendingList: Album[][] = [];
   playedAlbums: Album[] = [];
+  searchedAlbums: Album[] = [];
   genres: Genre[] = [];
+  isSearch = false;
 
   constructor(private af: AngularFireDatabase,
               private httpClient: HttpClient,

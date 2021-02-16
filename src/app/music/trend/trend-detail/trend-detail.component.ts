@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../models/album.model';
 import {FirebaseService} from '../../../firebase.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -25,7 +25,7 @@ import {Genre} from '../../models/genre.model';
     ])
   ]
 })
-export class TrendDetailComponent implements OnInit {
+export class TrendDetailComponent implements OnInit, OnDestroy {
   albums: Album[];
 
   navItems: NavItem[] = [
@@ -52,6 +52,7 @@ export class TrendDetailComponent implements OnInit {
   isAuth = false;
   trend: Genre;
   title = '';
+  isSearch: boolean;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -60,6 +61,7 @@ export class TrendDetailComponent implements OnInit {
               private uiService: UiService) { }
 
   ngOnInit(): void {
+    this.isSearch = this.firebaseService.isSearch;
     const trendID = this.route.snapshot.params['id'];
     if (trendID === 'recently-played'){
       this.albums = this.firebaseService.playedAlbums;
@@ -68,6 +70,9 @@ export class TrendDetailComponent implements OnInit {
       this.uiService.playedAlbumsSub.subscribe(albums => {
         this.albums = albums;
       });
+    } else if (this.isSearch){
+      this.title = 'Search results';
+      this.albums = this.firebaseService.searchedAlbums;
     } else {
       this.firebaseService.getTrendByID(trendID);
       this.uiService.genreSub.subscribe(trend => {
@@ -83,6 +88,10 @@ export class TrendDetailComponent implements OnInit {
     this.authService.authChangeSub.subscribe(authStatus => {
       this.isAuth = authStatus;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.firebaseService.isSearch = false;
   }
 
   onSelectItem(album: Album){

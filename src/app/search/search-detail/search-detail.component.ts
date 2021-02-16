@@ -51,19 +51,19 @@ export interface Section {
 })
 export class SearchDetailComponent implements OnInit, OnDestroy {
   isAllTracksLoaded: boolean;
-  tracks: Track[];
-  filteredTracks: Track[];
+  tracks: Track[] = [];
+  filteredTracks: Track[] = [];
   searchText: string;
   selectedRowIndex: number;
   database = firebase.database();
   state: StreamState;
 
   albums: Album[] = [];
-  filteredAlbums: Album[];
-  counter: number = 8;
+  filteredAlbums: Album[] = [];
+  counter = 8;
   size: any;
 
-  isGlobalAlbumLoaded: boolean = false;
+  isGlobalAlbumLoaded = false;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -78,7 +78,7 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
     // filter track
     this.firebaseService.searchTextSub.subscribe(searchText => {
       this.searchText = searchText;
-      if(this.isAllTracksLoaded){
+      if (this.isAllTracksLoaded){
         this.processSearch(this.searchText);
       }
       else {
@@ -91,7 +91,7 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
     // filter album
     this.firebaseService.searchTextSub.subscribe(searchText => {
       this.searchText = searchText;
-      if(this.isGlobalAlbumLoaded){
+      if (this.isGlobalAlbumLoaded){
         this.processSearchAlbum(this.searchText);
       } else {
         this.firebaseService.globalAlbumsSub.subscribe(albums => {
@@ -115,7 +115,7 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   processSearchAlbum(searchText: string){
     this.filteredAlbums = this.firebaseService.globalAlbums.filter(album => {
       // tslint:disable-next-line:max-line-length
-      if(album.title !== null){
+      if (album.title !== null){
         // tslint:disable-next-line:max-line-length
         return (album.title.toLowerCase().includes(searchText.toLowerCase()) || album.author.toLowerCase().includes(searchText.toLowerCase()));
       }
@@ -157,33 +157,33 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   }
 
   getCounter(){
-    if(this.size > 2520){
+    if (this.size > 2520){
       this.counter = 11;
     }
-    else if(this.size > 2315){
+    else if (this.size > 2315){
       this.counter = 10;
     }
-    else if(this.size > 2115) {
+    else if (this.size > 2115) {
       this.counter = 9;
-    } else if(this.size > 1910){
+    } else if (this.size > 1910){
       this.counter = 8;
-    } else if(this.size > 1700){
+    } else if (this.size > 1700){
       this.counter = 7;
     }
-    else if(this.size > 1500){
+    else if (this.size > 1500){
       this.counter = 6;
     }
-    else if(this.size > 1285){
+    else if (this.size > 1285){
       this.counter = 5;
-    } else if(this.size > 1100){
+    } else if (this.size > 1100){
       this.counter = 4;
     }
-    else if(this.size > 960){
+    else if (this.size > 960){
       this.counter = 3;
-    } else if(this.size > 880){
+    } else if (this.size > 880){
       this.counter = 3;
     }
-    else if(this.size > 667){
+    else if (this.size > 667){
       this.counter = 2;
     } else {
       this.counter = 1;
@@ -191,26 +191,26 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   }
 
   getTitle(album: Album){
-    if(typeof album !== 'undefined'){
+    if (album){
       let titleStr = album.title;
-      if(titleStr.length > 44){
-        titleStr = titleStr.slice(0, 40) + "...";
+      if (titleStr.length > 44){
+        titleStr = titleStr.slice(0, 40) + '...';
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return 'My Playlist';
     }
   }
 
   getSubTitle(album: Album){
-    if(typeof album !== 'undefined'){
+    if (album){
       let subTitleStr = album.author;
-      if(subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + " ...";
+      if (subTitleStr.length > 24){
+        subTitleStr = subTitleStr.slice(0, 20) + '...';
       }
       return subTitleStr;
     } else {
-      return "Optional description";
+      return 'Optional description';
     }
   }
 
@@ -220,8 +220,9 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   }
 
   onClickViewAll(albums: Album[]){
-    this.firebaseService.trendAlbums = albums;
-    this.router.navigate(['search', this.searchText, "albums"]);
+    this.firebaseService.isSearch = true;
+    this.firebaseService.searchedAlbums = albums;
+    this.router.navigate(['search', this.searchText, 'albums']);
   }
 
   onClickViewAllTracks(tracks: Track[]){
