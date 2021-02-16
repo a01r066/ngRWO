@@ -441,6 +441,40 @@ export class FirebaseService {
     });
   }
 
+  getTrendAlbumsByID(trendID: string){
+    const albums: Album[] = [];
+    this.database.ref('Trending-Albums').child(trendID).once('value').then(snapshot => {
+      snapshot.forEach(genreSnapshot => {
+        const genreID = genreSnapshot.key;
+        genreSnapshot.forEach(albumSnapshot => {
+          const albumID = albumSnapshot.key;
+          const dataObj = {
+            title: albumSnapshot.val().title,
+            author: albumSnapshot.val().author,
+            imagePath: albumSnapshot.val().imagePath,
+            tags: albumSnapshot.val().tags,
+            filePath: albumSnapshot.val().filePath
+          };
+          const album = new Album(albumID, genreID, trendID, dataObj);
+          albums.push(album);
+        });
+      });
+      // console.log('albums: ' + albums.length);
+      this.uiService.albumsSub.next(albums);
+    });
+  }
+
+  getTrendByID(trendID: string){
+    this.database.ref('Music-Trending-List').child(trendID).once('value').then(snapshot => {
+      const dataObj = {
+        title: snapshot.val().title,
+        imagePath: snapshot.val().imagePath
+      };
+      const trend = new Genre(trendID, dataObj);
+      this.uiService.genreSub.next(trend);
+    });
+  }
+
   getTrends(){
     const trends: Genre[] = [];
     this.database.ref('Music-Trending-List').once('value').then(snapshot => {
@@ -606,7 +640,7 @@ export class FirebaseService {
         imagePath: snapshot.val().imagePath
       };
       const genre = new Genre(genreID, dataObj);
-      this.uiService.selectedGenreSub.next(genre);
+      this.uiService.genreSub.next(genre);
     });
   }
 }

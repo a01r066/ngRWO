@@ -188,14 +188,14 @@ export class LibLikedSongsComponent implements OnInit, OnDestroy {
   }
 
   getTitle(){
-    if(typeof this.album.title !== 'undefined' || this.album.title !== ''){
+    if (typeof this.album.title !== 'undefined' || this.album.title !== ''){
       let titleStr = this.album.title;
-      if(titleStr.length > 36){
-        titleStr = titleStr.slice(0, 36) + "...";
+      if(titleStr.length > 54){
+        titleStr = titleStr.slice(0, 50) + '...';
       }
       return titleStr;
     } else {
-      return "My Playlist";
+      return 'My Playlist';
     }
   }
 

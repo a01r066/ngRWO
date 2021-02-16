@@ -54,13 +54,12 @@ export class GenreDetailComponent implements OnInit{
   ngOnInit(): void {
     const genreID = this.route.snapshot.params['id'];
     this.firebaseService.getGenreByID(genreID);
-    this.uiService.selectedGenreSub.subscribe(genre => {
+    this.uiService.genreSub.subscribe(genre => {
       this.genre = genre;
     });
     this.firebaseService.getAlbumsByGenre(genreID);
     this.firebaseService.allAlbumsSub.subscribe(allAlbums => {
       this.firebaseService.allAlbums = allAlbums;
-      // console.log("allAlbums: " + allAlbums.length);
       this.firebaseService.getNextItems();
       this.albums = this.firebaseService.albums;
       this.filteredAlbums = this.albums;

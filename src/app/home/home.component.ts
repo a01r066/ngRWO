@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   isDataLoaded = false;
   playedAlbums: Album[] = [];
   loggedIn = false;
+  recentPlayed: Genre;
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -47,9 +48,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['playlist', album.id]);
   }
 
-  onClickViewAll(albums: Album[], title: string){
-    this.firebaseService.trendAlbums = albums;
-    this.router.navigate(['trend', title]);
+  onClickViewAll(albums: Album[], trend: Genre){
+    // this.firebaseService.trendAlbums = albums;
+    this.router.navigate(['trend', trend.id]);
   }
 
   ngOnInit(): void {
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit {
     if (this.loggedIn){
       const user = this.authService.getCurrentUser();
       this.firebaseService.getRecentPlayedAlbums(user);
+      this.recentPlayed = new Genre('recently-played', {title: 'Recently Played', imagePath: ''});
     }
     this.uiService.playedAlbumsSub.subscribe(albums => {
       this.playedAlbums = albums;

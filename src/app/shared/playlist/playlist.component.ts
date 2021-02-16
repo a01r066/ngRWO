@@ -198,8 +198,8 @@ export class PlaylistComponent implements OnInit {
   getTitle(){
     if (this.album){
       let titleStr = this.album.title;
-      if (titleStr.length > 42){
-        titleStr = titleStr.slice(0, 38) + '...';
+      if (titleStr.length > 54){
+        titleStr = titleStr.slice(0, 50) + '...';
       }
       return titleStr;
     } else {

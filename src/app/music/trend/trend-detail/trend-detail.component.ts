@@ -7,6 +7,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {AuthService} from '../../../auth/auth.service';
 import {UiService} from '../../../shared/ui.service';
+import {Genre} from '../../models/genre.model';
 
 @Component({
   selector: 'app-trend-detail',
@@ -25,8 +26,7 @@ import {UiService} from '../../../shared/ui.service';
   ]
 })
 export class TrendDetailComponent implements OnInit {
-  items: Album[];
-  title: string;
+  albums: Album[];
 
   navItems: NavItem[] = [
     {
@@ -50,6 +50,8 @@ export class TrendDetailComponent implements OnInit {
   options = ['Add to Library'];
 
   isAuth = false;
+  trend: Genre;
+  title = '';
 
   constructor(private firebaseService: FirebaseService,
               private router: Router,
@@ -58,16 +60,25 @@ export class TrendDetailComponent implements OnInit {
               private uiService: UiService) { }
 
   ngOnInit(): void {
-    const params = this.route.snapshot.params;
-    this.title = params.id;
-    if (this.title === 'Recently Played'){
+    const trendID = this.route.snapshot.params['id'];
+    if (trendID === 'recently-played'){
+      this.albums = this.firebaseService.playedAlbums;
       this.options.push('Delete');
+      this.title = 'Recently Played';
+      this.uiService.playedAlbumsSub.subscribe(albums => {
+        this.albums = albums;
+      });
+    } else {
+      this.firebaseService.getTrendByID(trendID);
+      this.uiService.genreSub.subscribe(trend => {
+        this.trend = trend;
+        this.title = trend.title;
+      });
+      this.firebaseService.getTrendAlbumsByID(trendID);
+      this.uiService.albumsSub.subscribe(albums => {
+        this.albums = albums;
+      });
     }
-    this.items = this.firebaseService.trendAlbums;
-    this.uiService.playedAlbumsSub.subscribe(albums => {
-      this.items = albums;
-    });
-
     this.isAuth = this.authService.isAuthenticated;
     this.authService.authChangeSub.subscribe(authStatus => {
       this.isAuth = authStatus;
@@ -110,7 +121,7 @@ export class TrendDetailComponent implements OnInit {
   }
 
   sortByName(index){
-    this.items.sort((s1, s2) => {
+    this.albums.sort((s1, s2) => {
       if (s1 === s2){
         return -1;
       }

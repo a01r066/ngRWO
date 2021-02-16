@@ -30,5 +30,6 @@ export class UiService {
   isGenreSelectSub = new Subject<boolean>();
   playedAlbumsSub = new Subject<Album[]>();
   dbUserSub = new Subject<User>();
-  selectedGenreSub = new Subject<Genre>();
+  genreSub = new Subject<Genre>();
+  albumsSub = new Subject<Album[]>();
 }

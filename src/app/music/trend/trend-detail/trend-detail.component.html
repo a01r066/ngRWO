@@ -21,12 +21,12 @@
     </h1>
     <div>
       <ul class="flex-container">
-        <li class="flex-item" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
-          <div class="card" (contextmenu)="onRightClick($event, item)" @fadeSlideInOut>
-            <img class="card-img-top" [src]="[item.imagePath]">
+        <li class="flex-item" style="cursor: pointer" *ngFor="let album of albums" (click)="onSelectItem(album)">
+          <div class="card" (contextmenu)="onRightClick($event, album)" @fadeSlideInOut>
+            <img class="card-img-top" [src]="[album.imagePath]">
             <div class="card-body">
-              <p class="card-title">{{ getTitle(item) }}</p>
-              <p class="card-subtitle">{{ getSubTitle(item) }}</p>
+              <p class="card-title">{{ getTitle(album) }}</p>
+              <p class="card-subtitle">{{ getSubTitle(album) }}</p>
             </div>
           </div>
         </li>
