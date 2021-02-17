@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
 import {Lightbox} from 'ngx-lightbox';
 import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-playlist',
@@ -62,15 +63,34 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit(): void {
     this.totalLiked = this.firebaseService.getRandomPlayed(99, 9999);
-    const albumID = this.route.snapshot.params['id'];
-    this.firebaseService.getAlbumByID(albumID);
-    this.uiService.selectedAlbumSub.subscribe(album => {
-      this.album = album;
-      this.firebaseService.getTracksByAlbum(album);
+    if (this.firebaseService.selectedAlbum){
+      this.album = this.firebaseService.selectedAlbum;
+      this.firebaseService.getTracksByAlbum(this.album);
       this.firebaseService.favouristAlbums.find(theAlbum => {
-        if (theAlbum.id === album.id){
+        if (theAlbum.id === this.album.id){
           this.isLikedAlbum = true;
         }
+      });
+    } else {
+      const albumID = this.route.snapshot.params['id'];
+      this.firebaseService.getAlbumByID(albumID);
+      this.uiService.selectedAlbumSub.subscribe(album => {
+        this.album = album;
+        this.firebaseService.getTracksByAlbum(album);
+      });
+    }
+
+    this.firebaseService.tracksSub.subscribe(tracks => {
+      this.tracks = tracks;
+      this.isDataLoaded = true;
+
+      this.fetchTracksDuration(tracks);
+
+      // favourite list
+      tracks.forEach(track => {
+        this.favouriteList.push(false);
+        // get mp3 duration
+        // this.getMp3Duration(track);
       });
     });
 
@@ -78,21 +98,6 @@ export class PlaylistComponent implements OnInit {
     // if (typeof this.album.filePath !== 'undefined'){
     //   this.isFileExisted = true;
     // }
-
-    this.firebaseService.tracksSub.subscribe(tracks => {
-      this.tracks = tracks;
-      this.isDataLoaded = true;
-      // favourite list
-      tracks.forEach(track => {
-        this.favouriteList.push(false);
-        // get mp3 duration
-        // this.getMp3Duration(track);
-        if (typeof track.duration !== 'undefined'){
-          this.analyzeDuration(track);
-        }
-      });
-      this.getTotalDurations();
-    });
     this.playerService.selectedRowIndexSub.subscribe(index => {
       this.selectedRowIndex = index;
     });
@@ -133,11 +138,18 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
+  fetchTracksDuration(tracks: Track[]){
+    tracks.forEach(track => {
+      if (typeof track.duration !== 'undefined'){
+        this.analyzeDuration(track);
+      }
+    });
+    this.getTotalDurations();
+  }
+
   getTotalDurations(){
-    const totalSecs = this.totalMins * 60 + this.totalSecs;
-    if(totalSecs > 0){
-      this.totalDuration = this.formatTime(totalSecs, 'HH:mm:ss');
-    }
+    const totalSeconds = (this.totalMins * 60) + this.totalSecs;
+    this.totalDuration = this.formatTime(totalSeconds, 'HH:mm:ss');
   }
 
   analyzeDuration(track: Track){
@@ -233,7 +245,6 @@ export class PlaylistComponent implements OnInit {
     this.playerService.files = this.tracks;
     this.playerService.openFile(track, index);
     if (this.isAuth){
-      // console.log("Add to recently played album");
       this.firebaseService.onAddRecentPlayedAlbum(this.authService.getUser(), this.album);
     }
   }
@@ -312,28 +323,28 @@ export class PlaylistComponent implements OnInit {
   sortData(sort: Sort){
   }
 
-  getMp3Duration(track: Track){
-    // Create a non-dom allocated Audio element
-    const au = document.createElement('audio');
-
-// Define the URL of the MP3 audio file
-    au.src = track.filePath;
-
-// Once the metadata has been loaded, display the duration in the console
-    au.addEventListener('loadedmetadata', () => {
-      // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
-      const duration = au.duration;
-      console.log('The duration of the song is of: ' + duration + ' seconds');
-      const durationStr = this.formatTime(duration, 'mm:ss');
-      this.durations.push(durationStr);
-
-      // example 12.3234 seconds
-      // console.log("The duration of the song is of: " + duration + " seconds");
-      // Alternatively, just display the integer value with
-      // parseInt(duration)
-      // 12 seconds
-    });
-  }
+//   getMp3Duration(track: Track){
+//     // Create a non-dom allocated Audio element
+//     const au = document.createElement('audio');
+//
+// // Define the URL of the MP3 audio file
+//     au.src = track.filePath;
+//
+// // Once the metadata has been loaded, display the duration in the console
+//     au.addEventListener('loadedmetadata', () => {
+//       // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
+//       const duration = au.duration;
+//       console.log('The duration of the song is of: ' + duration + ' seconds');
+//       const durationStr = this.formatTime(duration, 'mm:ss');
+//       this.durations.push(durationStr);
+//
+//       // example 12.3234 seconds
+//       // console.log("The duration of the song is of: " + duration + " seconds");
+//       // Alternatively, just display the integer value with
+//       // parseInt(duration)
+//       // 12 seconds
+//     });
+//   }
 
   formatTime(time: number, format: string = 'HH:mm:ss') {
     const momentTime = time * 1000;
@@ -344,13 +355,13 @@ export class PlaylistComponent implements OnInit {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   }
 
-  openPdf(){
-    if (this.isAuth){
-      window.open(this.album.filePath, '_blank');
-    } else {
-      this.uiService.loginAlertChanged.next(true);
-    }
-  }
+  // openPdf(){
+  //   if (this.isAuth){
+  //     window.open(this.album.filePath, '_blank');
+  //   } else {
+  //     this.uiService.loginAlertChanged.next(true);
+  //   }
+  // }
 
   share() {
     const filePath = 'https://mytunes.top/';

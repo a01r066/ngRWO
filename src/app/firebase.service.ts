@@ -34,9 +34,9 @@ export class FirebaseService {
 
   selectedGenre: Genre;
   selectedAlbum: Album;
-  trendAlbums: Album[];
+  trendAlbums: Album[] = [];
   favouristAlbums: Album[] = [];
-  favouritePlaylists: Album[] =[];
+  favouritePlaylists: Album[] = [];
   favouristTracks: Track[] = [];
   selectedTabIndex = 0;
 
@@ -46,11 +46,11 @@ export class FirebaseService {
   searchTextSub = new Subject<string>();
   isSearchBarHiddenSub = new Subject<boolean>();
 
-  allTracks: Track[];
+  allTracks: Track[] = [];
   allTracksSub = new Subject<Track[]>();
   isAllTracksLoaded = false;
 
-  globalAlbums: Album[];
+  globalAlbums: Album[] = [];
   isGlobalAlbumsLoaded = false;
   globalAlbumsSub = new Subject<Album[]>();
 
