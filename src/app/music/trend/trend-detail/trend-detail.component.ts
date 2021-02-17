@@ -64,7 +64,13 @@ export class TrendDetailComponent implements OnInit, OnDestroy {
     this.isSearch = this.firebaseService.isSearch;
     const trendID = this.route.snapshot.params['id'];
     if (trendID === 'recently-played'){
-      this.albums = this.firebaseService.playedAlbums;
+      if (this.firebaseService.playedAlbums.length === 0){
+        // fetch playedAlbums
+        const user = this.authService.getCurrentUser();
+        this.firebaseService.getRecentPlayedAlbums(user);
+      } else {
+        this.albums = this.firebaseService.playedAlbums;
+      }
       this.options.push('Delete');
       this.title = 'Recently Played';
       this.uiService.playedAlbumsSub.subscribe(albums => {
@@ -79,10 +85,15 @@ export class TrendDetailComponent implements OnInit, OnDestroy {
         this.trend = trend;
         this.title = trend.title;
       });
-      this.firebaseService.getTrendAlbumsByID(trendID);
-      this.uiService.albumsSub.subscribe(albums => {
-        this.albums = albums;
-      });
+
+      if (this.firebaseService.trendAlbums.length === 0){
+        this.firebaseService.getTrendAlbumsByID(trendID);
+        this.uiService.albumsSub.subscribe(albums => {
+          this.albums = albums;
+        });
+      } else {
+        this.albums = this.firebaseService.trendAlbums;
+      }
     }
     this.isAuth = this.authService.isAuthenticated;
     this.authService.authChangeSub.subscribe(authStatus => {
