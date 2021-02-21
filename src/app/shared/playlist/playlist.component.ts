@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -14,7 +14,7 @@ import * as moment from 'moment';
 import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
 import {Lightbox} from 'ngx-lightbox';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {ShareService} from '../../services/share.service';
 
 @Component({
   selector: 'app-playlist',
@@ -49,9 +49,6 @@ export class PlaylistComponent implements OnInit {
       title: 'New playlist'
     }
   ];
-
-  durations: Array<string> = [];
-
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
               private audioService: AudioService,
@@ -59,12 +56,17 @@ export class PlaylistComponent implements OnInit {
               private uiService: UiService,
               private fb: FacebookService,
               private _lightbox: Lightbox,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private shareService: ShareService) { }
 
   ngOnInit(): void {
     this.totalLiked = this.firebaseService.getRandomPlayed(99, 9999);
     if (this.firebaseService.selectedAlbum){
       this.album = this.firebaseService.selectedAlbum;
+
+      // update meta data for sharing facebook
+      this.updateMetaDataForSharing(this.album);
+
       this.firebaseService.getTracksByAlbum(this.album);
       this.firebaseService.favouristAlbums.find(theAlbum => {
         if (theAlbum.id === this.album.id){
@@ -76,6 +78,7 @@ export class PlaylistComponent implements OnInit {
       this.firebaseService.getAlbumByID(albumID);
       this.uiService.selectedAlbumSub.subscribe(album => {
         this.album = album;
+        this.updateMetaDataForSharing(this.album);
         this.firebaseService.getTracksByAlbum(album);
       });
     }
@@ -136,6 +139,11 @@ export class PlaylistComponent implements OnInit {
         });
       });
     }
+  }
+
+  updateMetaDataForSharing(album: Album){
+    const sharePath = 'https://mytunes.top/' + 'playlist/' + album.id;
+    this.shareService.setFacebookTags(sharePath, album.title, album.author, album.imagePath);
   }
 
   fetchTracksDuration(tracks: Track[]){
@@ -232,6 +240,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   openFile(track: Track, index: number){
+    this.firebaseService.addToPlayedAlbums(this.album);
     this.selectedRowIndex = index;
     if (typeof this.playingTrack !== 'undefined'){
       if (this.playingTrack.id === track.id || this.favouriteList[index] === true){
@@ -323,29 +332,6 @@ export class PlaylistComponent implements OnInit {
   sortData(sort: Sort){
   }
 
-//   getMp3Duration(track: Track){
-//     // Create a non-dom allocated Audio element
-//     const au = document.createElement('audio');
-//
-// // Define the URL of the MP3 audio file
-//     au.src = track.filePath;
-//
-// // Once the metadata has been loaded, display the duration in the console
-//     au.addEventListener('loadedmetadata', () => {
-//       // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
-//       const duration = au.duration;
-//       console.log('The duration of the song is of: ' + duration + ' seconds');
-//       const durationStr = this.formatTime(duration, 'mm:ss');
-//       this.durations.push(durationStr);
-//
-//       // example 12.3234 seconds
-//       // console.log("The duration of the song is of: " + duration + " seconds");
-//       // Alternatively, just display the integer value with
-//       // parseInt(duration)
-//       // 12 seconds
-//     });
-//   }
-
   formatTime(time: number, format: string = 'HH:mm:ss') {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
@@ -364,10 +350,19 @@ export class PlaylistComponent implements OnInit {
   // }
 
   share() {
-    const filePath = 'https://mytunes.top/';
+    // this.shareService.getTags();
+    // const albumID = this.route.snapshot.params['id'];
+    this.firebaseService.addToPlayedAlbums(this.album);
+    const sharePath = 'https://mytunes.top/' + 'playlist/' + this.album.id;
+    // console.log(sharePath);
     const params: UIParams = {
-      href: filePath,
-      method: 'share'
+      href: sharePath,
+      method: 'share',
+      display: 'popup',
+      redirect_uri: sharePath,
+      hashtag: this.album.title
+      // link: sharePath,
+      // method: 'feed'
     };
 
     this.fb.ui(params)

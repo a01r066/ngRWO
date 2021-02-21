@@ -202,6 +202,17 @@ export class FirebaseService {
     });
   }
 
+  addToPlayedAlbums(album: Album){
+    const value = {
+      title: album.title,
+      author: album.author,
+      imagePath: album.imagePath,
+      filePath: '',
+      tags: album.tags
+    };
+    this.database.ref('Played-Albums').child(album.genreID).child(album.id).update(value).then();
+  }
+
   onAddRecentPlayedAlbum(user: User, album: Album){
     const dataObj = {
       title: album.title,
@@ -560,7 +571,7 @@ export class FirebaseService {
   getAlbumByID(albumID: string){
     let isFind = false;
     const trendID = '';
-    this.database.ref('Albums').once('value').then(snapshot => {
+    this.database.ref('Played-Albums').once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
         const genreID = genreSnapshot.key;
         genreSnapshot.forEach(albumSnapshot => {

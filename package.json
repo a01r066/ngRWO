@@ -25,6 +25,7 @@
     "@angular/router": "~11.0.1",
     "@foobar404/wave": "^1.2.7",
     "@ngrx/store": "^10.1.2",
+    "@ngx-meta/core": "^9.0.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "d3": "^6.3.1",
