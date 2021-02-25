@@ -1,7 +1,7 @@
 <!--<router-outlet></router-outlet>-->
-<ng-template [ngIf]="searchText.length < 2"; [ngIfElse]="genres">
+<ng-template [ngIf]="searchText.length < 2" [ngIfElse]="genres">
   <router-outlet></router-outlet>
 </ng-template>
 <ng-template #genres>
-  <app-search-detail></app-search-detail>
+  <app-search-detail [searchText]="searchText"></app-search-detail>
 </ng-template>

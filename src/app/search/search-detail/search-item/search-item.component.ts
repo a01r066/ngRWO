@@ -20,7 +20,7 @@ export class SearchItemComponent implements OnInit, OnDestroy {
   database = firebase.database();
   @Output() onOpenFile = new EventEmitter();
   isFavourite = false;
-  isAuth: boolean = false;
+  isAuth = false;
   playingTrack: Track;
   alertSub: Subscription;
   isAlertShow = false;
@@ -29,7 +29,7 @@ export class SearchItemComponent implements OnInit, OnDestroy {
 
   navItems: NavItem[] = [
     {
-      title: "New playlist"
+      title: 'New playlist'
     }
   ];
 
@@ -51,17 +51,17 @@ export class SearchItemComponent implements OnInit, OnDestroy {
       this.playingTrack = track;
     });
 
-    if(this.isAuth) {
+    if (this.isAuth) {
       this.firebaseService.getPlaylists(this.authService.getUser());
       this.uiService.favouritePlaylistsSub.subscribe(playlists => {
         // this.favouritePlaylists = playlists;
         this.navItems = this.navItems.slice(0, 1);
         this.navItems.push({
-          title: "Add to playlist",
+          title: 'Add to playlist',
           subItems: playlists
         });
         this.navItems.push({
-          title: "Save to liked songs"
+          title: 'Save to liked songs'
         });
       });
     }
@@ -72,8 +72,8 @@ export class SearchItemComponent implements OnInit, OnDestroy {
   }
 
   openFile(track){
-    if(typeof this.playingTrack !== 'undefined'){
-      if(this.playingTrack.id === track.id){
+    if (typeof this.playingTrack !== 'undefined'){
+      if (this.playingTrack.id === track.id){
         this.uiService.isLikedTrackSub.next(true);
       } else {
         this.uiService.isLikedTrackSub.next(false);
@@ -100,17 +100,17 @@ export class SearchItemComponent implements OnInit, OnDestroy {
   }
 
   onHandleLikeTrack(track: Track){
-    if(this.isAuth){
+    if (this.isAuth){
       this.isFavourite = !this.isFavourite;
-      if(this.isFavourite){
+      if (this.isFavourite){
         // add to liked songs
         this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
       } else {
         // remove from liked songs
         this.firebaseService.removeTrackFromFavouriteTracks(track, this.authService.getUser());
       }
-      if(typeof this.playingTrack !== 'undefined'){
-        if(this.playingTrack.id === track.id){
+      if (typeof this.playingTrack !== 'undefined'){
+        if (this.playingTrack.id === track.id){
           this.uiService.isLikedTrackSub.next(this.isFavourite);
         }
       }
@@ -120,13 +120,13 @@ export class SearchItemComponent implements OnInit, OnDestroy {
   }
 
   onSelectItem(item: NavItem, track: Track){
-    if(item.title === "New playlist"){
-      if(this.isAuth){
+    if (item.title === 'New playlist'){
+      if (this.isAuth){
         this.firebaseService.onCreatePlaylist();
       } else {
         this.uiService.loginAlertChanged.next(true);
       }
-    } else if(item.title === 'Save to liked songs'){
+    } else if (item.title === 'Save to liked songs'){
       // console.log("Add to liked songs");
       this.firebaseService.addFavouriteTrack(track, this.authService.getUser());
     }
@@ -137,33 +137,21 @@ export class SearchItemComponent implements OnInit, OnDestroy {
     this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
   }
 
-  getTitle(){
-    if(typeof this.track !== 'undefined'){
-      let titleStr = '';
-      if(this.track.title !== ''){
-        titleStr = this.track.title;
-        if(titleStr.length > 128){
-          titleStr = titleStr.slice(0, 124) + '...';
-        }
-      }
-      return titleStr;
-    } else {
-      return 'N/A';
-    }
-  }
-
-  getSubTitle(){
-    if(typeof this.track !== 'undefined'){
-      let titleStr = '';
-      if(this.track.author !== ''){
-        titleStr = this.track.author;
-        if(titleStr.length > 128){
-          titleStr = titleStr.slice(0, 124) + '...';
-        }
-      }
-      return titleStr;
-    } else {
-      return 'N/A';
-    }
-  }
+  // getTitle(){
+  //   let titleStr = '';
+  //   titleStr = this.track?.title;
+  //   if (titleStr?.length > 128){
+  //     titleStr = titleStr.slice(0, 124) + '...';
+  //   }
+  //   return titleStr;
+  // }
+  //
+  // getSubTitle(){
+  //   let titleStr = '';
+  //   titleStr = this.track?.author;
+  //   if (titleStr?.length > 128){
+  //     titleStr = titleStr.slice(0, 124) + '...';
+  //   }
+  //   return titleStr;
+  // }
 }

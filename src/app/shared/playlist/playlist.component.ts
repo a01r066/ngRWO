@@ -26,6 +26,8 @@ export class PlaylistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   isDataLoaded = false;
   album: Album;
+  playingAlbum: Album;
+  isAlbumPlaying = false;
   tracks: Track[];
   state: StreamState;
   selectedRowIndex = -1;
@@ -60,9 +62,13 @@ export class PlaylistComponent implements OnInit {
               private shareService: ShareService) { }
 
   ngOnInit(): void {
+    this.playingAlbum = this.firebaseService.playingAlbum;
     this.totalLiked = this.firebaseService.getRandomPlayed(99, 9999);
     if (this.firebaseService.selectedAlbum){
       this.album = this.firebaseService.selectedAlbum;
+      if (!this.playingAlbum){
+        this.playingAlbum = this.album;
+      }
 
       // update meta data for sharing facebook
       this.updateMetaDataForSharing(this.album);
@@ -78,6 +84,9 @@ export class PlaylistComponent implements OnInit {
       this.firebaseService.getAlbumByID(albumID);
       this.uiService.selectedAlbumSub.subscribe(album => {
         this.album = album;
+        if (!this.playingAlbum){
+          this.playingAlbum = this.album;
+        }
         this.updateMetaDataForSharing(this.album);
         this.firebaseService.getTracksByAlbum(album);
       });
@@ -241,6 +250,7 @@ export class PlaylistComponent implements OnInit {
 
   openFile(track: Track, index: number){
     this.firebaseService.addToPlayedAlbums(this.album);
+    this.firebaseService.playingAlbum = this.album;
     this.selectedRowIndex = index;
     if (typeof this.playingTrack !== 'undefined'){
       if (this.playingTrack.id === track.id || this.favouriteList[index] === true){

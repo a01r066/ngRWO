@@ -32,8 +32,8 @@ export class FirebaseService {
   //   return this.items = this.af.list('/data').valueChanges();
   // }
 
-  selectedGenre: Genre;
   selectedAlbum: Album;
+  playingAlbum: Album;
   trendAlbums: Album[] = [];
   favouristAlbums: Album[] = [];
   favouritePlaylists: Album[] = [];
@@ -43,6 +43,7 @@ export class FirebaseService {
   trendingAlbumsListSub = new Subject<Album[][]>();
   tracksSub = new Subject<Track[]>();
   isDataLoadedSub = new Subject<boolean>();
+  searchedText = '';
   searchTextSub = new Subject<string>();
   isSearchBarHiddenSub = new Subject<boolean>();
 
@@ -53,6 +54,10 @@ export class FirebaseService {
   globalAlbums: Album[] = [];
   isGlobalAlbumsLoaded = false;
   globalAlbumsSub = new Subject<Album[]>();
+
+  globalAudiobooks: Album[] = [];
+  isGlobalAudiobooksLoaded = false;
+  globalAudiobooksSub = new Subject<Album[]>();
 
   // refactor scroll to load more items
   albumsSubject = new BehaviorSubject<Album[]>([]);
@@ -66,6 +71,7 @@ export class FirebaseService {
   trendingList: Album[][] = [];
   playedAlbums: Album[] = [];
   searchedAlbums: Album[] = [];
+  searchedTracks: Track[] = [];
   genres: Genre[] = [];
   isSearch = false;
 
@@ -362,7 +368,9 @@ export class FirebaseService {
     const dataObj = {
       title: album.title,
       author: album.author,
-      imagePath: album.imagePath
+      imagePath: album.imagePath,
+      filePath: '',
+      tags: album.tags
     };
 
     this.database.ref('Favourite-Playlists').child(user.uid).child(genreID).child(albumID).update(dataObj).then(() => {
@@ -371,12 +379,35 @@ export class FirebaseService {
     });
   }
 
+  fetchAllAudiobooks(){
+    let audiobooks: Album[] = [];
+    const genreID = '-MUHjTHj21ESjuun4r_k';
+    const trendID = '';
+    this.database.ref('Albums').child(genreID).once('value').then(snapshot => {
+      snapshot.forEach(audiobookSnapshot => {
+        const audiobookID = audiobookSnapshot.key;
+        const dataObj = {
+          title: audiobookSnapshot.val().title,
+          author: audiobookSnapshot.val().author,
+          imagePath: audiobookSnapshot.val().imagePath,
+          tags: audiobookSnapshot.val().tags,
+          filePath: audiobookSnapshot.val().filePath
+        };
+        const audiobook = new Album(audiobookID, genreID, trendID, dataObj);
+        audiobooks.push(audiobook);
+        });
+      this.globalAudiobooks = audiobooks;
+      this.isGlobalAudiobooksLoaded = true;
+      this.globalAudiobooksSub.next(audiobooks);
+      });
+  }
+
   fetchAllAlbums(){
     let albums: Album[] = [];
     this.database.ref('Albums').once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
         const genreID = genreSnapshot.key;
-        if(genreID !== '-MOoSXRlWkDrdSHyNKT5' && genreID !== '-MRIZIZ-wo9AnsJVy_EH'){
+        if(genreID !== '-MOoSXRlWkDrdSHyNKT5' && genreID !== '-MUHjTHj21ESjuun4r_k'){
           genreSnapshot.forEach(albumSnapshot => {
             const albumID = albumSnapshot.key;
             const trendID = '';
@@ -403,7 +434,7 @@ export class FirebaseService {
     this.database.ref('Tracks').once('value').then(snapshot => {
       snapshot.forEach(genreSnapshot => {
         const genreID = genreSnapshot.key;
-        if(genreID !== '-MOoSXRlWkDrdSHyNKT5' && genreID !== '-MRIZIZ-wo9AnsJVy_EH'){
+        if(genreID !== '-MOoSXRlWkDrdSHyNKT5' && genreID !== '-MUHjTHj21ESjuun4r_k'){
           genreSnapshot.forEach(albumSnapshot => {
             const albumID = albumSnapshot.key;
             albumSnapshot.forEach(trackSnapshot => {

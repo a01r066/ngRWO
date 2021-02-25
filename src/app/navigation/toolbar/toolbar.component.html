@@ -1,7 +1,7 @@
 <mat-toolbar>
-  <!--      <button mat-icon-button (click)="sidenav.toggle()">-->
-  <!--        <mat-icon>menu</mat-icon>-->
-  <!--      </button>-->
+  <button mat-icon-button (click)="onToggle()">
+     <mat-icon style="color: #B3B3A2; transform: scale(1.5)">menu_open</mat-icon>
+  </button>
   <button mat-icon-button style="margin-right: 16px;">
     <mat-icon class="backnext" (click)="back()">keyboard_arrow_left</mat-icon>
   </button>
@@ -9,7 +9,7 @@
     <mat-icon class="backnext" (click)="next()">keyboard_arrow_right</mat-icon>
   </button>
   <div class="searchbar" *ngIf="!isSearchBarHidden">
-    <input matInput placeholder="search for song, artist" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup)="processSearch()" (keyup.enter)="processSearch()">
+    <input matInput placeholder="search for song, artist" value="{{searchedText}}" class="search-input" #searchText (keypress)="onTextChange()" (keydown.backspace)="onBackspace()" (keyup)="processSearch()" (keyup.enter)="processSearch()">
     <button mat-icon-button class="close" (click)="clearText()" *ngIf="searchText.value !== ''">
       <mat-icon>close</mat-icon>
     </button>
@@ -25,7 +25,7 @@
       </a>
     </nav>
   </div>
-  <div fxFlex fxLayoutAlign="end">
+  <div fxFlex fxLayoutAlign="flex-end">
     <ul fxLayout fxLayoutGap="12px" class="nav-items">
       <li class="SignInOut" [routerLink]="['/signup']" *ngIf="!isAuth">
         <button mat-raised-button class="login-button">SIGN UP</button>

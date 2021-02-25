@@ -16,6 +16,7 @@ import {User} from '../../auth/user.model';
 export class ToolbarComponent implements OnInit, OnDestroy {
   isSearchBarHidden = true;
   @ViewChild('searchText') searchTextRef: ElementRef;
+  searchedText = '';
   isAuth = false;
   authSubscription: Subscription;
 
@@ -37,12 +38,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   ];
 
   dbUser: User;
+  isOpened = true;
 
   constructor(private firebaseService: FirebaseService,
               private authService: AuthService,
               private uiService: UiService) { }
 
   ngOnInit(): void {
+    this.searchedText = this.firebaseService.searchedText;
     this.firebaseService.isSearchBarHiddenSub.subscribe(isHidden => {
       this.isSearchBarHidden = isHidden;
     });
@@ -82,6 +85,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.searchTextRef.nativeElement.value = '';
     this.firebaseService.searchTextSub.next('');
     this.searchTextRef.nativeElement.focus();
+    this.firebaseService.searchedText = '';
   }
 
   onTextChange(){
@@ -93,11 +97,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   processSearch(){
-    const searchText = this.searchTextRef.nativeElement.value;
-    if(searchText === ''){
+    this.searchedText = this.searchTextRef.nativeElement.value;
+    this.firebaseService.searchedText = this.searchedText;
+    if (this.searchedText === ''){
       this.clearText();
     } else {
-      this.firebaseService.searchTextSub.next(searchText);
+      this.firebaseService.searchTextSub.next(this.searchedText);
     }
   }
 
@@ -109,5 +114,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.selectedIndex = selectedIndex;
     this.activeLink = this.links[selectedIndex];
     this.uiService.selectedIndexSub.next(selectedIndex);
+  }
+
+  onToggle(){
+    this.isOpened = !this.isOpened;
+    this.uiService.isToggle.next(this.isOpened);
   }
 }

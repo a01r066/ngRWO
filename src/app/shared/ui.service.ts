@@ -32,5 +32,5 @@ export class UiService {
   dbUserSub = new Subject<User>();
   genreSub = new Subject<Genre>();
   albumsSub = new Subject<Album[]>();
-  isSearchSub = new Subject<boolean>();
+  isToggle = new Subject<boolean>();
 }

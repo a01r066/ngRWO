@@ -52,6 +52,12 @@ export class GenreListComponent implements OnInit, OnDestroy {
       this.firebaseService.isGlobalAlbumsLoaded = true;
     }
 
+    if (!this.firebaseService.isGlobalAudiobooksLoaded){
+      this.firebaseService.fetchAllAudiobooks();
+    } else {
+      this.firebaseService.isGlobalAudiobooksLoaded = true;
+    }
+
     this.firebaseService.isSearchBarHiddenSub.next(false);
   }
 

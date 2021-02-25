@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {FirebaseService} from '../../firebase.service';
 import {Track} from '../../music/models/track.model';
 import {Album} from '../../music/models/album.model';
@@ -53,17 +53,20 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   isAllTracksLoaded: boolean;
   tracks: Track[] = [];
   filteredTracks: Track[] = [];
-  searchText: string;
+  @Input() searchText: string;
   selectedRowIndex: number;
   database = firebase.database();
   state: StreamState;
 
   albums: Album[] = [];
   filteredAlbums: Album[] = [];
+  audiobooks: Album[] = [];
+  filteredAudiobooks: Album[] = [];
   counter = 8;
   size: any;
 
   isGlobalAlbumLoaded = false;
+  isGlobalAudiobookLoaded = false;
 
   constructor(private firebaseService: FirebaseService,
               private playerService: PlayerService,
@@ -73,6 +76,7 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isAllTracksLoaded = this.firebaseService.isAllTracksLoaded;
     this.isGlobalAlbumLoaded = this.firebaseService.isGlobalAlbumsLoaded;
+    this.isGlobalAudiobookLoaded = this.firebaseService.isGlobalAudiobooksLoaded;
     // this.getCounter();
 
     // filter track
@@ -92,14 +96,45 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
     this.firebaseService.searchTextSub.subscribe(searchText => {
       this.searchText = searchText;
       if (this.isGlobalAlbumLoaded){
-        this.processSearchAlbum(this.searchText);
+        this.processSearchAlbum(searchText);
       } else {
         this.firebaseService.globalAlbumsSub.subscribe(albums => {
-          this.processSearchAlbum(this.searchText);
+          this.processSearchAlbum(searchText);
         });
       }
     });
     this.firebaseService.isSearchBarHiddenSub.next(false);
+
+    // filter audiobook
+    this.firebaseService.searchTextSub.subscribe(searchText => {
+      this.searchText = searchText;
+      if (this.isGlobalAudiobookLoaded){
+        this.processSearchAudiobook(searchText);
+      } else {
+        this.firebaseService.globalAudiobooksSub.subscribe(audiobooks => {
+          this.processSearchAudiobook(searchText);
+        });
+      }
+    });
+
+    this.inititalSearch();
+  }
+
+  inititalSearch(){
+    this.processSearch(this.searchText);
+    this.processSearchAlbum(this.searchText);
+    this.processSearchAudiobook(this.searchText);
+  }
+
+  processSearchAudiobook(searchText: string){
+    this.filteredAudiobooks = this.firebaseService.globalAudiobooks.filter(audiobook => {
+      // tslint:disable-next-line:max-line-length
+      if (audiobook.title !== null){
+        // tslint:disable-next-line:max-line-length
+        return (audiobook.title.toLowerCase().includes(searchText.toLowerCase()) || audiobook.author.toLowerCase().includes(searchText.toLowerCase()));
+      }
+    });
+    this.audiobooks = this.filteredAudiobooks.slice(0, 8);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -225,7 +260,8 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['search', this.searchText, 'albums']);
   }
 
-  onClickViewAllTracks(tracks: Track[]){
-
+  viewAllTracks(tracks: Track[]){
+    // this.firebaseService.searchedTracks = tracks;
+    // this.router.navigate(['search', this.searchText, 'tracks']);
   }
 }

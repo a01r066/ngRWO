@@ -138,7 +138,7 @@ export class HomeComponent implements OnInit {
     if (typeof album !== 'undefined'){
       let subTitleStr = album.author;
       if (subTitleStr.length > 24){
-        subTitleStr = subTitleStr.slice(0, 20) + ' ...';
+        subTitleStr = subTitleStr.slice(0, 20) + '...';
       }
       return subTitleStr;
     } else {

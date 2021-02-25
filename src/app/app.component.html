@@ -1,10 +1,11 @@
 <div>
   <mat-sidenav-container>
     <!--  <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation" fxHide.lt-sm>-->
-    <mat-sidenav [mode]="mode.value" [opened]="opened" #sidenav role="navigation">
+    <mat-sidenav mode="side" [opened]=isOpened>
       <app-sidebar [playlists]="playlists"></app-sidebar>
     </mat-sidenav>
     <mat-sidenav-content>
+<!--      <button (click)="toggle()">Toggle</button>-->
       <app-toolbar></app-toolbar>
       <main>
         <router-outlet></router-outlet>

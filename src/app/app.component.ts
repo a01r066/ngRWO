@@ -14,7 +14,7 @@ import {AudioService} from './services/audio.service';
 })
 export class AppComponent implements OnInit{
   title = 'Relaxing World Online';
-  opened = true;
+  isOpened = true;
   mode = new FormControl('side');
   isAlertShow = false;
   isEditPlaylistShow = false;
@@ -34,6 +34,10 @@ export class AppComponent implements OnInit{
       // do something here...
       e.preventDefault();
     }, false);
+
+    this.uiService.isToggle.subscribe(isOpened => {
+      this.isOpened = isOpened;
+    });
 
     this.authService.initAuthListener();
 
@@ -57,5 +61,9 @@ export class AppComponent implements OnInit{
     this.uiService.favouritePlaylistsSub.subscribe(playlists => {
       this.playlists = playlists.slice(0, 9);
     });
+  }
+
+  toggle(){
+    this.isOpened = !this.isOpened;
   }
 }

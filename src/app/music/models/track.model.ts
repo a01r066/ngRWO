@@ -2,7 +2,7 @@ export class Track {
   id?: string;
   albumID?: string;
   genreID?: string;
-  title: string;
+  title?: string;
   author?: string;
   filePath: string;
   index?: number;
@@ -10,8 +10,7 @@ export class Track {
   duration?: string;
   played: number;
 
-  constructor(id: string, albumID: string, genreID: string,
-              dataObj: { title: string, author: string, filePath: string, index: number, tags: string, duration: string, played: number}) {
+  constructor(id: string, albumID: string, genreID: string, dataObj: { title: string, author: string, filePath: string, index: number, tags: string, duration: string, played: number}) {
     this.id = id;
     this.albumID = albumID;
     this.genreID = genreID;
