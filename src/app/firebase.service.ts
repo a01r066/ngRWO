@@ -544,23 +544,29 @@ export class FirebaseService {
     this.database.ref('Trending-Albums').once('value').then(snapshot => {
       snapshot.forEach(trendSnapshot => {
         const trendID = trendSnapshot.key;
-        let albums: Album[] = [];
-
+        let albums = [];
+        let counter = 0;
         trendSnapshot.forEach(genreSnapshot => {
           const genreID = genreSnapshot.key;
           genreSnapshot.forEach(albumSnapshot => {
-            const albumID = albumSnapshot.key;
-            const dataObj = {
-              title: albumSnapshot.val().title,
-              author: albumSnapshot.val().author,
-              imagePath: albumSnapshot.val().imagePath,
-              tags: albumSnapshot.val().tags,
-              filePath: albumSnapshot.val().filePath
-            };
-            const album = new Album(albumID, genreID, trendID, dataObj);
-            albums.push(album);
+            if (counter < 8){
+              const albumID = albumSnapshot.key;
+              const dataObj = {
+                title: albumSnapshot.val().title,
+                author: albumSnapshot.val().author,
+                imagePath: albumSnapshot.val().imagePath,
+                tags: albumSnapshot.val().tags,
+                filePath: albumSnapshot.val().filePath
+              };
+              const album = new Album(albumID, genreID, trendID, dataObj);
+              albums.push(album);
+              counter++;
+            } else {
+              return;
+            }
           });
         });
+
         this.shuffleInPlace(albums);
         trendingList.push(albums);
       });

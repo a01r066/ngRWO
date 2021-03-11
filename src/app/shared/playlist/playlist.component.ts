@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Album} from '../../music/models/album.model';
 import {Track} from '../../music/models/track.model';
 import {FirebaseService} from '../../firebase.service';
@@ -9,12 +9,14 @@ import {AuthService} from '../../auth/auth.service';
 import {UiService} from '../ui.service';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {NavItem} from '../nav-item';
-import {Sort} from '@angular/material/sort';
+import {MatSort, Sort} from '@angular/material/sort';
 import * as moment from 'moment';
 import {FacebookService, UIParams, UIResponse} from 'ngx-facebook';
 import {Lightbox} from 'ngx-lightbox';
 import {ActivatedRoute} from '@angular/router';
 import {ShareService} from '../../services/share.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-playlist',
@@ -22,12 +24,11 @@ import {ShareService} from '../../services/share.service';
   styleUrls: ['./playlist.component.css']
 })
 
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['position', 'title', 'played', 'duration', 'option'];
   isDataLoaded = false;
   album: Album;
   playingAlbum: Album;
-  isAlbumPlaying = false;
   tracks: Track[];
   state: StreamState;
   selectedRowIndex = -1;
@@ -45,6 +46,22 @@ export class PlaylistComponent implements OnInit {
   totalLiked = 0;
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  private paginator: MatPaginator;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+
+    if (this.paginator) {
+      // console.log("this.applyFilter('');");
+    }
+  }
+
+  dataSource = new MatTableDataSource<Track>();
 
   navItems: NavItem[] = [
     {
@@ -93,6 +110,7 @@ export class PlaylistComponent implements OnInit {
     }
 
     this.firebaseService.tracksSub.subscribe(tracks => {
+      this.dataSource.data = tracks;
       this.tracks = tracks;
       this.isDataLoaded = true;
 
@@ -148,6 +166,11 @@ export class PlaylistComponent implements OnInit {
         });
       });
     }
+  }
+
+  ngAfterViewInit(): void {
+    // this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
   }
 
   updateMetaDataForSharing(album: Album){
@@ -339,7 +362,8 @@ export class PlaylistComponent implements OnInit {
     this.firebaseService.addTrackToPlaylist(this.authService.getUser(), track, item);
   }
 
-  sortData(sort: Sort){
+  sortData(){
+    this.dataSource.sort = this.sort;
   }
 
   formatTime(time: number, format: string = 'HH:mm:ss') {

@@ -23,6 +23,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -49,7 +51,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDialogModule,
     MatBadgeModule,
     MatButtonToggleModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   exports: [
     MatButtonModule,
@@ -75,7 +79,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDialogModule,
     MatBadgeModule,
     MatButtonToggleModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSortModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule {

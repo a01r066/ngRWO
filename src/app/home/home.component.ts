@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
   }
 
   onClickViewAll(albums: Album[], trend: Genre){
-    this.firebaseService.trendAlbums = albums;
+    // this.firebaseService.trendAlbums = albums;
     this.router.navigate(['trend', trend.id]);
   }
 

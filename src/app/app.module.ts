@@ -37,6 +37,7 @@ import {FacebookModule} from 'ngx-facebook';
 import {StoreModule} from '@ngrx/store';
 import {appReducer} from './app.reducer';
 import {LightboxModule} from 'ngx-lightbox';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 firebase.initializeApp(environment.firebase);
 
@@ -67,6 +68,7 @@ firebase.initializeApp(environment.firebase);
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
@@ -78,7 +80,7 @@ firebase.initializeApp(environment.firebase);
     NgxPayPalModule,
     FacebookModule.forRoot(),
     StoreModule.forRoot({ui: appReducer}),
-    LightboxModule
+    LightboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

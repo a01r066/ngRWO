@@ -61,15 +61,13 @@ mat-toolbar {
   margin-left: 32px;
 }
 
-.playlistTbl {
-  margin: 24px;
-}
-
 table {
   width: 100%;
+}
+
+.mat-table {
   background-color: transparent;
   margin-top: 32px;
-  /*margin: 24px;*/
 }
 
 .mat-header-cell {
@@ -83,13 +81,9 @@ table {
 }
 
 .mat-column-position {
-  /*word-wrap: break-word !important;*/
   white-space: unset !important;
   flex: 0 0 5% !important;
   width: 5% !important;
-  /*overflow-wrap: break-word;*/
-  /*word-wrap: break-word;*/
-  /*word-break: break-word;*/
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -102,15 +96,6 @@ table {
   flex: 0 0 55% !important;
   width: 55% !important;
   min-width: 100% !important;
-  /*overflow-wrap: break-word;*/
-  /*word-wrap: break-word;*/
-
-  /*word-break: break-word;*/
-
-  /*-ms-hyphens: auto;*/
-  /*-moz-hyphens: auto;*/
-  /*-webkit-hyphens: auto;*/
-  /*hyphens: auto;*/
 }
 
 .mat-column-played {
@@ -118,16 +103,7 @@ table {
   white-space: unset !important;
   flex: 0 0 15% !important;
   width: 15% !important;
-  min-width: 0% !important;
-  /*overflow-wrap: break-word;*/
-  /*word-wrap: break-word;*/
-
-  /*word-break: break-word;*/
-
-  /*-ms-hyphens: auto;*/
-  /*-moz-hyphens: auto;*/
-  /*-webkit-hyphens: auto;*/
-  /*hyphens: auto;*/
+  min-width: 0 !important;
 }
 
 .mat-column-duration {
@@ -135,16 +111,7 @@ table {
   white-space: unset !important;
   flex: 0 0 15% !important;
   width: 15% !important;
-  min-width: 0% !important;
-  /*overflow-wrap: break-word;*/
-  /*word-wrap: break-word;*/
-
-  /*word-break: break-word;*/
-
-  /*-ms-hyphens: auto;*/
-  /*-moz-hyphens: auto;*/
-  /*-webkit-hyphens: auto;*/
-  /*hyphens: auto;*/
+  min-width: 0 !important;
 }
 
 .mat-column-option {
@@ -177,10 +144,6 @@ table {
 .text-highlight {
   color: white !important;
 }
-
-/*.hover-index {*/
-/*  display: block;*/
-/*}*/
 
 .hover-index button {
   font-size: 1rem;
@@ -392,9 +355,7 @@ thead {
 
 .table tr.active td {
   background-color:#58595A !important;
-  /*color: white;*/
   color: #1DB954;
-  /*border-radius: 6px;*/
 }
 
 a:-webkit-any-link {
@@ -404,4 +365,9 @@ a:-webkit-any-link {
   font-size: 14px;
   font-weight: 400;
   margin-left: 24px;
+}
+
+.mat-paginator {
+  background-color: transparent;
+  color: white;
 }
